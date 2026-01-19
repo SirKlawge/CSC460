@@ -68,6 +68,44 @@ import java.util.HashMap;
 
 public class Prog1a {
     /*
+    This is really just a bundle of data about the input file that I can pass around 
+    from method to method as I build the bin file.
+    */
+    public static class BinaryFileStats {
+        private int numFields;
+        private int numLines;
+
+        public void setNumFields(int numFields) {this.numFields = numFields; return;}
+        public void setNumLines(int numLines) {this.numLines = numLines; return;}
+    }
+
+    public static class Record {
+        private int DatasetSeqID;
+        private String DataEntry;
+        private String CaveDataSeries;
+        private String BiogRealm;
+        private String Continent;
+        private String BiomeClass;
+        private String Country;
+        private String CaveSite;
+        private double Lattitude;
+        private double Longitude;
+        private String SpeciesName;
+
+        public void setDatasetSeqID(int DatasetSeqID) {this.DatasetSeqID = DatasetSeqID; return;}
+        public void setDataEntry(String DataEntry) {this.DataEntry = DataEntry; return;}
+        public void setCaveDataSeries(String CaveDataSeries) {this.CaveDataSeries = CaveDataSeries; return;}
+        public void setBiogRealm(String BiogRealm) {this.BiogRealm = BiogRealm; return;}
+        public void setContinent(String Continent) {this.Continent = Continent; return;}
+        public void setBiomeClass(String BiomeClass) {this.BiomeClass = BiomeClass; return;}
+        public void setCountry(String Country) {this.Country = Country; return;}
+        public void setCaveSite(String CaveSite) {this.CaveSite = CaveSite; return;}
+        public void setLattitude(double Lattitude) {this.Lattitude = Lattitude; return;}
+        public void setLongitude(double Longitude) {this.Longitude = Longitude; return;}
+        public void setSpeciesName(String SpeciesName) {this.SpeciesName = SpeciesName; return;}
+    }
+    
+    /*
     You need at least one pass over the file before you start writing the bin file.
     This is to determine the max length of the string fields
 
@@ -82,18 +120,48 @@ public class Prog1a {
             //To be deleted: store the headers on the first line for now
             Map<String, Integer> headerMap = storeHeaders(buffReader.readLine());
             //Then read all of the lines to produce the list of Records
-            List<Record> recordList = makeRecordList(buffReader)
+            BinaryFileStats fileStats = new BinaryFileStats();
+            fileStats.setNumFields(headerMap.size());
+            List<Record> recordList = makeRecordList(buffReader, fileStats);
             buffReader.close();
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static makeRecordList(BufferedReader buffReader) throws IOException {
+    private static List<Record> makeRecordList(BufferedReader buffReader, BinaryFileStats fileStats) throws IOException {
         String currentLine;
         while((currentLine = buffReader.readLine()) != null) {
-
+            //Break down currentLine into its comma-sep data parts
+            Record newRecord = makeRecordFromLine(currentLine, fileStats);
         }
+        return null;
+    }
+
+    /*
+    If you're not in quotes, you just want to scan chars until you find a comma, then you add 
+    the string you built to the proper slot in a String array of size 11
+    If you are in quotes, then you'll add even the commas to the string buffer until you encounter 
+    another double quote.  At that point, you'll move on to the next iter, scan a comma, and be done with the field
+
+    TODO: continue from here.
+    */
+    private static Record makeRecordFromLine(String currentLine, BinaryFileStats fileStats) {
+        Record newRecord = new Record();
+        boolean inQuotes = false;
+        StringBuilder sb = new StringBuilder();
+        char currentChar;
+        for(int i = 0; i < currentLine.length(); i++) {
+            currentChar = currentLine.charAt(i);
+            //First check to see if you're in quotes
+            if(currentChar == '"') {
+                //Flip the value and move on to the next char.
+                inQuotes = !inQuotes;
+                continue;
+            }
+            //TODO: continue from here.
+        }
+        return null;
     }
 
     /*
@@ -108,8 +176,4 @@ public class Prog1a {
         }
         return headerMap;
     }
-}
-
-public class BinaryFileStats {
-    private int numLines;
 }

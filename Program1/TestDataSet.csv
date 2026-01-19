@@ -9,3 +9,9 @@ Dataset_sequence_ID,Data.entry,Cave.data.series,Biogeographical.realm,Continent,
 8,BC 009,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Triaenops rufus
 9,BC 010,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Rousettus madagascariensis
 10,BC 011,S 003,Afrotropical,Africa,TSDB,Madagascar,Anjohikinakina cave,-19.00983,44.76767,Otomops madagascariensis
+473,BC 474,S 027,Palearctic,Asia,TBMF,Iran,"Kazerun, Konartakteh cave",29.56667,51.5,Rhinopoma microphyllum
+474,BC 475,S 027,Afrotropical,Asia,TBMF,Iran,"Kazerun, Tang-e torkan cave",29.66667,51.5,Rousettus aegyptiacus
+475,BC 476,S 027,Afrotropical,Asia,TBMF,Iran,"Kazerun, Bushigan-e daylami cave",29.68333,51.51667,Rousettus aegyptiacus
+476,BC 477,S 027,Afrotropical,Asia,TBMF,Iran,"kazerun, Dej-e Shahpur cave",29.78333,51.58333,Rousettus aegyptiacus
+477,BC 478,S 027,Afrotropical,Asia,TBMF,Iran,"Kazerun, Ghaleh-e doktar cave",29.78333,51.58333,Rousettus aegyptiacus
+478,BC 479,S 027,Afrotropical,Asia,TBMF,Iran,"Kazerun, Ghaleh-e Pesar cave",29.78333,51.58333,Rousettus aegyptiacus
