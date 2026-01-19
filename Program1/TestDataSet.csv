@@ -1,0 +1,11 @@
+Dataset_sequence_ID,Data.entry,Cave.data.series,Biogeographical.realm,Continent,Biome classification,Country.record,Cave.site,Lattitude,Longitude,Species.name
+1,BC 002,S 001,Afrotropical,Africa,TSGS,South Africa,Umkomaas,-30.21667,30.86667,Otomops martiensseni
+2,BC 003,S 001,Afrotropical,Africa,TSMB,South Africa,Tongaat,-29.55556,31.13333,Otomops martiensseni
+3,BC 004,S 001,Afrotropical,Africa,TSMB,South Africa,Ballito,-29.53333,31.21667,Otomops martiensseni
+4,BC 005,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Miniopterus gleni
+5,BC 006,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Myotis goudoti
+6,BC 007,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Emballonura sp.
+7,BC 008,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Otomops madagascariensis
+8,BC 009,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Triaenops rufus
+9,BC 010,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Rousettus madagascariensis
+10,BC 011,S 003,Afrotropical,Africa,TSDB,Madagascar,Anjohikinakina cave,-19.00983,44.76767,Otomops madagascariensis

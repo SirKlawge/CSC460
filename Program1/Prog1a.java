@@ -57,6 +57,59 @@ Use a loop to prompt the user for Data.entry values.  Terminate when -1000 is en
 
 */
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
+
+import java.util.Map;
+import java.util.HashMap;
+
 public class Prog1a {
-    
+    /*
+    You need at least one pass over the file before you start writing the bin file.
+    This is to determine the max length of the string fields
+
+    This means that we need to store our records
+    */
+    public static void main(String[] args) {
+        //First open the file
+        String fileName = args[0];
+        BufferedReader buffReader;
+        try {
+            buffReader = new BufferedReader(new FileReader(fileName));
+            //To be deleted: store the headers on the first line for now
+            Map<String, Integer> headerMap = storeHeaders(buffReader.readLine());
+            //Then read all of the lines to produce the list of Records
+            List<Record> recordList = makeRecordList(buffReader)
+            buffReader.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static makeRecordList(BufferedReader buffReader) throws IOException {
+        String currentLine;
+        while((currentLine = buffReader.readLine()) != null) {
+
+        }
+    }
+
+    /*
+    TODO: you can delete this later, perhaps, since this line won't be written to the 
+    final bin file.  This might just be useful later as I write this.
+    */
+    private static Map<String, Integer> storeHeaders(String headerLine) {
+        Map<String, Integer> headerMap = new HashMap<String, Integer>();
+        String[] headers = headerLine.split(",");
+        for(int i = 0; i < headers.length; i++) {
+            headerMap.put(headers[i], i);
+        }
+        return headerMap;
+    }
+}
+
+public class BinaryFileStats {
+    private int numLines;
 }
