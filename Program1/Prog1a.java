@@ -123,6 +123,7 @@ public class Prog1a {
             //Then read all of the lines to produce the list of Records
             BinaryFileStats fileStats = new BinaryFileStats();
             fileStats.setNumFields(headerMap.size());
+            fileStats.maxLengths = new int[fileStats.numFields];
             List<Record> recordList = makeRecordList(buffReader, fileStats);
             buffReader.close();
         } catch(IOException e) {
@@ -136,8 +137,10 @@ public class Prog1a {
         while((currentLine = buffReader.readLine()) != null) {
             //Break down currentLine into its comma-sep data parts
             Record newRecord = makeRecordFromLine(currentLine, fileStats);
-            System.out.println("Species: " + newRecord.SpeciesName);
             recordList.add(newRecord);
+        }
+        for(int i = 0; i < fileStats.maxLengths.length; i++) {
+            System.out.println(fileStats.maxLengths[i]);
         }
         return recordList;
     }
@@ -162,7 +165,6 @@ public class Prog1a {
         char currentChar; //current char in currentLine
         String[] recordStrings = new String[fileStats.numFields];  //Collection of field values from currentLine
         int recordStringsIdx = 0;  //index in recordStrings
-        fileStats.maxLengths = new int[fileStats.numFields];
         for(int i = 0; i < currentLine.length(); i++) {
             currentChar = currentLine.charAt(i);
             //First check to see if you're in quotes
