@@ -147,7 +147,7 @@ public class Prog1a {
     TODO: continue from here.
     */
     private static Record makeRecordFromLine(String currentLine, BinaryFileStats fileStats) {
-        Record newRecord = new Record();
+        Record newRecord;
         boolean inQuotes = false;
         StringBuilder sb = new StringBuilder();
         char currentChar;
@@ -165,8 +165,10 @@ public class Prog1a {
                 if(!inQuotes) {
                     //StringBuilder complete. Add to String array and clear it
                     recordStrings[recordStringsIdx] = sb.toString();
-                    System.out.println(recordStrings[recordStringsIdx]);
+                    //We're gonna use $null as a signal that we have to replace the current field with null or -1000
+                    if(recordStrings[recordStringsIdx].length() == 0) {recordStrings[recordStringsIdx] = "$null";}
                     //Here, the length should be saved if it's greater than the current maxLength
+                    //TODO: update maxLengths in fileStats
                     recordStringsIdx++;
                     sb.setLength(0);
                     continue;
@@ -175,7 +177,28 @@ public class Prog1a {
             //Here, add the currentChar to sb
             sb.append(currentChar);
         }
-        return null;
+        //take care of the last field
+        recordStrings[recordStringsIdx] = sb.toString();
+        if(recordStrings[recordStringsIdx].length() == 0) {recordStrings[recordStringsIdx] = "$null";}
+        //recordStrings complete. Convert to record
+        newRecord = furnishRecordFields(recordStrings);
+        return newRecord;
+    }
+
+    private static Record furnishRecordFields(String[] recordStrings) {
+        Record newRecord = new Record();
+        newRecord.setDatasetSeqID(Integer.parseInt(recordStrings[0]));
+        newRecord.setDataEntry(recordStrings[1]);
+        newRecord.setCaveDataSeries(recordStrings[2]);
+        newRecord.setBiogRealm(recordStrings[3]);
+        newRecord.setContinent(recordStrings[4]);
+        newRecord.setBiomeClass(recordStrings[5]);
+        newRecord.setCountry(recordStrings[6]);
+        newRecord.setCaveSite(recordStrings[7]);
+        newRecord.setLattitude(Double.parseDouble(recordStrings[8]));
+        newRecord.setLongitude(Double.parseDouble(recordStrings[9]));
+        newRecord.setSpeciesName(recordStrings[10]);
+        return newRecord;
     }
 
     /*
