@@ -68,7 +68,7 @@ import java.util.HashMap;
 
 public class Prog1a {
     /*
-    This is really just a bundle of data about the input file that I can pass around 
+    This is really just a bundle of metadata about the input file that I can pass around 
     from method to method as I build the bin file.
     */
     public static class BinaryFileStats {
@@ -157,11 +157,6 @@ public class Prog1a {
             r.Country = String.format("%-" + fileStats.maxLengths[6] + "s", r.Country);
             r.CaveSite = String.format("%-" + fileStats.maxLengths[7] + "s", r.CaveSite);
             r.SpeciesName = String.format("%-" + fileStats.maxLengths[10] + "s", r.SpeciesName);
-        }
-        for(Record r : recordList) {
-            if(r.CaveDataSeries.length() != fileStats.maxLengths[2]) {
-                System.out.println("Something went wrong!");
-            }
         }
     }
 
