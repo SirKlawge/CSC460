@@ -60,6 +60,8 @@ Use a loop to prompt the user for Data.entry values.  Terminate when -1000 is en
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -73,7 +75,7 @@ public class Prog1a {
     */
     public static class BinaryFileStats {
         private int numFields;
-        private int numLines;
+        private int numLines; //Might be redundant
         private int[] maxLengths;
 
         public void setNumFields(int numFields) {this.numFields = numFields; return;}
@@ -127,8 +129,63 @@ public class Prog1a {
             List<Record> recordList = makeRecordList(buffReader, fileStats);
             //Now traverse the recordList to pad all of the Strings.
             padAllStrings(recordList, fileStats);
+            //Write the binary file
+            writeBinaryFile(fileName, recordList, fileStats);
             buffReader.close();
         } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeBinaryFile(String fileName, List<Record> recordList, BinaryFileStats fileStats) {
+        File binFileName = null; //Really, it's more than a name. IT'S A FILE
+        RandomAccessFile binFile = null;  //I guess a bin file is a type of RAF
+        fileName = fileName.split("\\.")[0];
+        System.out.println(fileName);
+        //Delete any existing old bin file
+        try {
+            binFileName = new File(fileName + ".bin");
+            if(binFileName.exists()) {
+                binFileName.delete();
+            }
+        } catch(Exception e) {
+            System.out.println("unable to delete an existing file.");
+            e.printStackTrace();
+        }
+
+        try {
+            binFile = new RandomAccessFile(binFileName, "rw");
+        } catch(IOException e) {
+            System.out.println("Error occurred while trying to create the bin file.");
+            e.printStackTrace();
+        }
+        try {
+            for(Record r: recordList) {
+                binFile.writeInt(r.DatasetSeqID);
+                binFile.writeBytes(r.DataEntry);
+                binFile.writeBytes(r.CaveDataSeries);
+                binFile.writeBytes(r.BiogRealm);
+                binFile.writeBytes(r.Continent);
+                binFile.writeBytes(r.BiomeClass);
+                binFile.writeBytes(r.Country);
+                binFile.writeBytes(r.CaveSite);
+                binFile.writeDouble(r.Lattitude);
+                binFile.writeDouble(r.Longitude);
+                binFile.writeBytes(r.SpeciesName);
+            }
+            //Then store the field length of each column from maxLengths
+            for(int i  = 0; i < fileStats.maxLengths.length; i++) {
+                binFile.writeInt(fileStats.maxLengths[i]);
+            }
+        } catch(IOException e) {
+            System.out.println("Error writing to the binary file");
+            e.printStackTrace();
+        }
+
+        try {
+            binFile.close();
+        } catch(IOException e) {
+            System.out.println("Could not close binary file");
             e.printStackTrace();
         }
     }
