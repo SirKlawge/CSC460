@@ -125,9 +125,43 @@ public class Prog1a {
             fileStats.setNumFields(headerMap.size());
             fileStats.maxLengths = new int[fileStats.numFields];
             List<Record> recordList = makeRecordList(buffReader, fileStats);
+            //Now traverse the recordList to pad all of the Strings.
+            padAllStrings(recordList, fileStats);
             buffReader.close();
         } catch(IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /*
+    Precondition: All field values under a specific category have a length no greater than 
+    the length stored in fileStats.maxLength at the corresponding index.
+    Postcondition: All field values uinder a specific category all have equal length, which is 
+    exactly fileStats.maxLength at the corresponding index.
+    1 - DataEntry
+    2 - CaveDataSeries
+    3 - BiogRealm
+    4 - Continent
+    5 - BiomeClass
+    6 - Country
+    7 - CaveSite
+    10 - SpeciesName
+    */
+    private static void padAllStrings(List<Record> recordList, BinaryFileStats fileStats) {
+        for(Record r : recordList) {
+            r.DataEntry = String.format("%-" + fileStats.maxLengths[1] + "s", r.DataEntry);
+            r.CaveDataSeries = String.format("%-" + fileStats.maxLengths[2] + "s", r.CaveDataSeries);
+            r.BiogRealm = String.format("%-" + fileStats.maxLengths[3] + "s", r.BiogRealm);
+            r.Continent = String.format("%-" + fileStats.maxLengths[4] + "s", r.Continent);
+            r.BiomeClass = String.format("%-" + fileStats.maxLengths[5] + "s", r.BiomeClass);
+            r.Country = String.format("%-" + fileStats.maxLengths[6] + "s", r.Country);
+            r.CaveSite = String.format("%-" + fileStats.maxLengths[7] + "s", r.CaveSite);
+            r.SpeciesName = String.format("%-" + fileStats.maxLengths[10] + "s", r.SpeciesName);
+        }
+        for(Record r : recordList) {
+            if(r.CaveDataSeries.length() != fileStats.maxLengths[2]) {
+                System.out.println("Something went wrong!");
+            }
         }
     }
 
@@ -138,9 +172,6 @@ public class Prog1a {
             //Break down currentLine into its comma-sep data parts
             Record newRecord = makeRecordFromLine(currentLine, fileStats);
             recordList.add(newRecord);
-        }
-        for(int i = 0; i < fileStats.maxLengths.length; i++) {
-            System.out.println(fileStats.maxLengths[i]);
         }
         return recordList;
     }
