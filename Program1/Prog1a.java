@@ -151,6 +151,8 @@ public class Prog1a {
         boolean inQuotes = false;
         StringBuilder sb = new StringBuilder();
         char currentChar;
+        String[] recordStrings = new String[fileStats.numFields];
+        int recordStringsIdx = 0;
         for(int i = 0; i < currentLine.length(); i++) {
             currentChar = currentLine.charAt(i);
             //First check to see if you're in quotes
@@ -159,7 +161,19 @@ public class Prog1a {
                 inQuotes = !inQuotes;
                 continue;
             }
-            //TODO: continue from here.
+            if(currentChar == ',') {
+                if(!inQuotes) {
+                    //StringBuilder complete. Add to String array and clear it
+                    recordStrings[recordStringsIdx] = sb.toString();
+                    System.out.println(recordStrings[recordStringsIdx]);
+                    //Here, the length should be saved if it's greater than the current maxLength
+                    recordStringsIdx++;
+                    sb.setLength(0);
+                    continue;
+                }
+            }
+            //Here, add the currentChar to sb
+            sb.append(currentChar);
         }
         return null;
     }
