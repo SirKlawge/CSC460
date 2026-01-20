@@ -74,6 +74,7 @@ public class Prog1a {
     public static class BinaryFileStats {
         private int numFields;
         private int numLines;
+        private int[] maxLengths;
 
         public void setNumFields(int numFields) {this.numFields = numFields; return;}
         public void setNumLines(int numLines) {this.numLines = numLines; return;}
@@ -130,29 +131,38 @@ public class Prog1a {
     }
 
     private static List<Record> makeRecordList(BufferedReader buffReader, BinaryFileStats fileStats) throws IOException {
+        List<Record> recordList = new ArrayList<Record>();
         String currentLine;
         while((currentLine = buffReader.readLine()) != null) {
             //Break down currentLine into its comma-sep data parts
             Record newRecord = makeRecordFromLine(currentLine, fileStats);
+            System.out.println("Species: " + newRecord.SpeciesName);
+            recordList.add(newRecord);
         }
-        return null;
+        return recordList;
     }
 
     /*
-    If you're not in quotes, you just want to scan chars until you find a comma, then you add 
-    the string you built to the proper slot in a String array of size 11
-    If you are in quotes, then you'll add even the commas to the string buffer until you encounter 
-    another double quote.  At that point, you'll move on to the next iter, scan a comma, and be done with the field
-
-    TODO: continue from here.
+    Name: makeRecordFromLine
+    Purpose: We have to comb through every char of the file to properly parse out the field values.
+    This method does so with the the provided line from the csv file and forms a Record object from it.
+    The record will then go into the recordList
+    Precondition: there's another line to be read from the csv file
+    Postcondition: All fields of the resultant Record object are furnished with a value
+    Parameters:
+        currentLine: a String representation of a record from the csv file
+        fileStats: a BinaryFileStats object that will keep track of metadata regarding the records
+    Return:
+        newRecord: a Record object that holds info regarding the record represented by the currentLine
     */
     private static Record makeRecordFromLine(String currentLine, BinaryFileStats fileStats) {
-        Record newRecord;
-        boolean inQuotes = false;
-        StringBuilder sb = new StringBuilder();
-        char currentChar;
-        String[] recordStrings = new String[fileStats.numFields];
-        int recordStringsIdx = 0;
+        Record newRecord;  //The Record to be returned
+        boolean inQuotes = false;  //Flag indicating a quotation
+        StringBuilder sb = new StringBuilder(); //For building field values
+        char currentChar; //current char in currentLine
+        String[] recordStrings = new String[fileStats.numFields];  //Collection of field values from currentLine
+        int recordStringsIdx = 0;  //index in recordStrings
+        fileStats.maxLengths = new int[fileStats.numFields];
         for(int i = 0; i < currentLine.length(); i++) {
             currentChar = currentLine.charAt(i);
             //First check to see if you're in quotes
@@ -168,7 +178,10 @@ public class Prog1a {
                     //We're gonna use $null as a signal that we have to replace the current field with null or -1000
                     if(recordStrings[recordStringsIdx].length() == 0) {recordStrings[recordStringsIdx] = "$null";}
                     //Here, the length should be saved if it's greater than the current maxLength
-                    //TODO: update maxLengths in fileStats
+                    //update maxLengths in fileStats
+                    if(recordStrings[recordStringsIdx].length() > fileStats.maxLengths[recordStringsIdx]) {
+                        fileStats.maxLengths[recordStringsIdx] = recordStrings[recordStringsIdx].length();
+                    }
                     recordStringsIdx++;
                     sb.setLength(0);
                     continue;
@@ -180,6 +193,9 @@ public class Prog1a {
         //take care of the last field
         recordStrings[recordStringsIdx] = sb.toString();
         if(recordStrings[recordStringsIdx].length() == 0) {recordStrings[recordStringsIdx] = "$null";}
+        if(recordStrings[recordStringsIdx].length() > fileStats.maxLengths[recordStringsIdx]) {
+            fileStats.maxLengths[recordStringsIdx] = recordStrings[recordStringsIdx].length();
+        }
         //recordStrings complete. Convert to record
         newRecord = furnishRecordFields(recordStrings);
         return newRecord;
@@ -187,17 +203,71 @@ public class Prog1a {
 
     private static Record furnishRecordFields(String[] recordStrings) {
         Record newRecord = new Record();
-        newRecord.setDatasetSeqID(Integer.parseInt(recordStrings[0]));
-        newRecord.setDataEntry(recordStrings[1]);
-        newRecord.setCaveDataSeries(recordStrings[2]);
-        newRecord.setBiogRealm(recordStrings[3]);
-        newRecord.setContinent(recordStrings[4]);
-        newRecord.setBiomeClass(recordStrings[5]);
-        newRecord.setCountry(recordStrings[6]);
-        newRecord.setCaveSite(recordStrings[7]);
-        newRecord.setLattitude(Double.parseDouble(recordStrings[8]));
-        newRecord.setLongitude(Double.parseDouble(recordStrings[9]));
-        newRecord.setSpeciesName(recordStrings[10]);
+        if(recordStrings[0].equals("$null")) {
+            newRecord.setDatasetSeqID(-1000);
+        } else {
+            newRecord.setDatasetSeqID(Integer.parseInt(recordStrings[0]));
+        }
+
+        if(recordStrings[1].equals("$null")) {
+            newRecord.setDataEntry("null");
+        } else {
+            newRecord.setDataEntry(recordStrings[1]);
+        }
+
+        if(recordStrings[2].equals("$null")) {
+            newRecord.setCaveDataSeries("null");
+        } else {
+            newRecord.setCaveDataSeries(recordStrings[2]);
+        }
+
+        if(recordStrings[3].equals("$null")) {
+            newRecord.setBiogRealm("null");
+        } else {
+            newRecord.setBiogRealm(recordStrings[3]);
+        }
+
+        if(recordStrings[4].equals("$null")) {
+            newRecord.setContinent("null");
+        } else {
+            newRecord.setContinent(recordStrings[4]);
+        }
+
+        if(recordStrings[5].equals("$null")) {
+            newRecord.setBiomeClass("null");
+        } else {
+            newRecord.setBiomeClass(recordStrings[5]);
+        }
+
+        if(recordStrings[6].equals("$null")) {
+            newRecord.setCountry("null");
+        } else {
+            newRecord.setCountry(recordStrings[6]);
+        }
+
+        if(recordStrings[7].equals("$null")) {
+            newRecord.setCaveSite("null");
+        } else {
+            newRecord.setCaveSite(recordStrings[7]);
+        }
+        
+        if(recordStrings[8].equals("$null")) {
+            newRecord.setLattitude(-1000);
+        } else {
+            newRecord.setLattitude(Double.parseDouble(recordStrings[8]));
+        }
+        
+        if(recordStrings[9].equals("$null")) {
+            newRecord.setLongitude(-1000);
+        } else {
+            newRecord.setLongitude(Double.parseDouble(recordStrings[9]));
+        }
+        
+        if(recordStrings[10].equals("$null")) {
+            newRecord.setSpeciesName("null");
+        } else {
+            newRecord.setSpeciesName(recordStrings[10]);
+        }
         return newRecord;
     }
 
