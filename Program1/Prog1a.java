@@ -1,28 +1,17 @@
 /*
 Author: Ventura Abram
+CSC460
+Program1a
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
+Due: 1/22/2026
 
-create a binary file version of the provided Dataset2.csv
-records should be sorted in ascending order by Data.entry
-Chose your own sorting algo.  Java provides .sort().
+This program has the sole purpose of producing a binary file for a particular csv file 
+that holds info about bat caves.  The input file can be located anywhere, but its path 
+and file name should be supplied as the first command line argument.  The output bin file 
+will be stored in the same directory as this source file.  Written in Java 25.
 
-The binary file name should be the input file's name but end in .bin
-
-Field types are limited to int, double, and String.
-
-Pad strings on the right with space to reach the needed lengths
-
-For alphanumeric fields, you need to first iterate through the records
-to determine the maximum string length.  Store the max string length somewhere in 
-THE BINARY FILE.  Best to store it at the end of the binary file.
-
-The pathname and file name will be provided as a CL arg.  
-
-The complete pathname for our data file is /home/cs460/spring26/Dataset2.csv
-
-Dr. McCann suggests that we set a flag for when we're inside double quotes
-
-
-----------------------------------------------------------------------------------------------------
+------------------For Ventura's future reference-----------------------------------------
 For part b, we'll have to print certain field of
     THe first four records
     The middle for or 5 records (compute mid point then offset from here on both sides of it)
@@ -70,18 +59,32 @@ import java.util.HashMap;
 
 public class Prog1a {
     /*
+    Class: BinaryFileStats
+    Author: Ventura Abram
     This is really just a bundle of metadata about the input file that I can pass around 
     from method to method as I build the bin file.
+    Fields:
+        numFields - an integer representing the number of fields/columns in the csv file
+        maxLengths - an integer array where each index holds the lengths of the largest value
+        for its field.  If you number the fields as they appear in the csv file starting at 0, 
+        then the elements in this array correspond to the fields at that index.
+
+    Method: setNumFields: a setter for numFields field
     */
     public static class BinaryFileStats {
         private int numFields;
-        private int numLines; //Might be redundant
         private int[] maxLengths;
 
         public void setNumFields(int numFields) {this.numFields = numFields; return;}
-        public void setNumLines(int numLines) {this.numLines = numLines; return;}
     }
 
+    /*
+    Class: Record
+    Author: Ventura Abram
+    The fields listed in order here reflects the order that they're listed in the csv file.
+    Fields: self-explanatory, and as described above.
+    Methods: all are setters for the fields.  Nothing else.
+    */
     public static class Record {
         private int DatasetSeqID;
         private String DataEntry;
@@ -109,10 +112,12 @@ public class Prog1a {
     }
     
     /*
-    You need at least one pass over the file before you start writing the bin file.
-    This is to determine the max length of the string fields
-
-    This means that we need to store our records
+    Method: main
+    Purpose: This drives everything from reading in the csv file to producing the bin file.
+    Precondition: the csv file exists
+    Postcondition: a bin file exists in the current directory.
+    Parameter:
+        args - a String array of command line args.  args[0] is our csv file path/name
     */
     public static void main(String[] args) {
         //First open the file
@@ -138,11 +143,18 @@ public class Prog1a {
     }
 
     /*
-    Problem: the file name might include a path
-    \home\cs460\prog1a\...and so on
-    If we split on backslash, then the last element will be the filename.csv
-    But if the file is in the current dir, then there will be no back slashes, and the 
-    resultant array size is 0
+    Method: writeBinaryFile
+    Purpose: This method creates the binary file, writes the Record info to it from the recordList, 
+    and finally writes the field size info at the very end.
+    Precondition: recordList must contain 0 or more records from the csv file.  fileStats should 
+    contain the max lengths of all fields.
+    Postcondition: a new binary file with the same name as the input csv file (except now with a .bin 
+    extension) will exist in the same directory as this java source file.
+    Parameters:
+        fileName: the name of the input csv file
+        recordList: the ArrayList<Record> that we've built from the input csv file
+        fileStats: a BinaryFileStats object. It's a bundle of metadata about the records.
+    Return: none
     */
     private static void writeBinaryFile(String fileName, List<Record> recordList, BinaryFileStats fileStats) {
         File binFileName = null; //Really, it's more than a name. IT'S A FILE
@@ -198,10 +210,17 @@ public class Prog1a {
     }
 
     /*
+    Method: padAllStrings
+    Purpose: this method appends spaces to each field value until it is equal to the length 
+    of the longest string found in that column.  
     Precondition: All field values under a specific category have a length no greater than 
     the length stored in fileStats.maxLength at the corresponding index.
     Postcondition: All field values uinder a specific category all have equal length, which is 
     exactly fileStats.maxLength at the corresponding index.
+    Parameters:
+        recordList: the ArrayList<Record> that we've built from the input csv file
+        fileStats: a BinaryFileStats object. It's a bundle of metadata about the records
+    Returns: none
     1 - DataEntry
     2 - CaveDataSeries
     3 - BiogRealm
@@ -224,6 +243,19 @@ public class Prog1a {
         }
     }
 
+    /*
+    Name: makeRecordList
+    Purpose: This method reads every line of the csv file then calls another method which 
+    converts the record into a Record object.  This then adds each Record object to an 
+    ArrayList of Records.
+    Preconditon: the input csv file has 0 or more records
+    Postcondition: We've read through all of the records from the CSV file.
+    Parameters:
+        buffReader - a BufferedReader that allows the reading of a new line from the csv file
+        fileStats: a BinaryFileStats object. It's a bundle of metadata about the records
+    Return:
+        recordList - the ArrayList<Record> that we've built from the input csv file
+    */
     private static List<Record> makeRecordList(BufferedReader buffReader, BinaryFileStats fileStats) throws IOException {
         List<Record> recordList = new ArrayList<Record>();
         String currentLine;
@@ -293,6 +325,19 @@ public class Prog1a {
         return newRecord;
     }
 
+    /*
+    Method: furnishRecordFields
+    Purpose: This method sets all of the fields for the a Record object based on 
+    the the Strings stored in recordStrings.  If an empty String is detected, then
+    the field will have either -1000 or "null" in that field if it's a numeric field 
+    or alphanumeric field respectively.
+    Precondition: we've saved all of the field values from the csv file into the 
+    recordStrings String array.
+    Postconditon: the newRecord object has all fields furnished with their proper values.
+    Parameter:
+        recordStrings - a String array that contains all of the field values
+    Return: newRecord - a Record object that is built from the recordString values.
+    */
     private static Record furnishRecordFields(String[] recordStrings) {
         Record newRecord = new Record();
         if(recordStrings[0].equals("$null")) {
@@ -364,8 +409,17 @@ public class Prog1a {
     }
 
     /*
-    TODO: you can delete this later, perhaps, since this line won't be written to the 
-    final bin file.  This might just be useful later as I write this.
+    Method: storeHeaders
+    Purpose: this isnt the most essential to the project, but at least it gets the size 
+    of the amount of columns.
+    Precondition: A csv file should exist and we've read the first line
+    Postcondition: We have a HashMap with an amount of entries equal to the total number of columns
+    in the csv file.
+    Parameters:
+        headerLine - a String representing the first line of the csv file
+    Return:
+        headerMap - a HashMap<String, Integer> that maps each header string to 
+        it's position in the sequence of header strings in the csv file.
     */
     private static Map<String, Integer> storeHeaders(String headerLine) {
         Map<String, Integer> headerMap = new HashMap<String, Integer>();
