@@ -141,7 +141,6 @@ public class Prog1a {
         File binFileName = null; //Really, it's more than a name. IT'S A FILE
         RandomAccessFile binFile = null;  //I guess a bin file is a type of RAF
         fileName = fileName.split("\\.")[0];
-        System.out.println(fileName);
         //Delete any existing old bin file
         try {
             binFileName = new File(fileName + ".bin");
