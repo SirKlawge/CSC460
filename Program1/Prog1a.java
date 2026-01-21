@@ -137,10 +137,18 @@ public class Prog1a {
         }
     }
 
+    /*
+    Problem: the file name might include a path
+    \home\cs460\prog1a\...and so on
+    If we split on backslash, then the last element will be the filename.csv
+    But if the file is in the current dir, then there will be no back slashes, and the 
+    resultant array size is 0
+    */
     private static void writeBinaryFile(String fileName, List<Record> recordList, BinaryFileStats fileStats) {
         File binFileName = null; //Really, it's more than a name. IT'S A FILE
         RandomAccessFile binFile = null;  //I guess a bin file is a type of RAF
-        fileName = fileName.split("\\.")[0];
+        String[] filePathArr = fileName.split("/");
+        fileName = filePathArr[filePathArr.length - 1].split("\\.")[0];
         //Delete any existing old bin file
         try {
             binFileName = new File(fileName + ".bin");
