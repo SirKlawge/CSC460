@@ -19,9 +19,12 @@ public class Prog1b {
         long startOfMaxLengths = fileSize - (SIZE_OF_INT * NUM_COLUMNS);
        //Store the metadata in an array
        int[] maxLengths = readMaxLengths(rafReader, startOfMaxLengths);
-       for(int i = 0; i < maxLengths.length; i++) {
-        System.out.println(maxLengths[i]);
-       }
+       //You wrote the bin file with writeBytes(): 1 byte per char.
+       //Calculate the recordSize based on maxLengths
+       int recordSize = calculateRecordSize(maxLengths);
+       //Could add an assert to validate the record size, but I'll just do it myself.
+       validateRecordSize(recordSize, startOfMaxLengths);
+       int numRecords = startOfMaxLengths / recordSize;
     }
 
     private static File makeFile(String fileName) {
@@ -73,6 +76,39 @@ public class Prog1b {
             e.printStackTrace();
         }
         return maxLengths;
+    }
+
+    /*
+    0 - an int: 4 bytes
+    1 - DataEntry
+    2 - CaveDataSeries
+    3 - BiogRealm
+    4 - Continent
+    5 - BiomeClass
+    6 - Country
+    7 - CaveSite
+    8&9 - doubles each: 8 x 2 = 16 bytes 
+    10 - SpeciesName
+    */
+    private static int calculateRecordSize(int[] maxLengths) {
+        int recordSize = 20; //4 + 16 from numeric fields
+        //Now add 1 x maxLengths[i] for each String field
+        for(int i = 1; i < maxLengths.length; i++) {
+            if(i != 8 && i != 9) {
+                recordSize += maxLengths[i];
+            }
+        }
+        System.out.println(recordSize);
+        return recordSize;
+    }
+
+    private static void validateRecordSize(int recordSize, int allRecordsSize) {
+        int remainder = allRecordsSize % recordSize;
+        if(remainder != 0) {
+            System.out.println("Something went wrong with the record sizes.");
+            System.exit(1);
+        }
+        return;
     }
 
 }
