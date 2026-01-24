@@ -55,6 +55,7 @@ public class Prog1b {
        validateRecordSize(recordSize, startOfMaxLengths);
        long numRecords = startOfMaxLengths / recordSize;
        //Now we can get first 4, middle 4/5 and last 4 records.
+       printStartMiddleEnd(rafReader, numRecords, recordSize, maxLengths);
     }
 
     private static File makeFile(String fileName) {
@@ -109,7 +110,7 @@ public class Prog1b {
     }
 
     /*
-    0 - an int: 4 bytes
+    0 - an int: 4 bytes DataSeqID
     1 - DataEntry
     2 - CaveDataSeries
     3 - BiogRealm
@@ -138,6 +139,50 @@ public class Prog1b {
             System.exit(1);
         }
         return;
+    }
+    
+    private static void printStartMiddleEnd(RandomAccessFile rafReader, long numRecords, int recordSize, int[] maxLengths) {
+        //First seek() to 0 then read in the first four records
+        rafReader.seek(0);
+        int startOfRecord = 0;
+        for(int i = 0; i < 4; i++) {
+            //read and print DataSeq, Country, and CaveSite
+            printSMEHelper(rafReader, maxLengths);
+            //Seek to the start of the next record
+            try {
+                rafReader.seek(startOfRecord + recordSize);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            startOfRecord += recordSize;  //updates startOfRecord for next iteration
+        }
+    }
+
+    /*
+    Precondition: the rafReader pointer must be at the start of a record such that one should be able 
+    to immediately call readInt() to get the record's DataSeqID.
+    */
+    private static void printSMEHelper(RandomAccessFile rafReader, int[] maxLengths) {
+        long startOfRecord = rafReader.getFilePointer();
+        //Get offsets for Country and CaveSite
+        int countryOffset = 0, caveSiteOffset = 0, offset = 4;
+        for(int i = 1; i <= 7; i++) {
+            if(i == 6) countryOffset = offset;
+            if(i == 7) {
+                caveSiteOffset = offset;
+                break;
+            }
+            offset += maxLengths[i];
+        }
+        //We simply read in and print the int that's right in front of us.
+        try{
+            int DataSeqID = rafReader.readInt();
+            System.out.println(DataSeqID);
+            rafReader.seek(startOfRecord + countryOffset);
+            String country = rafReader.readBytes();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
