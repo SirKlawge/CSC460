@@ -1,7 +1,36 @@
+/*
+Author: Ventura Abram
+
+The fields we care about are 
+    For 4/5/4:
+        DataSeqID
+        Country
+        Cave site
+    
+    Then display the total number of records
+
+    Then the list of the 10 distinct caves that are furthest from the equator 
+    (no single cave should appear more than once).  Fields we care about here:
+        Country
+        Cave site
+        Latitude
+    Lengthen list if there are ties with the 10th most distant cave
+    Records are listed one per line.  Each field encased in []
+
+    Then you gotta start a loop that takes input.  The input should be Data.entry values.
+    You'll do an exponential binary search for the value.  If found, you'll display
+        Country
+        Cave Site
+        Species name
+    If not found, just display "not found".
+*/
+
 import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.File;
+//TODO: uncomment this import when it's time to start sorting records.
+//import Prog1a.Record;
 
 public class Prog1b {
     private static final byte SIZE_OF_INT = 4;  //an int is 4 bytes
@@ -24,7 +53,8 @@ public class Prog1b {
        int recordSize = calculateRecordSize(maxLengths);
        //Could add an assert to validate the record size, but I'll just do it myself.
        validateRecordSize(recordSize, startOfMaxLengths);
-       int numRecords = startOfMaxLengths / recordSize;
+       long numRecords = startOfMaxLengths / recordSize;
+       //Now we can get first 4, middle 4/5 and last 4 records.
     }
 
     private static File makeFile(String fileName) {
@@ -98,12 +128,11 @@ public class Prog1b {
                 recordSize += maxLengths[i];
             }
         }
-        System.out.println(recordSize);
         return recordSize;
     }
 
-    private static void validateRecordSize(int recordSize, int allRecordsSize) {
-        int remainder = allRecordsSize % recordSize;
+    private static void validateRecordSize(int recordSize, long allRecordsSize) {
+        long remainder = allRecordsSize % recordSize;
         if(remainder != 0) {
             System.out.println("Something went wrong with the record sizes.");
             System.exit(1);
