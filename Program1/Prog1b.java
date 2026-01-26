@@ -29,6 +29,7 @@ import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 //TODO: uncomment this import when it's time to start sorting records.
 //import Prog1a.Record;
 
@@ -86,6 +87,9 @@ public class Prog1b {
         long fileSize = 0;
         try {
             fileSize = rafReader.length();
+            if(fileSize == 0) {
+                System.exit(1);
+            }
         } catch(IOException e) {
             System.out.println("Error getting the fileSize");
             e.printStackTrace();
@@ -143,27 +147,89 @@ public class Prog1b {
     
     private static void printStartMiddleEnd(RandomAccessFile rafReader, long numRecords, int recordSize, int[] maxLengths) {
         //First seek() to 0 then read in the first four records
-        rafReader.seek(0);
-        int startOfRecord = 0;
+        seekWrapper(rafReader, 0);
+        long startOfRecord = 0;
+        long currentLoc = 0;
         for(int i = 0; i < 4; i++) {
-            //read and print DataSeq, Country, and CaveSite
-            printSMEHelper(rafReader, maxLengths);
-            //Seek to the start of the next record
             try {
-                rafReader.seek(startOfRecord + recordSize);
+                currentLoc = rafReader.getFilePointer();
             } catch(IOException e) {
                 e.printStackTrace();
             }
-            startOfRecord += recordSize;  //updates startOfRecord for next iteration
+            if((currentLoc / recordSize) < numRecords) { //Only print if we haven't reached eof
+                //read and print DataSeq, Country, and CaveSite
+                printSMEHelper(rafReader, maxLengths);
+                //Seek to the start of the next record
+                seekWrapper(rafReader, startOfRecord + recordSize);
+                startOfRecord += recordSize;  //updates startOfRecord for next iteration   
+            } else {
+                break;
+            }
+        }
+        //Get the middle 4 or 5
+        int middleAmount = (numRecords % 2 == 0) ? 4 : 5;
+        //Seek to the start of the middleRecord - 2
+        startOfRecord = ((numRecords / 2) - 2) * recordSize;
+        if(startOfRecord < 0) startOfRecord = 0;
+        seekWrapper(rafReader, startOfRecord);
+        for(int i = 0; i < middleAmount; i++) {
+            try {
+                currentLoc = rafReader.getFilePointer();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            if((currentLoc / recordSize) < numRecords) {
+                printSMEHelper(rafReader, maxLengths);
+                seekWrapper(rafReader, startOfRecord + recordSize);
+                startOfRecord += recordSize;
+            } else {
+                break;
+            }
+        }
+        //Print last 4 records
+        startOfRecord = (numRecords - 4) * recordSize;
+        if(startOfRecord < 0) startOfRecord = 0;
+        seekWrapper(rafReader, startOfRecord);
+        for(int i = 0; i < 4; i++) {
+            try {
+                currentLoc = rafReader.getFilePointer();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            if((currentLoc / recordSize) < numRecords) {
+                printSMEHelper(rafReader, maxLengths);
+                seekWrapper(rafReader, startOfRecord + recordSize);
+                startOfRecord += recordSize;
+            } else {
+                break;
+            }
         }
     }
+
+    private static void seekWrapper(RandomAccessFile rafReader, long destination) {
+        try {
+            rafReader.seek(destination);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return;
+    }
+
+    
 
     /*
     Precondition: the rafReader pointer must be at the start of a record such that one should be able 
     to immediately call readInt() to get the record's DataSeqID.
     */
     private static void printSMEHelper(RandomAccessFile rafReader, int[] maxLengths) {
-        long startOfRecord = rafReader.getFilePointer();
+        byte[] countryBuffer = new byte[maxLengths[6]]; //For storing the country string
+        byte[] caveSiteBuffer = new byte[maxLengths[7]]; //for storing the caveSite string
+        long startOfRecord = 0;
+        try {
+            startOfRecord = rafReader.getFilePointer();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         //Get offsets for Country and CaveSite
         int countryOffset = 0, caveSiteOffset = 0, offset = 4;
         for(int i = 1; i <= 7; i++) {
@@ -177,12 +243,19 @@ public class Prog1b {
         //We simply read in and print the int that's right in front of us.
         try{
             int DataSeqID = rafReader.readInt();
-            System.out.println(DataSeqID);
+            System.out.print("[" + DataSeqID + "]");
             rafReader.seek(startOfRecord + countryOffset);
-            String country = rafReader.readBytes();
+            rafReader.readFully(countryBuffer);
+            String country = new String(countryBuffer, StandardCharsets.UTF_8);
+            System.out.print("["  + country.trim() + "]");
+            rafReader.seek(startOfRecord + caveSiteOffset);
+            rafReader.readFully(caveSiteBuffer);
+            String caveSite = new String(caveSiteBuffer, StandardCharsets.UTF_8);
+            System.out.println("["  + caveSite.trim() + "]");
         } catch(IOException e) {
             e.printStackTrace();
         }
+        return;
     }
 
 }

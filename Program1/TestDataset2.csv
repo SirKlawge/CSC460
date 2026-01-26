@@ -1,0 +1,21 @@
+Dataset_sequence_ID,Data.entry,Cave.data.series,Biogeographical.realm,Continent,Biome classification,Country.record,Cave.site,Lattitude,Longitude,Species.name
+1,BC 002,S 001,Afrotropical,Africa,TSGS,South Africa,Umkomaas,-30.21667,30.86667,Otomops martiensseni
+2,BC 003,S 001,Afrotropical,Africa,TSMB,South Africa,Tongaat,-29.55556,31.13333,Otomops martiensseni
+3,BC 004,S 001,Afrotropical,Africa,TSMB,South Africa,Ballito,-29.53333,31.21667,Otomops martiensseni
+4,BC 005,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Miniopterus gleni
+5,BC 006,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Myotis goudoti
+6,BC 007,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Emballonura sp.
+7,BC 008,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Otomops madagascariensis
+8,BC 009,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Triaenops rufus
+9,BC 010,S 002,Afrotropical,Africa,TSDB,Madagascar,PNTB,-19.11667,44.93333,Rousettus madagascariensis
+10,BC 011,S 003,Afrotropical,Africa,TSDB,Madagascar,Anjohikinakina cave,-19.00983,44.76767,Otomops madagascariensis
+11,BC 012,S 003,Afrotropical,Africa,DES,Madagascar,Namaza canyon,-22.54,45.38,Otomops madagascariensis
+12,BC 013,S 004,Afrotropical,Africa,MAN,Kenya,Watamu,-3.35122,40.01528,Rousettus aegyptiacus
+13,BC 014,S 004,Afrotropical,Africa,MAN,Kenya,Pangayambo,-3.32241,40.02377,Cardioderma cor
+14,BC 015,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Coleura afra
+15,BC 016,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Macronycteris vittatus
+16,BC 017,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Triaenops afer
+17,BC 018,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Miniopterus africanus
+18,BC 019,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Miniopterus minor
+19,BC 020,S 004,Afrotropical,Africa,MAN,Kenya,Kaboga,-3.33451,40.03076,Taphozous hildegardeae
+20,BC 021,S 004,Afrotropical,Africa,MAN,Kenya,Makuruhu,-3.32319,40.04153,Coleura afra
