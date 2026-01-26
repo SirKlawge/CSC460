@@ -23,6 +23,8 @@ The fields we care about are
         Cave Site
         Species name
     If not found, just display "not found".
+
+    TODO: have to define equality for Records and not print redundant ones
 */
 
 import java.io.RandomAccessFile;
@@ -30,8 +32,10 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-//TODO: uncomment this import when it's time to start sorting records.
-//import Prog1a.Record;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Prog1b {
     private static final byte SIZE_OF_INT = 4;  //an int is 4 bytes
@@ -47,16 +51,76 @@ public class Prog1b {
         long fileSize = getFileSize(rafReader);
         //The last line of the file is the metadata array.  Should have 11 ints
         long startOfMaxLengths = fileSize - (SIZE_OF_INT * NUM_COLUMNS);
-       //Store the metadata in an array
-       int[] maxLengths = readMaxLengths(rafReader, startOfMaxLengths);
-       //You wrote the bin file with writeBytes(): 1 byte per char.
-       //Calculate the recordSize based on maxLengths
-       int recordSize = calculateRecordSize(maxLengths);
-       //Could add an assert to validate the record size, but I'll just do it myself.
-       validateRecordSize(recordSize, startOfMaxLengths);
-       long numRecords = startOfMaxLengths / recordSize;
-       //Now we can get first 4, middle 4/5 and last 4 records.
-       printStartMiddleEnd(rafReader, numRecords, recordSize, maxLengths);
+        //Store the metadata in an array
+        int[] maxLengths = readMaxLengths(rafReader, startOfMaxLengths);
+        //You wrote the bin file with writeBytes(): 1 byte per char.
+        //Calculate the recordSize based on maxLengths
+        int recordSize = calculateRecordSize(maxLengths);
+        //Could add an assert to validate the record size, but I'll just do it myself.
+        validateRecordSize(recordSize, startOfMaxLengths);
+        long numRecords = startOfMaxLengths / recordSize;
+        //Now we can get first 4, middle 4/5 and last 4 records.
+        printStartMiddleEnd(rafReader, numRecords, recordSize, maxLengths);
+        //Display numRecords
+        System.out.println("Total records: " + numRecords);
+        //I guess it was inevitable that I would need a Record list.
+        Set<Record> recordSet = new HashSet<Record>();
+        List<Record> recordList = makeRecordList(rafReader, numRecords, maxLengths, recordSet);
+    }
+
+    /*
+    0 - an int: 4 bytes DataSeqID
+    1 - DataEntry
+    2 - CaveDataSeries
+    3 - BiogRealm
+    4 - Continent
+    5 - BiomeClass
+    6 - Country
+    7 - CaveSite
+    8&9 - doubles each: 8 x 2 = 16 bytes 
+    10 - SpeciesName
+    */
+    private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLength, Set<Record> recordSet) {
+        List<Record> recordList = new ArrayList<Record>();
+        byte[] dataEntryBuffer = new byte[maxLength[1]];
+        byte[] caveDataSeriesBuffer = new byte[maxLength[2]];
+        byte[] biogRealmBuffer = new byte[maxLength[3]];
+        byte[] continentBuffer = new byte[maxLength[4]];
+        byte[] biomeClassBuffer = new byte[maxLength[5]];
+        byte[] countryBuffer = new byte[maxLength[6]];
+        byte[] caveSiteBuffer = new byte[maxLength[7]];
+        byte[] speciesNameBuffer = new byte[maxLength[10]];
+        seekWrapper(rafReader, 0);
+        for(long i = 0; i < numRecords; i++) {
+            Record newRecord = new Record();
+            //Oh, just read in all the fields
+            try {
+                newRecord.setDatasetSeqID(rafReader.readInt());
+                rafReader.readFully(dataEntryBuffer);
+                rafReader.readFully(caveDataSeriesBuffer);
+                rafReader.readFully(biogRealmBuffer);
+                rafReader.readFully(continentBuffer);
+                rafReader.readFully(biomeClassBuffer);
+                rafReader.readFully(countryBuffer);
+                rafReader.readFully(caveSiteBuffer);
+                newRecord.setLattitude(rafReader.readDouble());
+                newRecord.setLongitude(rafReader.readDouble());
+                rafReader.readFully(speciesNameBuffer);
+                newRecord.setDataEntry((new String(dataEntryBuffer, StandardCharsets.UTF_8).trim()));
+                newRecord.setCaveDataSeries((new String(caveDataSeriesBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setBiogRealm((new String(biogRealmBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setContinent((new String(continentBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setBiomeClass((new String(biomeClassBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setCountry((new String(countryBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setCaveSite((new String(caveSiteBuffer, StandardCharsets.UTF_8)).trim());
+                newRecord.setSpeciesName((new String(speciesNameBuffer, StandardCharsets.UTF_8)).trim());
+                recordList.add(newRecord);
+                //TODO: maybe the set idea isnt the best
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return recordList;
     }
 
     private static File makeFile(String fileName) {

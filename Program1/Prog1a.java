@@ -77,39 +77,6 @@ public class Prog1a {
 
         public void setNumFields(int numFields) {this.numFields = numFields; return;}
     }
-
-    /*
-    Class: Record
-    Author: Ventura Abram
-    The fields listed in order here reflects the order that they're listed in the csv file.
-    Fields: self-explanatory, and as described above.
-    Methods: all are setters for the fields.  Nothing else.
-    */
-    public static class Record {
-        private int DatasetSeqID;
-        private String DataEntry;
-        private String CaveDataSeries;
-        private String BiogRealm;
-        private String Continent;
-        private String BiomeClass;
-        private String Country;
-        private String CaveSite;
-        private double Lattitude;
-        private double Longitude;
-        private String SpeciesName;
-
-        public void setDatasetSeqID(int DatasetSeqID) {this.DatasetSeqID = DatasetSeqID; return;}
-        public void setDataEntry(String DataEntry) {this.DataEntry = DataEntry; return;}
-        public void setCaveDataSeries(String CaveDataSeries) {this.CaveDataSeries = CaveDataSeries; return;}
-        public void setBiogRealm(String BiogRealm) {this.BiogRealm = BiogRealm; return;}
-        public void setContinent(String Continent) {this.Continent = Continent; return;}
-        public void setBiomeClass(String BiomeClass) {this.BiomeClass = BiomeClass; return;}
-        public void setCountry(String Country) {this.Country = Country; return;}
-        public void setCaveSite(String CaveSite) {this.CaveSite = CaveSite; return;}
-        public void setLattitude(double Lattitude) {this.Lattitude = Lattitude; return;}
-        public void setLongitude(double Longitude) {this.Longitude = Longitude; return;}
-        public void setSpeciesName(String SpeciesName) {this.SpeciesName = SpeciesName; return;}
-    }
     
     /*
     Method: main
@@ -180,17 +147,17 @@ public class Prog1a {
         }
         try {
             for(Record r: recordList) {
-                binFile.writeInt(r.DatasetSeqID);
-                binFile.writeBytes(r.DataEntry);
-                binFile.writeBytes(r.CaveDataSeries);
-                binFile.writeBytes(r.BiogRealm);
-                binFile.writeBytes(r.Continent);
-                binFile.writeBytes(r.BiomeClass);
-                binFile.writeBytes(r.Country);
-                binFile.writeBytes(r.CaveSite);
-                binFile.writeDouble(r.Lattitude);
-                binFile.writeDouble(r.Longitude);
-                binFile.writeBytes(r.SpeciesName);
+                binFile.writeInt(r.getDatasetSeqID());
+                binFile.writeBytes(r.getDataEntry());
+                binFile.writeBytes(r.getCaveDataSeries());
+                binFile.writeBytes(r.getBiogRealm());
+                binFile.writeBytes(r.getContinent());
+                binFile.writeBytes(r.getBiomeClass());
+                binFile.writeBytes(r.getCountry());
+                binFile.writeBytes(r.getCaveSite());
+                binFile.writeDouble(r.getLattitude());
+                binFile.writeDouble(r.getLongitude());
+                binFile.writeBytes(r.getSpeciesName());
             }
             //Then store the field length of each column from maxLengths
             for(int i  = 0; i < fileStats.maxLengths.length; i++) {
@@ -232,14 +199,14 @@ public class Prog1a {
     */
     private static void padAllStrings(List<Record> recordList, BinaryFileStats fileStats) {
         for(Record r : recordList) {
-            r.DataEntry = String.format("%-" + fileStats.maxLengths[1] + "s", r.DataEntry);
-            r.CaveDataSeries = String.format("%-" + fileStats.maxLengths[2] + "s", r.CaveDataSeries);
-            r.BiogRealm = String.format("%-" + fileStats.maxLengths[3] + "s", r.BiogRealm);
-            r.Continent = String.format("%-" + fileStats.maxLengths[4] + "s", r.Continent);
-            r.BiomeClass = String.format("%-" + fileStats.maxLengths[5] + "s", r.BiomeClass);
-            r.Country = String.format("%-" + fileStats.maxLengths[6] + "s", r.Country);
-            r.CaveSite = String.format("%-" + fileStats.maxLengths[7] + "s", r.CaveSite);
-            r.SpeciesName = String.format("%-" + fileStats.maxLengths[10] + "s", r.SpeciesName);
+            r.setDataEntry(String.format("%-" + fileStats.maxLengths[1] + "s", r.getDataEntry()));
+            r.setCaveDataSeries(String.format("%-" + fileStats.maxLengths[2] + "s", r.getCaveDataSeries()));
+            r.setBiogRealm(String.format("%-" + fileStats.maxLengths[3] + "s", r.getBiogRealm()));
+            r.setContinent(String.format("%-" + fileStats.maxLengths[4] + "s", r.getContinent()));
+            r.setBiomeClass(String.format("%-" + fileStats.maxLengths[5] + "s", r.getBiomeClass()));
+            r.setCountry(String.format("%-" + fileStats.maxLengths[6] + "s", r.getCountry()));
+            r.setCaveSite(String.format("%-" + fileStats.maxLengths[7] + "s", r.getCaveSite()));
+            r.setSpeciesName(String.format("%-" + fileStats.maxLengths[10] + "s", r.getSpeciesName()));
         }
     }
 
