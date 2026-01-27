@@ -97,6 +97,10 @@ public class Prog1b {
         String dataEntryStr = null;
         String[] splitResult = new String[2];
         long queryNumber = Long.parseLong(query.split(" ")[1]);
+        if(!splitResult[0].equals("BC")) {
+            System.out.println("Record not found.");
+            return;
+        }
         //Find the range in which query should live
         long upperBound = 0, lowerBound = 0, dataEntryNumber = 0;
         //validate the query a little
@@ -123,7 +127,7 @@ public class Prog1b {
                 rafReader.seek((upperBound * recordSize) + 4);
                 //Get the actual number from the field
                 rafReader.readFully(dataEntryBuffer);
-                dataEntryStr = new String(dataEntryBuffer, StandardCharsets.UTF_8);
+                dataEntryStr = (new String(dataEntryBuffer, StandardCharsets.UTF_8)).trim();
                 splitResult = dataEntryStr.split(" ");
                 dataEntryNumber = Long.parseLong(splitResult[1]);
                 if(dataEntryNumber == queryNumber) {
@@ -145,12 +149,50 @@ public class Prog1b {
         }
         if(upperBound > numRecords - 1) upperBound = numRecords;
         //At this point, lower and upperBounds should kinda correspond to the DatasetSeq numbers
-        binarySearch(rafReader, query, numRecords, recordSize, maxLengths);
+        binarySearch(rafReader, queryNumber, recordSize, maxLengths, lowerBound, upperBound);
         return;
     }
 
-    private static void binarySearch(RandomAccessFile rafReader, String query, long numRecords, int recordSize, int[] maxLengths) {
-        
+    /*
+    do lower + upper / 2
+    */
+    private static void binarySearch(RandomAccessFile rafReader, long queryNumber, int recordSize, int[] maxLengths, long lowerBound, long upperBound) {
+        if(upperBound >= lowerBound) {
+            //Get the midpoint
+            long midpoint = lowerBound + upperBound / 2;
+            //Get the Data.entry value here
+            byte[] dataEntryBuffer = new Byte[maxLengths[1]];
+            String dataEntryString = null;
+            String[] splitResult = new String[];
+            long dataEntryNumber = 0;
+            try {
+                rafReader.seek((midpoint * recordSize) + 4);
+                rafReader.readFully(dataEntryBuffer);
+                dataEntryString = (new String(dataEntryBuffer, StandardCharsets.UTF_8)).trim();
+                splitResult = dataEntryString.split(" ");
+                dataEntryNumber = Long.parseLong(splitResult[1]);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            //Do the actual binary search part
+            if(dataEntryNumber == queryNumber) {
+                printSearchHit();
+                return;
+            }
+            if(dataEntryNumber > queryNumber) {
+                //Search lower half
+                binarySearch(rafReader, queryNumber, recordSize, maxLengths, lowerBound, midpoint - 1);
+                return;
+            }
+            if(dataEntryNumber < queryNumber) {
+                //Search upper half
+                binarySearch(rafReader, queryNumber, recordSize, maxLengths, midpoint + 1, upperBound);
+                return;
+            }
+        } else {
+            System.out.println("Record not found.");
+        }
+        return;
     }
 
     private static void printSearchHit() {
