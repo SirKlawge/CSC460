@@ -34,8 +34,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Prog1b {
     private static final byte SIZE_OF_INT = 4;  //an int is 4 bytes
@@ -64,8 +64,29 @@ public class Prog1b {
         //Display numRecords
         System.out.println("Total records: " + numRecords);
         //I guess it was inevitable that I would need a Record list.
-        Set<Record> recordSet = new HashSet<Record>();
-        List<Record> recordList = makeRecordList(rafReader, numRecords, maxLengths, recordSet);
+        Map<String, Record> recordMap = new HashMap<String, Record>();
+        List<Record> recordList = makeRecordList(rafReader, numRecords, maxLengths, recordMap);
+        List<Record> sortedByLattitude = new ArrayList<Record>(recordMap.values());
+        sortedByLattitude.sort(null);
+        printSortedByLat(sortedByLattitude);
+    }
+
+    private static void printSortedByLat(List<Record> sortedByLattitude) {
+        int last = sortedByLattitude.size() -1;
+        Record current = sortedByLattitude.get(last);
+        double lastLat = 0;
+        for(int i = 0; i < 10; i++) {
+            System.out.println("[" + current.getCountry() + "][" + current.getCaveSite() + "][" + current.getLattitude() + "]");
+            if(i == 9) lastLat = current.getLattitude();
+            last--;
+            current = sortedByLattitude.get(last);
+        }
+        while(Double.compare(Math.abs(current.getLattitude()), lastLat) == 0) {
+            System.out.println("[" + current.getCountry() + "][" + current.getCaveSite() + "][" + current.getLattitude() + "]");
+            last--;
+            current = sortedByLattitude.get(last);
+        }
+        return;
     }
 
     /*
@@ -80,7 +101,7 @@ public class Prog1b {
     8&9 - doubles each: 8 x 2 = 16 bytes 
     10 - SpeciesName
     */
-    private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLength, Set<Record> recordSet) {
+    private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLength, Map<String, Record> recordMap) {
         List<Record> recordList = new ArrayList<Record>();
         byte[] dataEntryBuffer = new byte[maxLength[1]];
         byte[] caveDataSeriesBuffer = new byte[maxLength[2]];
@@ -115,7 +136,7 @@ public class Prog1b {
                 newRecord.setCaveSite((new String(caveSiteBuffer, StandardCharsets.UTF_8)).trim());
                 newRecord.setSpeciesName((new String(speciesNameBuffer, StandardCharsets.UTF_8)).trim());
                 recordList.add(newRecord);
-                //TODO: maybe the set idea isnt the best
+                recordMap.putIfAbsent(newRecord.getCaveSite(), newRecord);
             } catch(IOException e) {
                 e.printStackTrace();
             }

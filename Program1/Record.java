@@ -5,7 +5,8 @@
     Fields: self-explanatory, and as described above.
     Methods: all are setters for the fields.  Nothing else.
     */
-    public class Record {
+
+    public class Record implements Comparable<Record> {
         private int DatasetSeqID;
         private String DataEntry;
         private String CaveDataSeries;
@@ -55,8 +56,12 @@
         }
 
         public int compareTo(Record other) {
-            if(Double.compare(this.Lattitude, other.Lattitude) < 0) return -1;
-            if(Double.compare(this.Lattitude, other.Lattitude) == 0) return 0;
+            if(Double.compare(Math.abs(this.Lattitude), Math.abs(other.Lattitude)) < 0) return -1;
+            if(Double.compare(Math.abs(this.Lattitude), Math.abs(other.Lattitude)) == 0) return 0;
             return 1; 
+        }
+
+        public String toString() {
+            return this.CaveSite + ": " + this.Lattitude;
         }
     }
