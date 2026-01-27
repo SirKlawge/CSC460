@@ -35,7 +35,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Prog1b {
     private static final byte SIZE_OF_INT = 4;  //an int is 4 bytes
@@ -69,6 +71,82 @@ public class Prog1b {
         List<Record> sortedByLattitude = new ArrayList<Record>(recordMap.values());
         sortedByLattitude.sort(null);
         printSortedByLat(sortedByLattitude);
+        //Now get input from the user
+        handleUserQueries(rafReader, numRecords, recordSize, maxLengths);
+    }
+
+    private static void handleUserQueries(RandomAccessFile rafReader, long numRecords, int recordSize, int[] maxLengths) {
+        Scanner scanner = new Scanner(System.in);
+        String query = null;
+        while(true) {
+            System.out.println("Find a cave by Data.entry value:");
+            System.out.println("(Hint: Search \"BC \" then a number that's at least 002. Type -1000 to quit)");
+            query = scanner.nextLine();
+            if(query.equals("-1000")) {
+                break;
+            } else {
+                //Perform exponential binary search here
+                searchQuery(rafReader, query, numRecords, recordSize, maxLengths);
+            }
+        }
+        return;
+    }
+
+    private static void searchQuery(RandomAccessFile rafReader, String query, long numRecords, int recordSize, int[] maxLengths) {
+        byte[] dataEntryBuffer = new byte[maxLengths[1]];
+        String dataEntryStr = null;
+        String[] splitResult = new String[2];
+        long queryNumber = Long.parseLong(query.split(" ")[1]);
+        //Find the range in which query should live
+        long upperBound = 0, lowerBound = 0, dataEntryNumber = 0;
+        seekWrapper(rafReader, (numRecords -1) * recordSize + 4);
+        try {
+            rafReader.readFully(dataEntryBuffer);
+            dataEntryStr = new String(dataEntryBuffer, StandardCharsets.UTF_8);
+            System.out.println(dataEntryStr);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        /*
+        Stop this loop when upperBound is greater than numRecord.
+        The start of the last record is (numRecords - 1) * recordSize
+        Meaning once numRecords == upperBound, there's no more records to read.
+        */
+        for(int i = 0; upperBound < numRecords; i++) {
+            //0, 1, 2, 4, 8, 16, 32...
+            upperBound = 2 * ((long) Math.pow(2, i) -1);
+            if(upperBound < numRecords) {
+                lowerBound = 2 * ((long) Math.pow(2, i - 1) -1);
+                break;
+            }
+            seekWrapper(rafReader, (upperBound * recordSize) + 4); //Start of record then over by 4 bytes
+            //Search at this index
+            try {
+                rafReader.readFully(dataEntryBuffer);
+                dataEntryStr = (new String(dataEntryBuffer, StandardCharsets.UTF_8)).trim();
+                splitResult = dataEntryStr.split(" ");
+                dataEntryNumber = Long.parseLong(splitResult[1]); //Now have a number
+                if(queryNumber == dataEntryNumber) {
+                    printSearchHit();
+                    return;
+                } else if(queryNumber < dataEntryNumber) {
+                    //We've overshot the query, meaning we've found our upperbound
+                    lowerBound = 2 * ((long) Math.pow(2, i - 1) -1);
+                    break;
+                }
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(upperBound >= numRecords) upperBound = numRecords -1;
+        //At this point, lower and upperBounds should kinda correspond to the DatasetSeq numbers
+        System.out.println(query + " is somewhere between " + lowerBound + " and " + upperBound);
+        return;
+    }
+
+    private static void printSearchHit() {
+        System.out.println("printing from printSearchHit");
+        return;
     }
 
     private static void printSortedByLat(List<Record> sortedByLattitude) {
