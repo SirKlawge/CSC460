@@ -99,46 +99,51 @@ public class Prog1b {
         long queryNumber = Long.parseLong(query.split(" ")[1]);
         //Find the range in which query should live
         long upperBound = 0, lowerBound = 0, dataEntryNumber = 0;
-        seekWrapper(rafReader, (numRecords -1) * recordSize + 4);
+        //validate the query a little
         try {
+            rafReader.seek((numRecords - 1) * recordSize + 4);
             rafReader.readFully(dataEntryBuffer);
             dataEntryStr = new String(dataEntryBuffer, StandardCharsets.UTF_8);
-            System.out.println(dataEntryStr);
+            splitResult = dataEntryStr.split(" ");
+            dataEntryNumber = Long.parseLong(splitResult[1]);
+            if(queryNumber > dataEntryNumber) {
+                System.out.println("Data.entry values don't go that high.");
+                return;
+            }
         } catch(IOException e) {
             e.printStackTrace();
         }
         /*
-        Stop this loop when upperBound is greater than numRecord.
-        The start of the last record is (numRecords - 1) * recordSize
-        Meaning once numRecords == upperBound, there's no more records to read.
+        upperBound 0 will put you just before the 1st record, ready to read it
+        upperBound 1 will put you just before the 2nd record, ready to read it
         */
         for(int i = 0; upperBound < numRecords; i++) {
-            //0, 1, 2, 4, 8, 16, 32...
-            upperBound = 2 * ((long) Math.pow(2, i) -1);
-            if(upperBound < numRecords) {
-                lowerBound = 2 * ((long) Math.pow(2, i - 1) -1);
-                break;
-            }
-            seekWrapper(rafReader, (upperBound * recordSize) + 4); //Start of record then over by 4 bytes
-            //Search at this index
+            //Scan this record's Data.entry field
             try {
+                rafReader.seek((upperBound * recordSize) + 4);
+                //Get the actual number from the field
                 rafReader.readFully(dataEntryBuffer);
-                dataEntryStr = (new String(dataEntryBuffer, StandardCharsets.UTF_8)).trim();
+                dataEntryStr = new String(dataEntryBuffer, StandardCharsets.UTF_8);
                 splitResult = dataEntryStr.split(" ");
-                dataEntryNumber = Long.parseLong(splitResult[1]); //Now have a number
-                if(queryNumber == dataEntryNumber) {
+                dataEntryNumber = Long.parseLong(splitResult[1]);
+                if(dataEntryNumber == queryNumber) {
+                    //Here, the record at upperBound happened to be a search hit
                     printSearchHit();
                     return;
-                } else if(queryNumber < dataEntryNumber) {
-                    //We've overshot the query, meaning we've found our upperbound
-                    lowerBound = 2 * ((long) Math.pow(2, i - 1) -1);
+                } else if(dataEntryNumber > queryNumber) {
+                    //Here, we've overshot the search target. So we have an upper bound
+                    //set the lower bound and exit the loop
+                    lowerBound = 2 * ((long) Math.pow(2, i -1) -1);
                     break;
+                } else {
+                    lowerBound = 2 * ((long) Math.pow(2, i -1) -1);
+                    upperBound = 2 * ((long) Math.pow(2, i + 1) -1);
                 }
             } catch(IOException e) {
                 e.printStackTrace();
             }
         }
-        if(upperBound >= numRecords) upperBound = numRecords -1;
+        if(upperBound > numRecords - 1) upperBound = numRecords;
         //At this point, lower and upperBounds should kinda correspond to the DatasetSeq numbers
         System.out.println(query + " is somewhere between " + lowerBound + " and " + upperBound);
         return;
