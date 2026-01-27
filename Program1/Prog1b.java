@@ -145,8 +145,12 @@ public class Prog1b {
         }
         if(upperBound > numRecords - 1) upperBound = numRecords;
         //At this point, lower and upperBounds should kinda correspond to the DatasetSeq numbers
-        System.out.println(query + " is somewhere between " + lowerBound + " and " + upperBound);
+        binarySearch(rafReader, query, numRecords, recordSize, maxLengths);
         return;
+    }
+
+    private static void binarySearch(RandomAccessFile rafReader, String query, long numRecords, int recordSize, int[] maxLengths) {
+        
     }
 
     private static void printSearchHit() {
