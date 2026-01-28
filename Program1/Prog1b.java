@@ -96,7 +96,8 @@ public class Prog1b {
         byte[] dataEntryBuffer = new byte[maxLengths[1]];
         String dataEntryStr = null;
         String[] splitResult = new String[2];
-        long queryNumber = Long.parseLong(query.split(" ")[1]);
+        splitResult = query.split(" ");
+        long queryNumber = Long.parseLong(splitResult[1]);
         if(!splitResult[0].equals("BC")) {
             System.out.println("Record not found.");
             return;
@@ -132,7 +133,7 @@ public class Prog1b {
                 dataEntryNumber = Long.parseLong(splitResult[1]);
                 if(dataEntryNumber == queryNumber) {
                     //Here, the record at upperBound happened to be a search hit
-                    printSearchHit();
+                    printSearchHit(rafReader, upperBound, recordSize, maxLengths);
                     return;
                 } else if(dataEntryNumber > queryNumber) {
                     //Here, we've overshot the search target. So we have an upper bound
@@ -159,11 +160,11 @@ public class Prog1b {
     private static void binarySearch(RandomAccessFile rafReader, long queryNumber, int recordSize, int[] maxLengths, long lowerBound, long upperBound) {
         if(upperBound >= lowerBound) {
             //Get the midpoint
-            long midpoint = lowerBound + upperBound / 2;
+            long midpoint = (lowerBound + upperBound) / 2;
             //Get the Data.entry value here
-            byte[] dataEntryBuffer = new Byte[maxLengths[1]];
+            byte[] dataEntryBuffer = new byte[maxLengths[1]];
             String dataEntryString = null;
-            String[] splitResult = new String[];
+            String[] splitResult = new String[2];
             long dataEntryNumber = 0;
             try {
                 rafReader.seek((midpoint * recordSize) + 4);
@@ -176,7 +177,7 @@ public class Prog1b {
             }
             //Do the actual binary search part
             if(dataEntryNumber == queryNumber) {
-                printSearchHit();
+                printSearchHit(rafReader, midpoint, recordSize, maxLengths);
                 return;
             }
             if(dataEntryNumber > queryNumber) {
@@ -195,8 +196,36 @@ public class Prog1b {
         return;
     }
 
-    private static void printSearchHit() {
-        System.out.println("printing from printSearchHit");
+    /*
+    Country 6
+    CaveSite 7
+    SpeciesName 10
+    */
+    private static void printSearchHit(RandomAccessFile rafReader, long midpoint, int recordSize, int[] maxLengths) {
+        //Seek to the midpoint record and read the country cavesite and species name
+        byte[] countryBuffer = new byte[maxLengths[6]];
+        byte[] caveSiteBuffer = new byte[maxLengths[7]];
+        byte[] speciesNameBuffer = new byte[maxLengths[10]];
+        String countryString = null, caveSiteString = null, speciesNameString = null;
+        int offset = 0;
+        try {
+            //Seek to Country field
+            offset = 4 + maxLengths[1] + maxLengths[2] + maxLengths[3] + maxLengths[4] + maxLengths[5];
+            rafReader.seek((midpoint * recordSize) + offset);
+            rafReader.readFully(countryBuffer);
+            countryString = (new String(countryBuffer, StandardCharsets.UTF_8)).trim();
+            //Seek to caveSite field
+            rafReader.readFully(caveSiteBuffer);
+            caveSiteString = (new String(caveSiteBuffer, StandardCharsets.UTF_8)).trim();
+            offset = offset + maxLengths[6] + maxLengths[7] + 16;
+            rafReader.seek((midpoint * recordSize) + offset);
+            rafReader.readFully(speciesNameBuffer);
+            speciesNameString = (new String(speciesNameBuffer, StandardCharsets.UTF_8)).trim();
+            System.out.println("Species name: " + speciesNameString);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + countryString + "][" + caveSiteString + "][" + speciesNameString + "]");
         return;
     }
 
@@ -230,16 +259,16 @@ public class Prog1b {
     8&9 - doubles each: 8 x 2 = 16 bytes 
     10 - SpeciesName
     */
-    private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLength, Map<String, Record> recordMap) {
+    private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLengths, Map<String, Record> recordMap) {
         List<Record> recordList = new ArrayList<Record>();
-        byte[] dataEntryBuffer = new byte[maxLength[1]];
-        byte[] caveDataSeriesBuffer = new byte[maxLength[2]];
-        byte[] biogRealmBuffer = new byte[maxLength[3]];
-        byte[] continentBuffer = new byte[maxLength[4]];
-        byte[] biomeClassBuffer = new byte[maxLength[5]];
-        byte[] countryBuffer = new byte[maxLength[6]];
-        byte[] caveSiteBuffer = new byte[maxLength[7]];
-        byte[] speciesNameBuffer = new byte[maxLength[10]];
+        byte[] dataEntryBuffer = new byte[maxLengths[1]];
+        byte[] caveDataSeriesBuffer = new byte[maxLengths[2]];
+        byte[] biogRealmBuffer = new byte[maxLengths[3]];
+        byte[] continentBuffer = new byte[maxLengths[4]];
+        byte[] biomeClassBuffer = new byte[maxLengths[5]];
+        byte[] countryBuffer = new byte[maxLengths[6]];
+        byte[] caveSiteBuffer = new byte[maxLengths[7]];
+        byte[] speciesNameBuffer = new byte[maxLengths[10]];
         seekWrapper(rafReader, 0);
         for(long i = 0; i < numRecords; i++) {
             Record newRecord = new Record();
