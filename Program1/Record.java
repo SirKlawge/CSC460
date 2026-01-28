@@ -43,8 +43,6 @@
         public double getLongitude() {return this.Longitude;}
         public String getSpeciesName() {return this.SpeciesName;}
 
-
-
         public boolean equals(Object o) {
             Record other = null;
             if(o instanceof Record) {
