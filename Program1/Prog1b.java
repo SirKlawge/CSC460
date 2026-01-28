@@ -1,30 +1,18 @@
 /*
 Author: Ventura Abram
+CSC460
+Program1b
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
+Due: 1/29/2026
 
-The fields we care about are 
-    For 4/5/4:
-        DataSeqID
-        Country
-        Cave site
-    
-    Then display the total number of records
-
-    Then the list of the 10 distinct caves that are furthest from the equator 
-    (no single cave should appear more than once).  Fields we care about here:
-        Country
-        Cave site
-        Latitude
-    Lengthen list if there are ties with the 10th most distant cave
-    Records are listed one per line.  Each field encased in []
-
-    Then you gotta start a loop that takes input.  The input should be Data.entry values.
-    You'll do an exponential binary search for the value.  If found, you'll display
-        Country
-        Cave Site
-        Species name
-    If not found, just display "not found".
-
-    TODO: have to define equality for Records and not print redundant ones
+This program takes the binary file produced by Program1a and pulls information from it.
+Namely, it'll print info from the first four records, the middle four or five records, and 
+finally the last four records.
+Next, it'll print out the ten caves most distant from the equator in descending order (might
+print more if there's a tie for the tenth element).
+Lastly, the program will enter a loop where it will prompt the user for a Data.entry value, 
+and it will print info about a cave that matches that value if it's in the database.
 */
 
 import java.io.RandomAccessFile;
@@ -43,6 +31,14 @@ public class Prog1b {
     private static final byte SIZE_OF_INT = 4;  //an int is 4 bytes
     private static final byte NUM_COLUMNS = 11; //the csv file has 11 fields
 
+    /*
+    Method: main
+    Purpose: this drives the retrieval and printing of data from the bin file as described above
+    Precondition: Prog1a has produced a .bin file with the same name as the csv file
+    Postconditon: none
+    Parameter:
+        args - a String array of command line args.  args[0] is our csv file path/name
+    */
     public static void main(String[] args) {
         String fileName = args[0];
         //Try to open the binary file
@@ -75,6 +71,18 @@ public class Prog1b {
         handleUserQueries(rafReader, numRecords, recordSize, maxLengths);
     }
 
+    /*
+    Method: handleUserQueries
+    Purpose: This method runs a while loop that will prompt the user for a Data.entry value and 
+    it will call a method that searches for it.  If the user enters -1000, the loop will exit.
+    Precondition: there's a bin file to search through
+    Postconditon: none
+    Parameters:
+        rafReader - a RandomAccessFile object that reads the bin file.
+        numRecords - a long that represents the number of records in the file
+        recordSize - the size, in bytes, of one record from the file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+    */
     private static void handleUserQueries(RandomAccessFile rafReader, long numRecords, int recordSize, int[] maxLengths) {
         Scanner scanner = new Scanner(System.in);
         String query = null;
@@ -92,6 +100,21 @@ public class Prog1b {
         return;
     }
 
+    /*
+    Method: searchQuery
+    Purpose: this method establishes the range, [lowerBound, upperBound], in which the query target
+    must live and then calls a method to do a binary search of the bin file for a record that 
+    matches the query.
+    Preconditon: the user has provided, at the command line, a query that begins with "BC " followed 
+    by a number ranging from 002 to however many Data.entry values there are.
+    Postcondition: either a match has been found or we report that not match was found
+    Parameters:
+        rafReader - a RandomAccessFile object that reads the bin file.
+        query - a String that the user provided at the command line that we're searching for in the file.
+        numRecords - a long that represents the number of records in the file
+        recordSize - the size, in bytes, of one record from the file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+    */
     private static void searchQuery(RandomAccessFile rafReader, String query, long numRecords, int recordSize, int[] maxLengths) {
         byte[] dataEntryBuffer = new byte[maxLengths[1]];
         String dataEntryStr = null;
@@ -155,7 +178,19 @@ public class Prog1b {
     }
 
     /*
-    do lower + upper / 2
+    Method: binarySearch
+    Purpose: this method does a regular old binary search between the lowerBound and upperBound 
+    calculated by the searchQuery method.  If there's a search hit, then it'll call a method 
+    to print data relevant to the corresponding record.  Else it'll print "record not found".
+    Preconditon: the lowerBound and upperBound have been calculated
+    Postcondition: none
+    Parameters:
+        rafReader - a RandomAccessFile object that reads the bin file.
+        queryNumber - a long that represents the number found in the user's search query.
+        recordSize - the size, in bytes, of one record from the file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+        lowerBound - an int that represents the lower bound of the range wherein the query target must live
+        upperBound - an int that represents the upper bound of the range wherein the query target must live
     */
     private static void binarySearch(RandomAccessFile rafReader, long queryNumber, int recordSize, int[] maxLengths, long lowerBound, long upperBound) {
         if(upperBound >= lowerBound) {
@@ -197,9 +232,16 @@ public class Prog1b {
     }
 
     /*
-    Country 6
-    CaveSite 7
-    SpeciesName 10
+    Method: printSearchHit
+    Purpose: this method prints out three fields associated with the search hit from the user's query, namely
+    the Country, Cave Site, and the Species Name.
+    Precondition: The binary search has found a record in the file that matches the search query.
+    Postcondition: none
+    Parameters:
+        rafReader - a RandomAccessFile object that reads the bin file.
+        midpoint - an int representing the midpoint between lowerBound and upperBound
+        recordSize - the size, in bytes, of one record from the file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
     */
     private static void printSearchHit(RandomAccessFile rafReader, long midpoint, int recordSize, int[] maxLengths) {
         //Seek to the midpoint record and read the country cavesite and species name
@@ -229,6 +271,15 @@ public class Prog1b {
         return;
     }
 
+    /*
+    Method: printSortedByLat
+    Purpose: this method prints out, in descending order, the 10 or more most distant caves from 
+    the equator.  If there are any caves that tie with the 10th item, then those are printed as well.
+    Preconditions: the input List of records has already been sorted by Lattitude
+    Postcondition: none. Just printing out stuff
+    Parameter:
+        sortedByLattitude: an ArrayList<Record> of records sorted in ascending order by Lattitude
+    */
     private static void printSortedByLat(List<Record> sortedByLattitude) {
         int last = sortedByLattitude.size() -1;
         Record current = sortedByLattitude.get(last);
@@ -248,16 +299,17 @@ public class Prog1b {
     }
 
     /*
-    0 - an int: 4 bytes DataSeqID
-    1 - DataEntry
-    2 - CaveDataSeries
-    3 - BiogRealm
-    4 - Continent
-    5 - BiomeClass
-    6 - Country
-    7 - CaveSite
-    8&9 - doubles each: 8 x 2 = 16 bytes 
-    10 - SpeciesName
+    Method: makeRecordList
+    Purpose: This reads the entire binary file and stores all of records into a Record list.
+    This will make it easier to sort and retrieve data for the first two parts of our output.
+    Precondition: There should be a bin file
+    Postcondition: We'll have an ArrayList<Record> that contains all of the records from the csv file.
+    Parameters:
+        rafReader - a RandomAccessFile object that reads the bin file.
+        numRecords - a long representing the number of records in the csv file.
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+        recordMap - a HashMap<String, Record> that will make it easier to ensure that no duplicates are 
+        printed in the result.
     */
     private static List<Record> makeRecordList(RandomAccessFile rafReader, long numRecords, int[] maxLengths, Map<String, Record> recordMap) {
         List<Record> recordList = new ArrayList<Record>();
@@ -302,6 +354,17 @@ public class Prog1b {
         return recordList;
     }
 
+    /*
+    Method: makeFile
+    Purpose: this method makes the File object that the RandomAccessFile will travers.  It's mostly 
+    to clean up the code in main(). 
+    Preconditions: Prog1a has produced a file by fileName in the same directory as this java file.
+    Postconditions: we have a file that we can traverse.
+    Parameter:
+        fileName: a String representing the name of the file creaed by Prog1a 
+    Return:
+        binFile: a File object that we can traverse
+    */
     private static File makeFile(String fileName) {
         File binFile = null;
         try {
@@ -313,6 +376,18 @@ public class Prog1b {
         return binFile;
     }
 
+    /*
+    Method: makeRafReader
+    Purpose: This method makes the RandomAccessFile object that actually traverses the 
+    binFile object.  This is another method that was mostly made just to clean up the main() 
+    method.
+    Preconditon: a File object to traverse has already been made.
+    Postcondition: a RandomAccessFile object is made so we can traverse the binFile
+    Parameter:
+        binFile: the File object that we're traversing.
+    Return:
+        rafReader: the RandomAccessFile object that traverses the binFile
+    */
     private static RandomAccessFile makeRafReader(File binFile) {
         RandomAccessFile rafReader = null;
         try {
@@ -324,7 +399,15 @@ public class Prog1b {
     }
 
     /*
-    
+    Method: getFileSize
+    Purpose: this method calls the length() method on the rafReader to get the file size
+    in bytes.
+    Precondition: a RandomAccessFile reader has been made
+    Postconditon: none
+    Parameter:
+        rafReader: the RandomAccessFile object that traverses the binFile
+    Return:
+        fileSize: a long that represents the size of the binary file. 
     */
     private static long getFileSize(RandomAccessFile rafReader) {
         long fileSize = 0;
@@ -340,7 +423,10 @@ public class Prog1b {
         return fileSize;
     }
 
-
+    /*
+    Method: readMaxLengths
+    
+    */
     private static int[] readMaxLengths(RandomAccessFile rafReader, long startOfMaxLengths) {
         int[] maxLengths = new int[11];
         try {
