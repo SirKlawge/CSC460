@@ -7,6 +7,7 @@
     */
 
     public class Record implements Comparable<Record> {
+        //Each field reflects a column from the csv file
         private int DatasetSeqID;
         private String DataEntry;
         private String CaveDataSeries;
@@ -19,6 +20,7 @@
         private double Longitude;
         private String SpeciesName;
 
+        //Getters and setters
         public void setDatasetSeqID(int DatasetSeqID) {this.DatasetSeqID = DatasetSeqID; return;}
         public void setDataEntry(String DataEntry) {this.DataEntry = DataEntry; return;}
         public void setCaveDataSeries(String CaveDataSeries) {this.CaveDataSeries = CaveDataSeries; return;}
@@ -43,6 +45,7 @@
         public double getLongitude() {return this.Longitude;}
         public String getSpeciesName() {return this.SpeciesName;}
 
+        //Defining equality by cave site field for purposes of Prog1b
         public boolean equals(Object o) {
             Record other = null;
             if(o instanceof Record) {
@@ -53,13 +56,10 @@
             }
         }
 
+        //Defining ordering based on Lattitude
         public int compareTo(Record other) {
             if(Double.compare(Math.abs(this.Lattitude), Math.abs(other.Lattitude)) < 0) return -1;
             if(Double.compare(Math.abs(this.Lattitude), Math.abs(other.Lattitude)) == 0) return 0;
             return 1; 
-        }
-
-        public String toString() {
-            return this.CaveSite + ": " + this.Lattitude;
         }
     }
