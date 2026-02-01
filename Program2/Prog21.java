@@ -16,10 +16,12 @@ The process for inserting items into the Directory is that we
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 
 public class Prog21 {
 
     private static final byte NUM_COLUMNS = 11; //the csv file has 11 fields
+    private static final String OUTPUT_FILE_NAME = "lhl.idx";
 
     public static void main(String[] args) {
         //Open the bin file
@@ -33,7 +35,47 @@ public class Prog21 {
         int maxLengths[] = readMaxLengths(rafReader, startOfMaxLengths);
         //Calculate recordSize based on maxLengths
         int recordSize = calculateRecordSize(maxLengths);
-        System.out.println("recordSize: " + recordSize);
+        long numRecords = startOfMaxLengths / recordSize;
+        //Build the index
+        File indexFile = buildIndex(numRecords, rafReader, maxLengths, recordSize);
+    }
+
+    private static File buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {
+        File indexFile = makeFile(OUTPUT_FILE_NAME);
+        Directory directory = new Directory(indexFile);
+        for(int i = 0; i < numRecords; i++) {
+            //Get the Data.entry string
+            String dataEntryString = getDataEntryString(rafReader, i, maxLengths, recordSize);
+            directory.insert(dataEntryString);
+        }
+        return indexFile;
+    }
+
+    /*
+    Method: getDataEntryString
+    Purpose: This method retieves the Data.entry field value from the provided record in the bin file
+    Precondition: Must have a RandomAccessFile reader with something to read. Must have calculated recordSize.
+    Postcondition: none
+    Parameters: 
+        rafReader - a RandomAccessFile object that reads the bin file.
+        recordNum - a long representing which record we want from the bin file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+        recordSize - the size, in bytes, of one record from the file
+    Return:
+        dataEntryString - a String representing the Data.entry field value for the specified record
+    */
+    private static String getDataEntryString(RandomAccessFile rafReader, long recordNum, int[] maxLengths, int recordSize) {
+        byte[] dataEntryBuffer = new byte[maxLengths[1]];
+        String dataEntryString = null;
+        try {
+            rafReader.seek((recordNum * recordSize) + 4);
+            rafReader.readFully(dataEntryBuffer);
+            dataEntryString = new String(dataEntryBuffer, StandardCharsets.UTF_8); //Don't trim for now
+        } catch(IOException e) {
+            System.out.println("Error reading Data.entry string");
+            e.printStackTrace();
+        }
+        return dataEntryString;
     }
 
     /*
@@ -146,13 +188,13 @@ public class Prog21 {
         binFile: a File object that we can later traverse
     */
     private static File makeFile(String fileName) {
-        File binFile = null;
+        File file = null;
         try {
-            binFile  = new File(fileName);
+            file  = new File(fileName);
         } catch(Exception e) {
             System.out.println("Problem opening bin file");
             e.printStackTrace();
         }
-        return binFile;
+        return file;
     }
 }
