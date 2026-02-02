@@ -38,16 +38,28 @@ public class Prog21 {
         long numRecords = startOfMaxLengths / recordSize;
         //Build the index
         File indexFile = buildIndex(numRecords, rafReader, maxLengths, recordSize);
+        try {
+            rafReader.close();
+        } catch(IOException e) {
+            System.out.println("error closing the file");
+            e.printStackTrace();
+        }
     }
 
     private static File buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {
         File indexFile = makeFile(OUTPUT_FILE_NAME);
-        Directory directory = new Directory(indexFile);
+        try {
+            if(indexFile.exists()) indexFile.delete();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        Directory directory = new Directory(indexFile, maxLengths[1]);
         for(int i = 0; i < numRecords; i++) {
             //Get the Data.entry string
             String dataEntryString = getDataEntryString(rafReader, i, maxLengths, recordSize);
-            directory.insert(dataEntryString);
+            directory.insert(dataEntryString, i);
         }
+        System.out.println(directory.getSize());
         return indexFile;
     }
 
