@@ -1,8 +1,22 @@
 /*
 Author: Ventura Abram
 
-We want the directory to open the index file, modify the bucket, then store 
-that change to the index file.  This class will need that index file.
+TODO: need to get data about the directory.
+We need total number of buckets. Done!
+We need the number of records in the highest occupancy bucket and the lowest bucket.
+Then we need the mean and median of all buckets to two decimal places
+
+Solution: maintain a HashMap<Integer, Integer> 
+    keys: bucket number
+    values: occupancy of that bucket
+
+At the end of the insert() method, you'll have at least the hashedBucket and 
+maybe and overflowBucket.  Simply add the <hashValue, occupancy> pair to the HashMap
+You've already calculated the hashValue and the overflowHashValue
+The occupancy is the BLOCKING_FACTOR - bucket.getOpenSlots()
+You'll have to check to see if the key exists in the hashmap
+
+Once you've built up the hashmap, then you can sort the values and find their mean and median
 */
 
 import java.io.File;
@@ -44,7 +58,8 @@ public class Directory {
     */
     public void insert(String fieldString, long address) {
         //Calculate a hash value for the fieldString
-        int hashValue = Math.abs(fieldString.hashCode()) % (int) Math.pow(2, H+1);
+        long hashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
+        long overFlowHashValue = hashValue + (long)Math.pow(2, H+1);
         //Read this bucket from the indexFile.  We have bucket num, but we also need size per bucket
         long bucketOffset = Bucket.getSizePerBucket() * hashValue;
         Bucket hashedBucket = readBucket(bucketOffset);
@@ -61,11 +76,13 @@ public class Directory {
         newBucketSlot.setAddress(address);
         destinationBucket.insert(newBucketSlot);
         this.size++;
-        //TODO: write the bucket back to the index file
+        writeBucket(hashedBucket, hashValue);
+        if(overflowBucket != null) writeBucket(overflowBucket, overFlowHashValue);
+        //Get the sizes of hashedBucket and overflowBucket and compare to 
         return;
     }
 
-    private Bucket expandDirectory(Bucket hashedBucket, int hashValue) {
+    private Bucket expandDirectory(Bucket hashedBucket, long hashValue) {
         //Double the amount of current buckets and update numBuckets
         for(long i = 0; i < this.numBuckets; i++) {
             writeBucket(new Bucket(), i + this.numBuckets);
@@ -145,5 +162,9 @@ public class Directory {
 
     public long getSize() {
         return this.size;
+    }
+
+    public long getNumBuckets() {
+        return this.numBuckets;
     }
 }

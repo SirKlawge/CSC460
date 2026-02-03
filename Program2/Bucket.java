@@ -69,4 +69,8 @@ public class Bucket {
         return removed;
     }
 
+    public int getOpenSlots() {
+        return this.openSlots;
+    }
+
 }

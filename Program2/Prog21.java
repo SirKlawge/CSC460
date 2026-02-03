@@ -59,7 +59,6 @@ public class Prog21 {
             String dataEntryString = getDataEntryString(rafReader, i, maxLengths, recordSize);
             directory.insert(dataEntryString, i);
         }
-        System.out.println(directory.getSize());
         return indexFile;
     }
 
