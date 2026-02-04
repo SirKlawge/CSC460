@@ -263,7 +263,6 @@ public class Prog1b {
             rafReader.seek((midpoint * recordSize) + offset);
             rafReader.readFully(speciesNameBuffer);
             speciesNameString = (new String(speciesNameBuffer, StandardCharsets.UTF_8)).trim();
-            System.out.println("Species name: " + speciesNameString);
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -285,6 +284,18 @@ public class Prog1b {
         Record current = sortedByLattitude.get(last);
         double lastLat = 0;
         for(int i = 0; i < 10; i++) {
+            /*
+            It's entirely possible that there's a lattitude value with an absolute value greater than 90 in the 
+            file, which corresponds to nothing in reality.  If that's the case then such a record has no place 
+            here.  Probably best to skip it and move on to the next iteration
+            */
+            if(Math.abs(current.getLattitude()) > 90) {
+                //Move to the next one by decrementing last
+                last--;
+                current = sortedByLattitude.get(last);
+                i--; //Can't let i increment.
+                continue;
+            }
             System.out.println("[" + current.getCountry() + "][" + current.getCaveSite() + "][" + current.getLattitude() + "]");
             if(i == 9) lastLat = current.getLattitude();
             last--;

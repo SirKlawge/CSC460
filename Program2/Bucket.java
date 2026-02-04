@@ -73,4 +73,12 @@ public class Bucket {
         return this.openSlots;
     }
 
+    public void insertToSlot(BucketSlot newSlot, int slotIdx) {
+        //Remove the slotIdx from the freeSlotQueue
+        this.freeSlotQueue.remove(slotIdx);
+        this.bucketSlots[slotIdx] = newSlot;
+        this.openSlots--;
+        return;
+    }
+
 }

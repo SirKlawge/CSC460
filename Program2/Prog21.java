@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class Prog21 {
 
@@ -37,7 +38,8 @@ public class Prog21 {
         int recordSize = calculateRecordSize(maxLengths);
         long numRecords = startOfMaxLengths / recordSize;
         //Build the index
-        File indexFile = buildIndex(numRecords, rafReader, maxLengths, recordSize);
+        Directory directory = buildIndex(numRecords, rafReader, maxLengths, recordSize);
+        Map<Long, Integer> bucketMap = directory.getBucketMap();
         try {
             rafReader.close();
         } catch(IOException e) {
@@ -46,7 +48,7 @@ public class Prog21 {
         }
     }
 
-    private static File buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {
+    private static Directory buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {
         File indexFile = makeFile(OUTPUT_FILE_NAME);
         try {
             if(indexFile.exists()) indexFile.delete();
@@ -59,7 +61,7 @@ public class Prog21 {
             String dataEntryString = getDataEntryString(rafReader, i, maxLengths, recordSize);
             directory.insert(dataEntryString, i);
         }
-        return indexFile;
+        return directory;
     }
 
     /*

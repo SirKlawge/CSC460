@@ -25,6 +25,8 @@ import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Directory {
 
@@ -35,6 +37,7 @@ public class Directory {
     private RandomAccessFile bucketFetcher;
     private long numBuckets;
     private long size;
+    private Map<Long, Integer> bucketMap; //Should eliminate any redundancies
     
     public Directory(File indexFile, int maxLength) {
         this.slotStringLength = maxLength;
@@ -42,6 +45,7 @@ public class Directory {
         this.H = 0;
         this.numBuckets = 2;
         this.size = 0;
+        this.bucketMap = new HashMap<Long, Integer>();
         BucketSlot.setSizePerSlot(maxLength);
         Bucket.setSizePerBucket();
         try {
@@ -76,9 +80,12 @@ public class Directory {
         newBucketSlot.setAddress(address);
         destinationBucket.insert(newBucketSlot);
         this.size++;
+        this.bucketMap.put(hashValue, Bucket.getBlockingFactor() - hashedBucket.getOpenSlots());
         writeBucket(hashedBucket, hashValue);
-        if(overflowBucket != null) writeBucket(overflowBucket, overFlowHashValue);
-        //Get the sizes of hashedBucket and overflowBucket and compare to 
+        if(overflowBucket != null) {
+            writeBucket(overflowBucket, overFlowHashValue);
+            this.bucketMap.put(overFlowHashValue, Bucket.getBlockingFactor() - overflowBucket.getOpenSlots());
+        }
         return;
     }
 
@@ -134,8 +141,20 @@ public class Directory {
     }
 
     /*
-    Problem: in order for this method to avoid reading nothing from the idx file, the idx file 
-    needs at least 1
+    Problem: When I read in a bucket, I'm making a new bucket object each time. But there's nothing
+    calling insert(), and therefore there's no updating the number of occupied slots.
+    That's because we're just directly setting BucketSlot values for each slot with setters.
+    Instead: make a BucketSlot object and call insert() on it if the address is not -1.
+
+    Another problem: when you build the bucket from the file, you cant just call insert() in the 
+    BucketSlot/bucket because that uses a freeslotqueue.   You have to do a linear search of the
+    bucket slots to find an open spot.  Else what will happen is that you'll try to insert the 
+    new record in this class's insert() method, give it a number from a queue that thinks all 
+    slots are free.
+
+    Solution: make a BucketSlot object, furnish its fields, and insert() into the bucket.
+    In the Bucket class's insert() method, check to see if address is -1, if it is then skip.
+    Get rid of the free slot queue and insert by lineraly searching for an open slot.
     */
     private Bucket readBucket(long bucketOffset) {
         Bucket newBucket = new Bucket();
@@ -146,13 +165,20 @@ public class Directory {
             long bf = Bucket.getBlockingFactor();
             BucketSlot currentSlot = null;
             byte[] stringFieldBuffer = new byte[slotStringLength];
+            String currentSlotString = null;
+            long currentSlotAddress = -1;
             for(int i = 0; i < bf; i++) {
                 currentSlot = newBucket.getBucketSlots()[i];
                 //Scan the string field from the index file
                 bucketFetcher.readFully(stringFieldBuffer);
-                currentSlot.setDataEntryString(new String(stringFieldBuffer, StandardCharsets.UTF_8));
-                //Now read the long
-                currentSlot.setAddress(bucketFetcher.readLong());
+                currentSlotString = new String(stringFieldBuffer, StandardCharsets.UTF_8);
+                currentSlotAddress = bucketFetcher.readLong();
+                if(currentSlotAddress != -1) {
+                    //Here, it's a non-empty slot, call insertToSlot
+                    currentSlot.setDataEntryString(currentSlotString);
+                    currentSlot.setAddress(currentSlotAddress);
+                    newBucket.insertToSlot(currentSlot, i);
+                }
             }
         } catch(IOException e) {
             e.printStackTrace();
@@ -166,5 +192,9 @@ public class Directory {
 
     public long getNumBuckets() {
         return this.numBuckets;
+    }
+
+    public Map<Long, Integer> getBucketMap() {
+        return this.bucketMap;
     }
 }

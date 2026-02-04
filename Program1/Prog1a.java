@@ -65,6 +65,10 @@ public class Prog1a {
             fileStats.setNumFields(headerMap.size());
             fileStats.maxLengths = new int[fileStats.numFields];
             List<Record> recordList = makeRecordList(buffReader, fileStats);
+            if(recordList.size() == 0) {
+                System.out.println("No records found in csv file.");
+                return;
+            }
             //Now traverse the recordList to pad all of the Strings.
             padAllStrings(recordList, fileStats);
             //Write the binary file
