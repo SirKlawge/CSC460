@@ -39,7 +39,6 @@ public class Prog21 {
         long numRecords = startOfMaxLengths / recordSize;
         //Build the index
         Directory directory = buildIndex(numRecords, rafReader, maxLengths, recordSize);
-        Map<Long, Integer> bucketMap = directory.getBucketMap();
         try {
             rafReader.close();
         } catch(IOException e) {
