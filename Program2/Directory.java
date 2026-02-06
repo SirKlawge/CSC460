@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Queue;
+import java.util.LinkedList;
 
 
 public class Directory {
@@ -22,7 +24,7 @@ public class Directory {
     private File indexFile;
     private int H;
     private RandomAccessFile rafReader;
-    private long size;
+    private long size; //Number of index records/occupied bucket slots
     private long numBuckets;
     
     public Directory(File indexFile, int stringFieldLength) {
@@ -48,25 +50,93 @@ public class Directory {
         BucketSlot newSlot = new BucketSlot(fieldString, address);
         //Find the right bucket to insert it into via the hashing function
         long hashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
+        System.out.println("Hash value: " + hashValue);
         //The hash value is also the offset in the index file for the Bucket data.
         Bucket hashedBucket = (this.size == 0)? new Bucket() : readBucket(hashValue);
         Bucket overflowBucket = null;
+        long overflowBucketHashValue = hashValue + (long) Math.pow(hashValue, H+1);
+        long newHashValue = hashValue;
         if(hashedBucket.isFull()) {
             //Grow the Directory
             growDirectory();
             //H value should have increased, so rehash to get the destination bucket
+            newHashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
+            overflowBucket = readBucket(overflowBucketHashValue);
         }
-
+        //Determine the bucket in which to insert
+        if(newHashValue == hashValue) {
+            //hashValue didnt change
+            hashedBucket.insert(newSlot);
+        } else {
+            overflowBucket.insert(newSlot);
+            writeBucket(overflowBucket, overflowBucketHashValue);
+        }
+        this.size++;
+        //Now write the bucket/s back to the index file
+        writeBucket(hashedBucket, hashValue);
         return;
     }
 
     private void growDirectory() {
+        Bucket  currentBucket = null;
         for(long i = 0; i < numBuckets; i++) {
             //Make an overflow bucket
             Bucket overflowBucket = new Bucket();
-            //i is the number of the current existing bucket. i + Math.pow(2, H+1) is overflow bucket
-            long overflowHashVal = i + Math.pow(2, this.H + 1); //TODO: continue here
+            //Read in bucket at offset i
+            currentBucket = readBucket(i);
+            for(int slot = 0; slot < BLOCKING_FACTOR; slot++) {
+                if(currentBucket.bucketSlots[slot].address != -1) {
+                    //Get hash value based on the record's string
+                    long destination = Math.abs(currentBucket.bucketSlots[slot].fieldString.hashCode()) % (long) Math.pow(2, this.H + 1);
+                    if(destination != i) {
+                        //Here, the record now hashes into the overflow bucket
+                        currentBucket.removeSlot(slot);
+                        overflowBucket.insert(currentBucket.bucketSlots[slot], slot);
+                    }
+                }
+            }
+            //Now write currentBucket back to the file
+            writeBucket(currentBucket, i);
+            //Append the overflow bucket
+            appendBucket(overflowBucket);
         }
+        this.numBuckets *= 2;
+        this.H++;
+        return;
+    }
+
+    private void writeBucket(Bucket bucket, long bucketIdx) {
+        try {
+            BucketSlot currentSlot = null;
+            this.rafReader.seek(bucketIdx * BUCKET_SIZE);
+            //traverse the slots of the bucket and write them sequentially
+            for(int slot = 0; slot < BLOCKING_FACTOR; slot++) {
+                currentSlot = bucket.bucketSlots[slot];
+                this.rafReader.writeBytes(currentSlot.fieldString);
+                this.rafReader.writeLong(currentSlot.address);
+            }
+        } catch(IOException e) {
+            System.out.println("Error writing bucket to index file");
+            e.printStackTrace();
+        }
+        return;
+    }
+
+    private void appendBucket(Bucket bucket) {
+        try {
+            BucketSlot currentSlot = null;
+            //Seek to the end of the index file.
+            this.rafReader.seek(this.rafReader.length());
+            for(int slot = 0; slot < BLOCKING_FACTOR; slot++) {
+                currentSlot = bucket.bucketSlots[slot];
+                this.rafReader.writeBytes(currentSlot.fieldString);
+                this.rafReader.writeLong(currentSlot.address);
+            }
+        } catch(IOException e) {
+            System.out.println("Error appending the bucket to the index file");
+            e.printStackTrace();
+        }
+        return;
     }
 
     private Bucket readBucket(long hashValue) {
@@ -119,6 +189,13 @@ public class Directory {
             //Remove the slot number from the freeSlotQueue
             this.freeSlotQueue.remove(slot);
             this.size++;
+            return;
+        }
+
+        public void removeSlot(int slot) {
+            this.freeSlotQueue.add(slot);
+            this.bucketSlots[slot] = new BucketSlot();
+            this.size--;
             return;
         }
 
