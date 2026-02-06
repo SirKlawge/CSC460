@@ -40,6 +40,9 @@ public class Directory {
             e.printStackTrace();
         }
         this.size = 0;
+        //Prime the index file by writing the first two empty buckets to it
+        writeBucket(new Bucket(), 0);
+        writeBucket(new Bucket(), 1);
     }
 
     /*
@@ -47,10 +50,10 @@ public class Directory {
     We'll have to reread hashedBucket
     */
     public void insert(String fieldString, long address) {
+        System.out.println(address);
         BucketSlot newSlot = new BucketSlot(fieldString, address);
         //Find the right bucket to insert it into via the hashing function
         long hashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
-        System.out.println("Hash value: " + hashValue);
         //The hash value is also the offset in the index file for the Bucket data.
         Bucket hashedBucket = (this.size == 0)? new Bucket() : readBucket(hashValue);
         Bucket overflowBucket = null;
@@ -77,6 +80,9 @@ public class Directory {
         return;
     }
 
+    /*
+    TODO:  We encounter a problem with the queue once we hit 60 insertions
+    */
     private void growDirectory() {
         Bucket  currentBucket = null;
         for(long i = 0; i < numBuckets; i++) {
@@ -181,6 +187,10 @@ public class Directory {
         }
 
         public void insert(BucketSlot bucketSlot) {
+            //Take a number
+            int slot = this.freeSlotQueue.remove();
+            this.bucketSlots[slot] = bucketSlot;
+            this.size++;
             return;
         }
 

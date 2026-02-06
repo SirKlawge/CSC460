@@ -59,6 +59,7 @@ public class Prog21 {
             //Get the Data.entry string
             String dataEntryString = getDataEntryString(rafReader, i, maxLengths, recordSize);
             directory.insert(dataEntryString, i);
+            if(i == 60) System.exit(0); //TODO: test then delete
         }
         return directory;
     }

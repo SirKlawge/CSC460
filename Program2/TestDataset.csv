@@ -30,3 +30,92 @@ Dataset_sequence_ID,Data.entry,Cave.data.series,Biogeographical.realm,Continent,
 29,BC 030,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Der Som,18.03333,104.4,Rhinolophus subbadius
 30,BC 031,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Megaerops niphanae
 31,BC 032,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Hypsugo pulveratus
+32,BC 033,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Ia io
+33,BC 034,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Lyroderma lyra
+34,BC 035,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Rousettus amplexicaudatus
+35,BC 036,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Tok,18.03333,104.41667,Rhinolophus macrotis
+36,BC 037,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam En,18.02778,104.43056,Eonycteris spelaea
+37,BC 038,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam En,18.02778,104.43056,Myotis siligorensis
+38,BC 039,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam En,18.02778,104.43056,Hipposideros armiger
+39,BC 040,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam En,18.02778,104.43056,Hipposideros diadema
+40,BC 041,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam En,18.02778,104.43056,Rousettus amplexicaudatus
+41,BC 042,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nong Seng,18.08889,104.47639,Hipposideros armiger
+42,BC 043,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nong Seng,18.08889,104.47639,Rhinolophus luctus
+43,BC 044,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Kokhair,18.07361,104.47778,Hipposideros diadema
+44,BC 045,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Kokhair,18.07361,104.47778,Myotis siligorensis
+45,BC 046,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Kenghot,18.07083,104.49028,Cynopterus sphinx
+46,BC 047,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Kenghot,18.07083,104.49028,Aselliscus stoliczkanus
+47,BC 048,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Kenghot,18.07083,104.49028,Rhinolophus malayanus
+48,BC 049,S 005,Indomalayan,Asia,TSMB,Laos DPR,Nam Hinboun Camp,18.04722,104.51583,Hipposideros larvatus
+49,BC 050,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Thea,18.14833,104.51583,Eonycteris spelaea
+50,BC 051,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Thea,18.14833,104.51583,Hipposideros larvatus
+51,BC 052,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Thea,18.14833,104.51583,Rousettus amplexicaudatus
+52,BC 053,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Thea,18.14833,104.51583,Taphozous theobaldi
+53,BC 054,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Muang,18.00833,104.68056,Hipposideros larvatus
+54,BC 055,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Ama,17.70833,104.79722,Chaerephon plicatus
+55,BC 056,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Ama,17.70833,104.79722,Chaerephon plicatus
+56,BC 057,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Lort,17.5875,104.8125,Hipposideros pomona
+57,BC 058,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Lom,17.5875,104.8125,Rhinolophus luctus
+58,BC 059,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Jingjunchott,17.55417,104.81944,Hipposideros pomona
+59,BC 060,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Jingjunchott,17.55417,104.81944,Hipposideros larvatus
+60,BC 061,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Jingjunchott,17.55417,104.81944,Aselliscus stoliczkanus
+61,BC 062,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Jingjunchott,17.55417,104.81944,Rhinolophus pusillus
+62,BC 063,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tom Quaie,17.55417,104.825,Hipposideros armiger
+63,BC 064,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tom Quaie,17.55417,104.825,Myotis siligorensis
+64,BC 065,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tom Quaie,17.55417,104.825,Rhinolophus thomasi
+65,BC 066,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Cynopterus sphinx
+66,BC 067,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Eonycteris spelaea
+67,BC 068,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Hesperoptenus blanfordi
+68,BC 069,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Megaderma spasma
+69,BC 070,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Miniopterus magnater
+70,BC 071,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Kerivoula hardwickii
+71,BC 072,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Rhinolophus malayanus
+72,BC 073,S 005,Indomalayan,Asia,TSMB,Laos DPR,"Ban Pontong, Mauang",17.57778,104.825,Rhinolophus thomasi
+73,BC 074,S 005,Indomalayan,Asia,TSMB,Laos DPR,Thakhek District,17.55694,104.82639,Kerivoula hardwickii
+74,BC 075,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pha Deng,17.55694,104.82778,Rhinolophus thomasi
+75,BC 076,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nam Phae,17.55972,104.82917,Hipposideros pomona
+76,BC 077,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Khun Fart 1,17.58056,104.82917,Rhinolophus thomasi
+77,BC 078,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Sumpoy,17.54861,104.83611,Cynopterus sphinx
+78,BC 079,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Sumpoy,17.54861,104.83611,Hypsugo pulveratus
+79,BC 080,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Sumpoy,17.54861,104.83611,Hipposideros armiger
+80,BC 081,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Sumpoy,17.54861,104.83611,Rhinolophus thomasi
+81,BC 082,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Hipposideros pomona
+82,BC 083,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Eonycteris spelaea
+83,BC 084,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Lyroderma lyra
+84,BC 085,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Hipposideros diadema
+85,BC 086,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Aselliscus stoliczkanus
+86,BC 087,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Hipposideros larvatus
+87,BC 088,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam jungvung,17.56111,104.8375,Rousettus leschenaultii
+88,BC 089,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Gunhom,17.56389,104.84306,Hipposideros diadema
+89,BC 090,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Patchan,17.56944,104.85,Hipposideros armiger
+90,BC 091,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Cynopterus sphinx
+91,BC 092,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Megaerops niphanae
+92,BC 093,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Hipposideros pomona
+93,BC 094,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Hypsugo pulveratus
+94,BC 095,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Hesperoptenus blanfordi
+95,BC 096,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Miniopterus schreibersii
+96,BC 097,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Murina cyclotis
+97,BC 098,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Harpiocephalus harpia
+98,BC 099,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Kerivoula hardwickii
+99,BC 100,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Phoniscus jagorii
+100,BC 101,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Myotis siligorensis
+101,BC 102,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Myotis siligorensis
+102,BC 103,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Myotis pilosus
+103,BC 104,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Ia io
+104,BC 105,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Rhinolophus macrotis
+105,BC 106,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Rhinolophus malayanus
+106,BC 107,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Rhinolophus paradoxolophus
+107,BC 108,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Rhinolophus pusillus
+108,BC 109,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Pipistrellus tenius
+109,BC 110,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Houay Si,17.54722,104.93194,Rhinolophus steno
+110,BC 111,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Megaderma spasma
+111,BC 112,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Lyroderma lyra
+112,BC 113,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Murina cyclotis
+113,BC 114,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Aselliscus stoliczkanus
+114,BC 115,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Rhinolophus malayanus
+115,BC 116,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Rhinolophus steno
+116,BC 117,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Vieng,17.5975,104.96583,Rhinolophus thomasi
+117,BC 118,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Diphyne,17.60139,104.97778,Rhinolophus luctus
+118,BC 119,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pra 2,17.60139,104.97917,Hipposideros pomona
+119,BC 120,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nam 1,17.52306,105.06528,Hipposideros cineraceus
+120,BC 121,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nam 2,17.52306,105.06528,Myotis siligorensis
