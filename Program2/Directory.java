@@ -1,7 +1,8 @@
 /*
 Author: Ventura Abram
 
-
+The error occurs when we try to insert BC343
+The error is in readBucket when we try to readFully on line 167
 */
 
 import java.io.File;
@@ -45,6 +46,15 @@ public class Directory {
         writeBucket(new Bucket(), 1);
     }
 
+    public void printDirectory() {
+        Bucket currentBucket = null;
+        for(long bucketNum = 0; bucketNum < this.numBuckets; bucketNum++) {
+            currentBucket = readBucket(bucketNum);
+            System.out.println("Bucket " + bucketNum + "\n" + currentBucket);
+        }
+        return;
+    }
+
     /*
     when we grow the directory, we have to rehash every last existing bucket.
     We'll have to reread hashedBucket
@@ -60,7 +70,7 @@ public class Directory {
         long newHashValue = hashValue;
         if(hashedBucket.isFull()) {
             //Grow the Directory
-            growDirectory();
+            growDirectory(address);
             //H value should have increased, so rehash to get the destination bucket
             newHashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
             overflowBucket = readBucket(overflowBucketHashValue);
@@ -81,9 +91,10 @@ public class Directory {
     }
 
     /*
-    
+    What I might try to do is to rehash the buckets starting from the numbucket -1 (the last bucket) 
+    and do this down to the first bucket.  Rehash in reverse order.
     */
-    private void growDirectory() {
+    private void growDirectory(long address) {
         Bucket  currentBucket = null;
         this.H++;
         for(long i = 0; i < numBuckets; i++) {
@@ -95,6 +106,9 @@ public class Directory {
                 if(currentBucket.bucketSlots[slot].address != -1) {
                     //Get hash value based on the record's string
                     long destination = Math.abs(currentBucket.bucketSlots[slot].fieldString.hashCode()) % (long) Math.pow(2, this.H + 1);
+                    if(i == 3 && address == 341) {
+                        System.out.println("currentBucketSlot String: " + currentBucket.bucketSlots[slot] + "destination: " + destination);
+                    }
                     if(destination != i) {
                         //Here, the record now hashes into the overflow bucket
                         overflowBucket.insert(currentBucket.bucketSlots[slot], slot);
@@ -147,12 +161,12 @@ public class Directory {
 
     private Bucket readBucket(long hashValue) {
         Bucket bucket = new Bucket(); //Start with all initialized BucketSlots
+        String stringFieldString = "";
         try {
             //Go to the start of the bucket in the file
             this.rafReader.seek(hashValue * BUCKET_SIZE);
             BucketSlot current = null;
             byte[] stringFieldBuffer = new byte[STRING_FIELD_LENGTH];
-            String stringFieldString = null;
             long address = 0;
             for(int i = 0; i < BLOCKING_FACTOR; i++) {
                 this.rafReader.readFully(stringFieldBuffer);
@@ -165,6 +179,7 @@ public class Directory {
                 }
             }
         } catch(IOException e) {
+            //System.out.println("last stringFieldString read: " + stringFieldString);
             e.printStackTrace();
         }
         return bucket;

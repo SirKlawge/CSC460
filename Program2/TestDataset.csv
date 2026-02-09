@@ -119,3 +119,225 @@ Dataset_sequence_ID,Data.entry,Cave.data.series,Biogeographical.realm,Continent,
 118,BC 119,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pra 2,17.60139,104.97917,Hipposideros pomona
 119,BC 120,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nam 1,17.52306,105.06528,Hipposideros cineraceus
 120,BC 121,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Nam 2,17.52306,105.06528,Myotis siligorensis
+121,BC 122,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Pra 1,17.52222,105.06667,Hipposideros armiger
+122,BC 123,S 005,Indomalayan,Asia,TSMB,Laos DPR,Ban Mouang Khai,17.53167,105.07444,Aselliscus stoliczkanus
+123,BC 124,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Bing,17.53056,105.07917,Hipposideros pomona
+124,BC 125,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Bing,17.53056,105.07917,Megaderma spasma
+125,BC 126,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Key Thea,17.54722,105.07917,Eonycteris spelaea
+126,BC 127,S 005,Indomalayan,Asia,TSMB,Laos DPR,Tam Key Thea,17.54722,105.07917,Rousettus amplexicaudatus
+127,BC 128,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus affinis
+128,BC 129,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Eonycteris spelaea
+129,BC 130,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hipposideros pomona
+130,BC 131,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hipposideros lylei
+131,BC 132,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hipposideros armiger
+132,BC 133,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hipposideros larvatus
+133,BC 134,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Aselliscus stoliczkanus
+134,BC 135,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Coelops frithii
+135,BC 136,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Myotis chinensis
+136,BC 137,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Myotis siligorensis
+137,BC 138,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Myotis muricola
+138,BC 139,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Myotis pilosus
+139,BC 140,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Ia io
+140,BC 141,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hypsugo pulveratus
+141,BC 142,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Hypsugo cadornae
+142,BC 143,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Murina cyclotis
+143,BC 144,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rousettus leschenaultii
+144,BC 145,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Pipistrellus javanicus
+145,BC 146,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus macrotis
+146,BC 147,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus paradoxolophus
+147,BC 148,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus pearsoni
+148,BC 149,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus pusillus
+149,BC 150,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus sinicus
+150,BC 151,S 006,Indomalayan,Asia,TBMF,Vietnam,An Tinh Cave,48.81666,16.64,Rhinolophus yunnanensis
+151,BC 152,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Eonycteris spelaea
+152,BC 153,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Hipposideros pomona
+153,BC 154,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Hipposideros cineraceus
+154,BC 155,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Hipposideros lylei
+155,BC 156,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Hipposideros armiger
+156,BC 157,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Aselliscus stoliczkanus
+157,BC 158,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Myotis chinensis
+158,BC 159,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Ia io
+159,BC 160,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Myotis pilosus
+160,BC 161,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Rousettus leschenaultii
+161,BC 162,S 006,Indomalayan,Asia,TSMB,Vietnam,Na Phong Cave,22.38333,105.6,Rhinolophus macrotis
+162,BC 163,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Hipposideros pomona
+163,BC 164,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Hipposideros armiger
+164,BC 165,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Hipposideros larvatus
+165,BC 166,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Myotis siligorensis
+166,BC 167,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Aselliscus stoliczkanus
+167,BC 168,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Murina cyclotis
+168,BC 169,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Harpiocephalus harpia
+169,BC 170,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Murina eleryi
+170,BC 171,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Rousettus leschenaultii
+171,BC 172,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Rhinolophus paradoxolophus
+172,BC 173,S 006,Indomalayan,Asia,TSMB,Vietnam,Lung Trang Cave,22.18333,106.05,Rhinolophus yunnanensis
+173,BC 174,S 007,Indomalayan,Asia,TSMB,Thailand,Khao Kao Cave,6.7075,100.27733,Eonycteris spelaea
+174,BC 175,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Cynopterus sphinx
+175,BC 176,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Eonycteris spelaea
+176,BC 177,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Megaderma spasma
+177,BC 178,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Hipposideros larvatus
+178,BC 179,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Miniopterus magnater
+179,BC 180,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Miniopterus pusillus
+180,BC 181,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Taphozous melanopogon
+181,BC 182,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Rousettus leschenaultii
+182,BC 183,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Rhinolophus malayanus
+183,BC 184,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Bing,17.23333,101.7,Rhinolophus thomasi
+184,BC 185,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Megaderma spasma
+185,BC 186,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Hipposideros pomona
+186,BC 187,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Hipposideros lylei
+187,BC 188,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Hipposideros armiger
+188,BC 189,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Hipposideros larvatus
+189,BC 190,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Scotophilus heathii
+190,BC 191,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Chaerephon plicatus
+191,BC 192,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Taphozous melanopogon
+192,BC 193,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Rhinolophus coelophyllus
+193,BC 194,S 008,Indomalayan,Asia,TSMB,Thailand,Wat Tam Pha Phu,17.56667,101.7,Rhinolophus malayanus
+194,BC 195,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Phot,17.73333,101.76667,Taphozous melanopogon
+195,BC 196,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Eonycteris spelaea
+196,BC 197,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Megaderma spasma
+197,BC 198,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Hipposideros lylei
+198,BC 199,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Hipposideros armiger
+199,BC 200,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Hipposideros larvatus
+200,BC 201,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Myotis siligorensis
+201,BC 202,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Miniopterus magnater
+202,BC 203,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Chaerephon plicatus
+203,BC 204,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Taphozous melanopogon
+204,BC 205,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Rousettus amplexicaudatus
+205,BC 206,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Rhinolophus coelophyllus
+206,BC 207,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Rhinolophus malayanus
+207,BC 208,S 008,Indomalayan,Asia,TSMB,Thailand,Tam Pha Baen,17.93333,101.78333,Rhinolophus marshalli
+208,BC 209,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Cynopterus sphinx
+209,BC 210,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Eonycteris spelaea
+210,BC 211,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Megaderma spasma
+211,BC 212,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Lyroderma lyra
+212,BC 213,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Hipposideros pomona
+213,BC 214,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Hipposideros lylei
+214,BC 215,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Hipposideros armiger
+215,BC 216,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Hipposideros larvatus
+216,BC 217,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Myotis siligorensis
+217,BC 218,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Miniopterus magnater
+218,BC 219,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Taphozous melanopogon
+219,BC 220,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rousettus amplexicaudatus
+220,BC 221,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rousettus leschenaultii
+221,BC 222,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Pipistrellus cadornae
+222,BC 223,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rhinolophus lepidus
+223,BC 224,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rhinolophus malayanus
+224,BC 225,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rhinolophus paradoxolophus
+225,BC 226,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rhinolophus pearsoni
+226,BC 227,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Maho,17.1,101.88333,Rhinolophus thomasi
+227,BC 228,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Had Nimid,17.06667,101.91667,Hipposideros armiger
+228,BC 229,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Nam,17.18333,101.95,Cynopterus sphinx
+229,BC 230,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Nam,17.18333,101.95,Hipposideros armiger
+230,BC 231,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Nam,17.18333,101.95,Taphozous melanopogon
+231,BC 232,S 008,Indomalayan,Asia,TSDB,Thailand,Wat Tam Nam,17.18333,101.95,Rhinolophus thomasi
+232,BC 233,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S2 Sri Lanka,7.06264,79.94022,Taphozous sp.
+233,BC 234,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S17 Sri Lanka,7.07022,80.03489,Hipposideros speoris
+234,BC 235,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S3 Sri Lanka,7.06253,80.04839,Taphozous melanopogon
+235,BC 236,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S1 Sri Lanka,7.06297,80.04858,Hipposideros galeritus
+236,BC 237,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S4 Sri Lanka,7.06297,80.04864,Hipposideros speoris
+237,BC 238,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S7 Sri Lanka,7.06406,80.04869,Taphozous melanopogon
+238,BC 239,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S8 Sri Lanka,7.06408,80.04875,Rhinolophus rouxii
+239,BC 240,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S9 Sri Lanka,7.06439,80.04883,Rhinolophus sp.
+240,BC 241,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S19 Sri Lanka,7.07039,80.04886,Taphozous melanopogon
+241,BC 242,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S6 Sri Lanka,7.06417,80.04894,Taphozous melanopogon
+242,BC 243,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S18 Sri Lanka,7.07083,80.04906,Taphozous melanopogon
+243,BC 244,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S5 Sri Lanka,7.06381,80.04911,Taphozous melanopogon
+244,BC 245,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S14 Sri Lanka,7.06806,80.04933,Taphozous melanopogon
+245,BC 246,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S10 Sri Lanka,7.065,80.04939,Megaderma spasma
+246,BC 247,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S11 Sri Lanka,7.06503,80.04942,Rhinolophus beddomei
+247,BC 248,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S16 Sri Lanka,7.06922,80.04953,Taphozous melanopogon
+248,BC 249,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S15 Sri Lanka,7.06778,80.04964,Megaderma spasma
+249,BC 250,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S12 Sri Lanka,7.06903,80.05139,Rhinolophus beddomei
+250,BC 251,S 009,Indomalayan,Asia,TSMB,Sri Lanka,S13 Sri Lanka,7.06908,80.05147,Rhinolophus beddomei
+251,BC 252,S 010,Indomalayan,Asia,TSMB,Indonesia,Sigong,-7.708,109.38982,No cave bat population
+252,BC 253,S 010,Indomalayan,Asia,TSMB,Indonesia,Celeng,-7.70633,109.39387,Chaerephon plicatus
+253,BC 254,S 010,Indomalayan,Asia,TSMB,Indonesia,Celeng,-7.70633,109.39387,Hipposideros sorenseni
+254,BC 255,S 010,Indomalayan,Asia,TSMB,Indonesia,Kemit,-7.70412,109.39397,No cave bat population
+255,BC 256,S 010,Indomalayan,Asia,TSMB,Indonesia,Tratag,-7.70445,109.39438,No cave bat population
+256,BC 257,S 010,Indomalayan,Asia,TSMB,Indonesia,Kampil,-7.70648,109.39727,Hipposideros sorenseni
+257,BC 258,S 010,Indomalayan,Asia,TSMB,Indonesia,Liyah,-7.70653,109.3973,Hipposideros sorenseni
+258,BC 259,S 010,Indomalayan,Asia,TSMB,Indonesia,Liyah,-7.70653,109.3973,Miniopterus schreibersii
+259,BC 260,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Chaerephon plicatus
+260,BC 261,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Hipposideros ater
+261,BC 262,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Hipposideros ater
+262,BC 263,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Hipposideros bicolor
+263,BC 264,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Hipposideros diadema
+264,BC 265,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Miniopterus australis
+265,BC 266,S 010,Indomalayan,Asia,TSMB,Indonesia,Petruk,-7.70525,109.40217,Rhinolophus borneensis
+266,BC 267,S 010,Indomalayan,Asia,TSMB,Indonesia,Jatijajar,-7.66657,109.42603,Hipposideros sp.
+267,BC 268,S 010,Indomalayan,Asia,TSMB,Indonesia,Inten,-7.67018,109.42653,Rhinolophus affinis
+268,BC 269,S 010,Indomalayan,Asia,TSMB,Indonesia,Inten,-7.67018,109.42653,Miniopterus australis
+269,BC 270,S 010,Indomalayan,Asia,TSMB,Indonesia,Tiktikan,-7.66943,109.42658,No cave bat population
+270,BC 271,S 010,Indomalayan,Asia,TSMB,Indonesia,Dempo,-7.66992,109.4272,Hipposideros sorenseni
+271,BC 272,S 010,Indomalayan,Asia,TSMB,Indonesia,Macan,-7.66242,109.43605,Hipposideros sorenseni
+272,BC 273,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Rhinolophus affinis
+273,BC 274,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Cynopterus brachyotis
+274,BC 275,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Penthetor lucasi
+275,BC 276,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Balionycteris maculata
+276,BC 277,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Eonycteris spelaea
+277,BC 278,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros diadema
+278,BC 279,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros larvatus
+279,BC 280,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros coxi
+280,BC 281,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros ridleyi
+281,BC 282,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros galeritus
+282,BC 283,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Hipposideros cervinus
+283,BC 284,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Kerivoula pellucida
+284,BC 285,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Myotis horsfieldii
+285,BC 286,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Rhinolophus arcuatus
+286,BC 287,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Rhinolophus borneensis
+287,BC 288,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Tylonycteris pachypus
+288,BC 289,S 011,Indomalayan,Asia,TSMB,Malaysia,Wind Cave Nature Reserve,1.41525,110.13515,Tylonycteris robustula
+289,BC 290,S 012,Indomalayan,Asia,TSCF,Nepal,Kailash cave A,28.09787,83.9053,Hipposideros armiger
+290,BC 291,S 012,Indomalayan,Asia,TSCF,Nepal,Kailash cave A,28.09787,83.9053,Myotis csorbai
+291,BC 292,S 012,Indomalayan,Asia,TSCF,Nepal,Kailash cave A,28.09787,83.9053,Miniopterus schreibersii
+292,BC 293,S 013,Indomalayan,Asia,TSMB,Philippines,"Cave 1, Carmen, Agusan del Norte",9.0937,125.20941,Taphozous melanopogon
+293,BC 294,S 013,Indomalayan,Asia,TSMB,Philippines,"Cave 2, Carmen, Agusan del Norte",9.09292,125.21206,Taphozous melanopogon
+294,BC 295,S 013,Indomalayan,Asia,TSMB,Philippines,"Cave 2, Carmen, Agusan del Norte",9.09292,125.21206,Rousettus amplexicaudatus
+295,BC 296,S 013,Indomalayan,Asia,TSMB,Philippines,"Cave 3, Carmen, Agusan del Norte",9.09292,125.21206,Taphozous melanopogon
+296,BC 297,S 013,Indomalayan,Asia,TSMB,Philippines,Malague cave,8.90238,125.43162,Eonycteris spelaea
+297,BC 298,S 013,Indomalayan,Asia,TSMB,Philippines,Malague cave,8.90238,125.43162,Rousettus amplexicaudatus
+298,BC 299,S 013,Indomalayan,Asia,TSMB,Philippines,Humilog cave,9.05246,125.56042,Emballonura alecto
+299,BC 300,S 013,Indomalayan,Asia,TSMB,Philippines,Humilog cave,9.05246,125.56042,Rhinolophus subrufus
+300,BC 301,S 014,Indomalayan,Asia,TSMB,Philippines,Bulod cave,9.81878,126.01353,Hipposideros cervinus
+301,BC 302,S 014,Indomalayan,Asia,TSMB,Philippines,Bulod cave 2,9.81881,126.01353,Hipposideros cervinus
+302,BC 303,S 014,Indomalayan,Asia,TSMB,Philippines,Naogon cave,9.82725,126.01547,Megaderma spasma
+303,BC 304,S 014,Indomalayan,Asia,TSMB,Philippines,Million-bat cave,9.82728,126.01547,Hipposideros diadema
+304,BC 305,S 014,Indomalayan,Asia,TSMB,Philippines,Million-bat cave,9.82728,126.01547,Rousettus amplexicaudatus
+305,BC 306,S 014,Indomalayan,Asia,TSMB,Philippines,Million-bat cave,9.82728,126.01547,Rhinolophus arcuatus
+306,BC 307,S 014,Indomalayan,Asia,TSMB,Philippines,Sumiyot cave,9.76364,126.03928,Rhinolophus virgo
+307,BC 308,S 014,Indomalayan,Asia,TSMB,Philippines,Sta. Monica cave,9.98292,126.05364,Rhinolophus virgo
+308,BC 309,S 014,Indomalayan,Asia,TSMB,Philippines,Guano cave,10.018,126.07422,Hipposideros diadema
+309,BC 310,S 014,Indomalayan,Asia,TSMB,Philippines,Guano cave,10.018,126.07422,Hipposideros pygmaeus
+310,BC 311,S 014,Indomalayan,Asia,TSMB,Philippines,Guano cave,10.018,126.07422,Rousettus amplexicaudatus
+311,BC 312,S 014,Indomalayan,Asia,TSMB,Philippines,Guano cave,10.018,126.07422,Rhinolophus virgo
+312,BC 313,S 014,Indomalayan,Asia,TSMB,Philippines,Patag cave,9.99856,126.08011,Hipposideros diadema
+313,BC 314,S 014,Indomalayan,Asia,TSMB,Philippines,Patag cave,9.99856,126.08011,Hipposideros pygmaeus
+314,BC 315,S 014,Indomalayan,Asia,TSMB,Philippines,Buho cave,9.80306,126.10628,Emballonura alecto
+315,BC 316,S 014,Indomalayan,Asia,TSMB,Philippines,Buho cave,9.80306,126.10628,Rhinolophus virgo
+316,BC 317,S 014,Indomalayan,Asia,TSMB,Philippines,Sta. Monica cave,9.79617,126.10769,No cave bat population
+317,BC 318,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Cynopterus brachyotis
+318,BC 319,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Haplonycteris fischeri
+319,BC 320,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Hipposideros ater
+320,BC 321,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Hipposideros diadema
+321,BC 322,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Hipposideros obscurus
+322,BC 323,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Hipposideros pygmaeus
+323,BC 324,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Kerivoula pellucida
+324,BC 325,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Miniopterus schreibersii
+325,BC 326,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Rhinolophus arcuatus
+326,BC 327,S 015,Indomalayan,Asia,TSMB,Philippines,Cambingsi,9.72459,124.16062,Rhinolophus rufus
+327,BC 328,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Ptenochirus minor
+328,BC 329,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Hipposideros bicolor
+329,BC 330,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Hipposideros diadema
+330,BC 331,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Hipposideros obscurus
+331,BC 332,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Hipposideros pygmaeus
+332,BC 333,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Kerivoula papillosa
+333,BC 334,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Kerivoula pellucida
+334,BC 335,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Kerivoula whiteheadi
+335,BC 336,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Miniopterus australis
+336,BC 337,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Miniopterus schreibersii
+337,BC 338,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Murina cyclotis
+338,BC 339,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Phoniscus jagorii
+339,BC 340,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Rhinolophus arcuatus
+340,BC 341,S 015,Indomalayan,Asia,TSMB,Philippines,Nan-od,9.74694,124.26382,Rhinolophus virgo
+341,BC 342,S 015,Indomalayan,Asia,TSMB,Philippines,Bugsoc,9.76407,124.2658,Eonycteris spelaea
+342,BC 343,S 015,Indomalayan,Asia,TSMB,Philippines,Bugsoc,9.76407,124.2658,Ptenochirus jagori
