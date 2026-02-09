@@ -66,13 +66,14 @@ public class Directory {
         //The hash value is also the offset in the index file for the Bucket data.
         Bucket hashedBucket = (this.size == 0)? new Bucket() : readBucket(hashValue);
         Bucket overflowBucket = null;
-        long overflowBucketHashValue = hashValue + (long) Math.pow(hashValue, H+1);
+        long overflowBucketHashValue = hashValue + (long) Math.pow(2, H+1);
         long newHashValue = hashValue;
         if(hashedBucket.isFull()) {
             //Grow the Directory
             growDirectory(address);
             //H value should have increased, so rehash to get the destination bucket
             newHashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
+
             overflowBucket = readBucket(overflowBucketHashValue);
             hashedBucket = readBucket(hashValue);  //Have to re-read
         }
@@ -91,11 +92,13 @@ public class Directory {
     }
 
     /*
-    What I might try to do is to rehash the buckets starting from the numbucket -1 (the last bucket) 
-    and do this down to the first bucket.  Rehash in reverse order.
+    If all of the slots in one bucket hash to the overflow bucket, then I have a full bucket, and I'll need to 
+    grow the directory again.
+    i == 3 and address 341 is failure point
     */
     private void growDirectory(long address) {
         Bucket  currentBucket = null;
+        boolean haveFullBucket = false;
         this.H++;
         for(long i = 0; i < numBuckets; i++) {
             //Make an overflow bucket
@@ -106,9 +109,6 @@ public class Directory {
                 if(currentBucket.bucketSlots[slot].address != -1) {
                     //Get hash value based on the record's string
                     long destination = Math.abs(currentBucket.bucketSlots[slot].fieldString.hashCode()) % (long) Math.pow(2, this.H + 1);
-                    if(i == 3 && address == 341) {
-                        System.out.println("currentBucketSlot String: " + currentBucket.bucketSlots[slot] + "destination: " + destination);
-                    }
                     if(destination != i) {
                         //Here, the record now hashes into the overflow bucket
                         overflowBucket.insert(currentBucket.bucketSlots[slot], slot);
@@ -120,8 +120,10 @@ public class Directory {
             writeBucket(currentBucket, i);
             //Append the overflow bucket
             appendBucket(overflowBucket);
+            if(currentBucket.isFull() || overflowBucket.isFull()) haveFullBucket = true;
         }
         this.numBuckets *= 2;
+        if(haveFullBucket) growDirectory(address);
         return;
     }
 

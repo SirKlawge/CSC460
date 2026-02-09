@@ -39,6 +39,7 @@ public class Prog21 {
         long numRecords = startOfMaxLengths / recordSize;
         //Build the index
         Directory directory = buildIndex(numRecords, rafReader, maxLengths, recordSize);
+        directory.printDirectory();
         try {
             rafReader.close();
         } catch(IOException e) {
