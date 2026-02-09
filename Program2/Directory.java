@@ -50,7 +50,6 @@ public class Directory {
     We'll have to reread hashedBucket
     */
     public void insert(String fieldString, long address) {
-        System.out.println(address);
         BucketSlot newSlot = new BucketSlot(fieldString, address);
         //Find the right bucket to insert it into via the hashing function
         long hashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
@@ -65,6 +64,7 @@ public class Directory {
             //H value should have increased, so rehash to get the destination bucket
             newHashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
             overflowBucket = readBucket(overflowBucketHashValue);
+            hashedBucket = readBucket(hashValue);  //Have to re-read
         }
         //Determine the bucket in which to insert
         if(newHashValue == hashValue) {
@@ -81,10 +81,11 @@ public class Directory {
     }
 
     /*
-    TODO:  We encounter a problem with the queue once we hit 60 insertions
+    
     */
     private void growDirectory() {
         Bucket  currentBucket = null;
+        this.H++;
         for(long i = 0; i < numBuckets; i++) {
             //Make an overflow bucket
             Bucket overflowBucket = new Bucket();
@@ -96,8 +97,8 @@ public class Directory {
                     long destination = Math.abs(currentBucket.bucketSlots[slot].fieldString.hashCode()) % (long) Math.pow(2, this.H + 1);
                     if(destination != i) {
                         //Here, the record now hashes into the overflow bucket
-                        currentBucket.removeSlot(slot);
                         overflowBucket.insert(currentBucket.bucketSlots[slot], slot);
+                        currentBucket.removeSlot(slot);
                     }
                 }
             }
@@ -107,7 +108,6 @@ public class Directory {
             appendBucket(overflowBucket);
         }
         this.numBuckets *= 2;
-        this.H++;
         return;
     }
 
@@ -212,6 +212,16 @@ public class Directory {
         public boolean isFull() {
             return this.size == BLOCKING_FACTOR;
         }
+
+        public String toString() {
+            String bucketString = "";
+            for(int i = 0; i < BLOCKING_FACTOR; i++) {
+                bucketString += i + ": " + this.bucketSlots[i];
+            }
+            bucketString += "\n";
+            System.out.println(this.freeSlotQueue);
+            return bucketString;
+        }
     } 
 
     public class BucketSlot {
@@ -226,6 +236,10 @@ public class Directory {
         BucketSlot() {
             this.fieldString = String.format("%-" + STRING_FIELD_LENGTH + "s", "");
             this.address = -1;
+        }
+
+        public String toString() {
+            return "[" + this.fieldString + ", " + this.address + "]\n";
         }
 
     }
