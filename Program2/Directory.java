@@ -54,6 +54,18 @@ public class Directory {
     public long getNumBuckets() {return this.numBuckets;}
     public Map<Long, Integer> getBucketData() {return this.bucketData;}
 
+    public void appendMetadata() {
+        try {
+            this.rafReader.seek(this.rafReader.length());
+            this.rafReader.writeInt(STRING_FIELD_LENGTH);
+            this.rafReader.writeInt(INDEX_RECORD_SIZE);
+            this.rafReader.writeInt(this.H);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return;
+    }
+
     public void printDirectory() {
         Bucket currentBucket = null;
         for(long bucketNum = 0; bucketNum < this.numBuckets; bucketNum++) {

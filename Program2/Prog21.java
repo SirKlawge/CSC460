@@ -38,12 +38,14 @@ public class Prog21 {
         Directory directory = buildIndex(numRecords, rafReader, maxLengths, recordSize);
         //Now just print the data based on the directory object
         printBucketData(directory);
+        directory.appendMetadata();
         try {
             rafReader.close();
         } catch(IOException e) {
             System.out.println("error closing the file");
             e.printStackTrace();
         }
+        return;
     }
 
     private static void printBucketData(Directory directory) {
