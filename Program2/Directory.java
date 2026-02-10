@@ -58,7 +58,7 @@ public class Directory {
         try {
             this.rafReader.seek(this.rafReader.length());
             this.rafReader.writeInt(STRING_FIELD_LENGTH);
-            this.rafReader.writeInt(INDEX_RECORD_SIZE);
+            this.rafReader.writeInt(BUCKET_SIZE);
             this.rafReader.writeInt(this.H);
         } catch(IOException e) {
             e.printStackTrace();

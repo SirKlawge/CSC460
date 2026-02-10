@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Prog22 {
     private static int STRING_FIELD_LENGTH;
-    private static int INDEX_RECORD_SIZE;
+    private static int BUCKET_SIZE;
     private static int H;
 
     public static void main(String[] args) {
@@ -60,8 +60,7 @@ public class Prog22 {
             if(query.length() < STRING_FIELD_LENGTH) query += " ";
             //Calculate the hashValue
             hashValue = Math.abs(query.hashCode()) % (long) Math.pow(2, H+1);
-            System.out.println("hashVale: " + hashValue);
-            //System.out.println("hashValue: " + hashValue);
+            
         }
         return;
     }
@@ -70,7 +69,7 @@ public class Prog22 {
         try {
             indexReader.seek(indexReader.length() - 12); //-12 b/c we're reading 3 ints
             STRING_FIELD_LENGTH = indexReader.readInt();
-            INDEX_RECORD_SIZE = indexReader.readInt();
+            BUCKET_SIZE = indexReader.readInt();
             H = indexReader.readInt();
         } catch(IOException e) {
             System.out.println("Error reading the index metadata");
