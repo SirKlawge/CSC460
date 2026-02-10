@@ -14,6 +14,8 @@ import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Queue;
+import java.util.Random;
+import java.util.RandomAccess;
 import java.util.LinkedList;
 
 
@@ -48,6 +50,12 @@ public class Directory {
         //Prime the index file by writing the first two empty buckets to it
         writeBucket(new Bucket(), 0);
         writeBucket(new Bucket(), 1);
+    }
+
+    public Directory(RandomAccessFile rafReader, int bucketSize, int stringFieldLength) {
+        this.rafReader = rafReader;
+        BUCKET_SIZE = bucketSize;
+        STRING_FIELD_LENGTH = stringFieldLength;
     }
 
     public long getSize() {return this.size;}
@@ -183,7 +191,7 @@ public class Directory {
         return;
     }
 
-    private Bucket readBucket(long hashValue) {
+    public Bucket readBucket(long hashValue) {
         Bucket bucket = new Bucket(); //Start with all initialized BucketSlots
         String stringFieldString = "";
         try {
@@ -224,6 +232,8 @@ public class Directory {
             }
             this.size = 0;
         }
+
+        public BucketSlot[] getBucketSlots() {return this.bucketSlots;}
 
         public void insert(BucketSlot bucketSlot) {
             //Take a number
@@ -280,6 +290,9 @@ public class Directory {
         public String toString() {
             return "[" + this.fieldString + ", " + this.address + "]\n";
         }
+
+        public String getFieldString() {return this.fieldString;}
+        public long getAddress() {return this.address;}
 
     }
 }
