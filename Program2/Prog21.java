@@ -3,13 +3,7 @@ We're making an index called lhl.idx from the bin file.
 
 We're making the index on the Data.entry field.
 
-The process for inserting items into the Directory is that we
-    Scan the line
-    use hash value on Data.entry string to get the bucket it belongs to
-    Get the offset of that bucket in the .idx file
-    make changes to that bucket
-    Make new bucket and redistribute entries into either this bucket or overflow bucket
-    store bucket/s
+If you go to address * bucketSize then we should get to the record we want.
 
 */
 
@@ -18,6 +12,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Prog21 {
 
@@ -39,13 +36,36 @@ public class Prog21 {
         long numRecords = startOfMaxLengths / recordSize;
         //Build the index
         Directory directory = buildIndex(numRecords, rafReader, maxLengths, recordSize);
-        directory.printDirectory();
+        //Now just print the data based on the directory object
+        printBucketData(directory);
         try {
             rafReader.close();
         } catch(IOException e) {
             System.out.println("error closing the file");
             e.printStackTrace();
         }
+    }
+
+    private static void printBucketData(Directory directory) {
+        Map<Long, Integer> bucketData = directory.getBucketData();
+        List<Integer> valuesList = new ArrayList<Integer>(bucketData.values());
+        Collections.sort(valuesList);
+        System.out.println("Number of buckets: " + directory.getNumBuckets());
+        System.out.println("Records in lowest-occupancy bucket: " + valuesList.get(0));
+        System.out.println("Records in highest-occupancy bucket: " + valuesList.get(valuesList.size() - 1));
+        //Calculate the mean and median
+        double sum = 0;
+        for(long value : valuesList) {
+            sum += value;
+        }
+        System.out.println(String.format("Mean occupancy: %.2f", sum / valuesList.size()));
+        double median = valuesList.get(valuesList.size() / 2);
+        if(valuesList.size() % 2 == 0) {
+            median += valuesList.get((valuesList.size() / 2)  + 1);
+            median /= 2;
+        }
+        System.out.println(String.format("Median occupancy: %.2f", median));
+        return;
     }
 
     private static Directory buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {

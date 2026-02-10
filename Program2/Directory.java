@@ -1,8 +1,10 @@
 /*
 Author: Ventura Abram
 
-The error occurs when we try to insert BC343
-The error is in readBucket when we try to readFully on line 167
+To get numBuckets, just print numBuckets
+Every time we write a bucket, update that bucket's kv pair in bucketData
+Once we're done inserting, Prog21.java can take the bucketData and sort it
+to get mean/median
 */
 
 import java.io.File;
@@ -27,6 +29,7 @@ public class Directory {
     private RandomAccessFile rafReader;
     private long size; //Number of index records/occupied bucket slots
     private long numBuckets;
+    private Map<Long, Integer> bucketData; //bucketNumber (hashValue), bucketSize
     
     public Directory(File indexFile, int stringFieldLength) {
         this.indexFile = indexFile;
@@ -35,6 +38,7 @@ public class Directory {
         BUCKET_SIZE = INDEX_RECORD_SIZE * BLOCKING_FACTOR;
         this.H = 0;
         this.numBuckets = 2;
+        this.bucketData = new HashMap<Long, Integer>();
         try {
             this.rafReader = new RandomAccessFile(this.indexFile, "rw");
         } catch(IOException e) {
@@ -45,6 +49,10 @@ public class Directory {
         writeBucket(new Bucket(), 0);
         writeBucket(new Bucket(), 1);
     }
+
+    public long getSize() {return this.size;}
+    public long getNumBuckets() {return this.numBuckets;}
+    public Map<Long, Integer> getBucketData() {return this.bucketData;}
 
     public void printDirectory() {
         Bucket currentBucket = null;
@@ -73,7 +81,6 @@ public class Directory {
             growDirectory(address);
             //H value should have increased, so rehash to get the destination bucket
             newHashValue = Math.abs(fieldString.hashCode()) % (long) Math.pow(2, H+1);
-
             overflowBucket = readBucket(overflowBucketHashValue);
             hashedBucket = readBucket(hashValue);  //Have to re-read
         }
@@ -119,7 +126,7 @@ public class Directory {
             //Now write currentBucket back to the file
             writeBucket(currentBucket, i);
             //Append the overflow bucket
-            appendBucket(overflowBucket);
+            appendBucket(overflowBucket, i);
             if(currentBucket.isFull() || overflowBucket.isFull()) haveFullBucket = true;
         }
         this.numBuckets *= 2;
@@ -141,10 +148,11 @@ public class Directory {
             System.out.println("Error writing bucket to index file");
             e.printStackTrace();
         }
+        this.bucketData.put(bucketIdx, bucket.size);
         return;
     }
 
-    private void appendBucket(Bucket bucket) {
+    private void appendBucket(Bucket bucket, long hashedBucketIndex) {
         try {
             BucketSlot currentSlot = null;
             //Seek to the end of the index file.
@@ -158,6 +166,8 @@ public class Directory {
             System.out.println("Error appending the bucket to the index file");
             e.printStackTrace();
         }
+        long overflowBucketIndex = hashedBucketIndex + (long) Math.pow(2, this.H);
+        this.bucketData.put(overflowBucketIndex, bucket.size);
         return;
     }
 
