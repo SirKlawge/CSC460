@@ -1,8 +1,18 @@
 /*
 Author: Ventura Abram
+CSC460
+Program2
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
+Due: 02/12/2026
 
-I wrote two ints at the end of the index file
-first: the length of the 
+This program allows a user to provide Data.entry values at the command line, and, 
+using lhl.idx produced by Prog21.java, it will search for a record with that value in 
+the database.
+    On a search hit, it'll print the country record, cave site, and species name
+    associated with the Data.entry value
+
+    On a search miss, it'll just report that it couldnt find such a record.
 */
 
 import java.io.File;
@@ -18,7 +28,14 @@ public class Prog22 {
     private static int H;
     private static int RECORD_SIZE;
 
-
+    /*
+    Method: main
+    This opens the file then calls the function to handle user queries.
+    Preconditon: a completed index file, lhl.idx and database .bin file 
+    have already been created.
+    Param:
+        args - a String[] where args[0] is the index file and args[1] is the bin file
+    */
     public static void main(String[] args) {
         //arg[0] is index file, arg[1] is bin file
         String indexFileName = args[0], binFileName = args[1];
@@ -36,6 +53,15 @@ public class Prog22 {
         return;
     }
 
+    /*
+    Method: makeRAFReader
+    Purpose: this method is called to make RandomAccessFile objects for the index file and binary file.
+    Precondition: the associated binary files exist
+    Param:
+        file - a File object that the RandomAccessFile object will traverse
+    Return:
+        rafReader - a RandomAccessFile object that traverses the binary file.
+    */
     private static RandomAccessFile makeRAFReader(File file) {
         RandomAccessFile rafReader = null;
         try {
@@ -47,7 +73,16 @@ public class Prog22 {
         return rafReader;
     }
 
-    //Would be nice if we had the final H value and the size per index record
+    /*
+    Method: handleUserQueries
+    Purpose: this method initiates a loop that will prompt the user for Data.entry 
+    search queries.  It works as detailed at the start of this java file.
+    Precondition: We have two RandomAccessFile objects: one to traverse the index file 
+    and another to traverse the database bin file.
+    Param:
+        indexReader - a RandomAcessFile object that traverses the index file
+        binReader - a RandomAccessFile object that traverses the database file
+    */
     private static void handleUserQueries(RandomAccessFile indexReader, RandomAccessFile binReader) {
         Scanner scanner = null;
         String query = "";
@@ -80,6 +115,15 @@ public class Prog22 {
         return;
     }
 
+    /*
+    Method: calculateRecordSize
+    Purpose: This method calculates the size per record in the .bin file.
+    Precondition: we've calculated the size of each string field in the database
+    Param:
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+    Return: 
+        recordSize - the size, in bytes, of one record from the file 
+    */
     private static int calculateRecordSize(int[] maxLengths) {
         int recordSize = 20; //4 + 16 from numeric fields
         //Now add 1 x maxLengths[i] for each String field
@@ -91,6 +135,17 @@ public class Prog22 {
         return recordSize;
     }
 
+    /*
+    Method: getMaxLengths
+    Purpose: The reads in the max lengths of each of the string columns from the csv file.
+    The info is stored as the last line in the bin file.
+    Precondition: Prog1a.java stored the relevant metadata as the last bytes of data in the 
+    .bin file.
+    Param:
+        binReader - a RandomAccessFile object that traverses the database file
+    Return:
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
+    */
     private static int[] getMaxLengths(RandomAccessFile binReader) {
         int[] maxLengths = new int[11];
         try {
@@ -105,7 +160,14 @@ public class Prog22 {
     }
 
     /*
-    Print country record 6, cave site 7, and Species name (10)
+    Method: printRecord
+    Purpose: When there's a search hit on the user's query, this method prints out the 
+    country record, cave site, and species name associated with the provided Data.entry value.
+    Preconditon: the user has provided a search query that was found in the index file.
+    Param:
+        binReader - a RandomAccessFile object that traverses the database file
+        addressFound - a long that represents the address of the found record in the bin file
+        maxLengths - an int[] that contains the length of the longest field entry for each column from the csv file
     */
     private static void printRecord(RandomAccessFile binReader, long addressFound, int[] maxLengths) {
         //Calculate offsets for country record, cave site and species name
@@ -135,7 +197,17 @@ public class Prog22 {
     }
 
     /*
-    If we find it, return the bucket slot
+    Method: searchBucket
+    Purpose: this method does a linear search through the slots of the provided bucket to 
+    find an entry that matches the provided query.
+    Precondition: we've found a hash value for the query which matched us to a bucket in the 
+    index file.
+    Param:
+        bucket - a Bucket object wherein our query should have a matching entry.
+        query - a String representing the user's input at the command line
+    Return:
+        The address associated with the index record that matches the query
+        or -1 if no such query is found in the bucket.
     */
     private static long searchBucket(Directory.Bucket bucket, String query) {
         Directory.BucketSlot[] bucketSlots = bucket.getBucketSlots();
@@ -147,6 +219,14 @@ public class Prog22 {
         return -1;
     }
 
+    /*
+    Method: getIndexMetadata
+    Purpose: this method retrieves the metadata appended to the index file.  The metadata are useful 
+    for reading in the right bucket.
+    Precondition: the metadata are at the end of the index file
+    Param:
+        indexReader - a RandomAcessFile object that traverses the index file
+    */
     private static void getIndexMetadata(RandomAccessFile indexReader) {
         try {
             indexReader.seek(indexReader.length() - 12); //-12 b/c we're reading 3 ints
@@ -160,6 +240,16 @@ public class Prog22 {
         return;
     }
 
+    /*
+    Method: openFile
+    Purpose: This method creates the File objects that the RandomAccessFile objects will 
+    later traverse.
+    Precondition: a file by the provided file name exists
+    Param:
+        fileName - a String representing the name of the file
+    Return:
+        file - a File object that the RandomAccessFile object will traverse
+    */
     private static File openFile(String fileName) {
         File file = null;
         try {
