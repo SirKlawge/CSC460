@@ -1,10 +1,18 @@
 /*
 Author: Ventura Abram
+CSC460
+Program2
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
+Due: 02/12/2026
 
-To get numBuckets, just print numBuckets
-Every time we write a bucket, update that bucket's kv pair in bucketData
-Once we're done inserting, Prog21.java can take the bucketData and sort it
-to get mean/median
+This class defines a Directory object which allows us to group the index entries 
+into Buckets which each in turn contain a number of BucketSlots.
+The BucketSlots hold data about a single index entry.
+Since this uses the index file, lhl.idx, as a data structure, it is also 
+responsible for creating and updating that file with each insertion into the 
+directory.
+This also maintains data about the directory which we will later print out.
 */
 
 import java.io.File;
@@ -33,6 +41,15 @@ public class Directory {
     private long numBuckets;
     private Map<Long, Integer> bucketData; //bucketNumber (hashValue), bucketSize
     
+    /*
+    This constructor is used by Prog21.java to build the main Directory object 
+    and also make the index file.
+    Preconditions: the max length of the primary keys has been determined.
+    Params: 
+        indexFile - a File object that will ultimately be our .idx file
+        stringFieldLength - and int representing the length of the primary key that we'll
+        be using to build this index.
+    */
     public Directory(File indexFile, int stringFieldLength) {
         this.indexFile = indexFile;
         STRING_FIELD_LENGTH = stringFieldLength;
@@ -52,16 +69,36 @@ public class Directory {
         writeBucket(new Bucket(), 1);
     }
 
+    /*
+    This constructor is used by Prog22.java because that file needs the ability to 
+    read in buckets, which is a method already defined here.  It won't be used to 
+    make a index file, so we don't need to provide it with all the data.
+    Precondition: the completed index file has already been made
+    Params:
+        rafReader - the RandomAccessFile object that read a bin file.
+        bucketSize - an int representing the size, in bytes, of one bucket.
+        stringFieldLength - and int representing the length of the primary key that we'll
+        be using to build this index.
+    */
     public Directory(RandomAccessFile rafReader, int bucketSize, int stringFieldLength) {
         this.rafReader = rafReader;
         BUCKET_SIZE = bucketSize;
         STRING_FIELD_LENGTH = stringFieldLength;
     }
 
+    /*
+    A fee getters for some of this class's members
+    */
     public long getSize() {return this.size;}
     public long getNumBuckets() {return this.numBuckets;}
     public Map<Long, Integer> getBucketData() {return this.bucketData;}
 
+    /*
+    Method: appendMetadata
+    Purpose: this method write some useful metadata at the end of the lhl.idx file.
+    This data will be used by Prog22.java to help it perform its tasks.
+    Precondtion: The completed lhl.idx file has been built by this Directory object.
+    */
     public void appendMetadata() {
         try {
             this.rafReader.seek(this.rafReader.length());
@@ -74,6 +111,10 @@ public class Directory {
         return;
     }
 
+    /*
+    Method: printDirectory
+    For testing purposes only.  This prints the directory in a readable format
+    */
     public void printDirectory() {
         Bucket currentBucket = null;
         for(long bucketNum = 0; bucketNum < this.numBuckets; bucketNum++) {
@@ -84,8 +125,15 @@ public class Directory {
     }
 
     /*
-    when we grow the directory, we have to rehash every last existing bucket.
-    We'll have to reread hashedBucket
+    Method: insert
+    Purpose: This method is called by Prog21.java to insert each primary key along with 
+    an address that corresponds to the record in the database into this directory.
+    Precondition: Prog21.java has read a field string to be inserted from the bin file
+    Postcondition: the field string plus an address is inserted into a bucket slot
+    Params:
+        fieldString - a String representing the Data.entry field from a DB record
+        address - a long representing the location in the bin file wherein we can find 
+        the record that corresponds with the fieldString
     */
     public void insert(String fieldString, long address) {
         BucketSlot newSlot = new BucketSlot(fieldString, address);
@@ -119,9 +167,15 @@ public class Directory {
     }
 
     /*
-    If all of the slots in one bucket hash to the overflow bucket, then I have a full bucket, and I'll need to 
-    grow the directory again.
-    i == 3 and address 341 is failure point
+    Method: growDirectory
+    Purpose: when a Bucket gets full and we want to potentially insert another index record 
+    into it, we need to grow the directory and rehash all of the existing entries.
+    Precondition: insert() method has read in a bucket that is full.
+    Postcondition: The directory has doubled in size.  All existing entries have been 
+    redistributed among this increased number of buckets.
+    Param:
+        address - a long representing the location in the bin file wherein we can find 
+        the record that corresponds with the fieldString
     */
     private void growDirectory(long address) {
         Bucket  currentBucket = null;
@@ -154,6 +208,18 @@ public class Directory {
         return;
     }
 
+    /*
+    Method: writeBucket
+    Purpose: This method writes the provided bucket to the index file at the 
+    provided offset
+    Precondition: We've read a bucket that we now need to write.
+    Postcondition: we've updated the bucket in the index file at the 
+    provided offset.
+    Params:
+        bucket - a Bucket object that contains data about multiple index entries.
+        bucketIdx - a long representing the offset at which we need to write the 
+        provided bucket.
+    */
     private void writeBucket(Bucket bucket, long bucketIdx) {
         try {
             BucketSlot currentSlot = null;
@@ -172,6 +238,17 @@ public class Directory {
         return;
     }
 
+    /*
+    Method: appendBucket
+    Purpose: This method appends buckets newly created by growDirectory() to the end 
+    of the index file.
+    Precondition: The bucket we tried to insert() a new entry into was determined to be
+    full.  This also means that we've calculated the hash value that was full.
+    Postcondition: a new bucket has been appended to the index file.
+    Param:
+        bucket - a Bucket object that contains data about multiple index entries.
+        hashedBucketIndex - a long representing the location of the full bucket.
+    */
     private void appendBucket(Bucket bucket, long hashedBucketIndex) {
         try {
             BucketSlot currentSlot = null;
@@ -191,6 +268,16 @@ public class Directory {
         return;
     }
 
+    /*
+    Method: readBucket
+    Purpose: this method reads in a bucket from the index file.
+    Precondition: the index file has at least hashValue + 1 bucket entries
+    Postcondition: we've loaded a bucket into memory
+    Param:
+        hashValue - a long that represents the (hashValue+1)th bucket in the index file.
+    Return:
+        bucket - a Bucket object that contains data about multiple index entries
+    */
     public Bucket readBucket(long hashValue) {
         Bucket bucket = new Bucket(); //Start with all initialized BucketSlots
         String stringFieldString = "";
@@ -217,12 +304,19 @@ public class Directory {
         return bucket;
     }
 
-
+    /*
+    This class defines the data structure that holds a number of BucketSlot, which 
+    in turn, represent entires into the index.
+    */
     public class Bucket {
         private BucketSlot[] bucketSlots;
         private int size;
         private Queue<Integer> freeSlotQueue;
 
+        /*
+        This constructor defaults all of the BucketSlots in the bucketSlots array 
+        to vales that will denote an empty slot.
+        */
         public Bucket() {
             this.bucketSlots = new BucketSlot[BLOCKING_FACTOR];
             this.freeSlotQueue = new LinkedList<Integer>();
@@ -233,8 +327,18 @@ public class Directory {
             this.size = 0;
         }
 
+        //Getter for bucketSlots array.
         public BucketSlot[] getBucketSlots() {return this.bucketSlots;}
 
+        /*
+        Method: insert
+        Purpose: this method inserts an index record entry, in the form of a BucketSlot 
+        object, into the bucketSlot array. It also updates info about this bucket.
+        Precondition: None
+        Postcondition: there's a new entry in the bucket.
+        Param: 
+            bucketSlot - a BucketSlot object that represents an entry into the index file
+        */
         public void insert(BucketSlot bucketSlot) {
             //Take a number
             int slot = this.freeSlotQueue.remove();
@@ -243,6 +347,16 @@ public class Directory {
             return;
         }
 
+        /*
+        Method: insert
+        Purpose: this does the same as the insert method above, but this allows us 
+        to insert at a particular slot rather than taking being assigned a number from the 
+        freeSlotQueue.
+        Postcondition: there's a new entry in the bucket.
+        Param: 
+            bucketSlot - a BucketSlot object that represents an entry into the index file
+            slot - an int representing the target slot for the BucketSlot
+        */
         public void insert(BucketSlot bucketSlot, int slot) {
             this.bucketSlots[slot] = bucketSlot;
             //Remove the slot number from the freeSlotQueue
@@ -251,6 +365,16 @@ public class Directory {
             return;
         }
 
+        /*
+        Method: removeSlot
+        Purpose: This method removes an index entry from this bucket.  It's called when we 
+        have to grow the Directory.  Importantly, it adds the provided slot index back into 
+        the freeSlotQueue.
+        Precondition: the freeSlotQueue lacks the provided slot number.
+        Postcondition: the freeSlotQueue contains the provided slot number.
+        Param:
+            slot - an int representing the target slot for the BucketSlot
+        */
         public void removeSlot(int slot) {
             this.freeSlotQueue.add(slot);
             this.bucketSlots[slot] = new BucketSlot();
@@ -258,10 +382,20 @@ public class Directory {
             return;
         }
 
+        /*
+        Method: isFull
+        Purpose: determines if the bucket is full
+        Return:
+            true if the bucket is full. False otherwise.
+        */
         public boolean isFull() {
             return this.size == BLOCKING_FACTOR;
         }
 
+        /*
+        Method: toString
+        For testing purposes only.  Provides a string representation of this bucket.
+        */
         public String toString() {
             String bucketString = "";
             for(int i = 0; i < BLOCKING_FACTOR; i++) {
@@ -273,24 +407,43 @@ public class Directory {
         }
     } 
 
+    /*
+    This class represents an individual entry into the Directory.
+    It holds only the field string and the address associated with the database entry.
+    */
     public class BucketSlot {
         private String fieldString;
         private long address;
 
+        /*
+        This constructor allows you to provide the contents of the BucketSlot.
+        Param:
+            fieldString - a String representing the Data.entry field from a DB record
+            address - a long representing the location in the bin file wherein we can find
+        */
         BucketSlot(String fieldString, long address) {
             this.fieldString = fieldString;
             this.address = address;
         }
 
+        /*
+        This constructor is used by a constructor in the Bucket class to initialize all of the 
+        bucket slots.  I'm using -1 in the address field to represent an empty slot.
+        */
         BucketSlot() {
             this.fieldString = String.format("%-" + STRING_FIELD_LENGTH + "s", "");
             this.address = -1;
         }
 
+        /*
+        Method: toString
+        For testing purposes only.  It produces a string representation of this bucket slot
+        */
         public String toString() {
             return "[" + this.fieldString + ", " + this.address + "]\n";
         }
 
+        //Getters for the fields.
         public String getFieldString() {return this.fieldString;}
         public long getAddress() {return this.address;}
 

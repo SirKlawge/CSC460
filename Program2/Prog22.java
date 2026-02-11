@@ -71,7 +71,7 @@ public class Prog22 {
             long addressFound = searchBucket(bucket, query);
             //Seek to the record at address in the bin file and print out the data.
             if(addressFound == -1) {
-                System.out.println("Record not found");
+                System.out.println("The target value " + query + " was not found.");
                 continue;
             } else {
                 printRecord(binReader, addressFound, maxLengths);

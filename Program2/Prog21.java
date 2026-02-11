@@ -1,10 +1,15 @@
 /*
-We're making an index called lhl.idx from the bin file.
+Author: Ventura Abram
+CSC460
+Program2
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
+Due: 02/12/2026
 
-We're making the index on the Data.entry field.
-
-If you go to address * bucketSize then we should get to the record we want.
-
+This program makes an index file, with the primary key being the Data.entry field, 
+from the Dataset2.bin file made from Prog1a.java.  This index file will later be 
+used in Prog1b.java to quickly search for records from the bin file.
+The output index file is called lhl.idx
 */
 
 import java.io.File;
@@ -21,6 +26,14 @@ public class Prog21 {
     private static final byte NUM_COLUMNS = 11; //the csv file has 11 fields
     private static final String OUTPUT_FILE_NAME = "lhl.idx";
 
+    /*
+    Method: main
+    Purpose: This is the main driver of making the index file as described above.
+    Preconditions: There exits a binary file made from the .csv file of records
+    Postconditions: There exists a binary file in this directory called lhl.idx
+    Params:
+        args - an array of strings where arg[0] must be the bin file
+    */
     public static void main(String[] args) {
         //Open the bin file
         String fileName = args[0];
@@ -48,6 +61,18 @@ public class Prog21 {
         return;
     }
 
+    /*
+    Method: printBucketData
+    Purpose: This prints the final output about the directory:
+        1) number of buckets
+        2) lowest-occupancy bucket
+        3) highest-occupancy bucket
+        4) Mean occupancy
+        5) median occupancy
+    Preconditions: we've built up a Directory object that kept track of the contents of all the buckets.
+    Postconditon: none
+    Param: directory - a Directory that contains all the info about its constituent Buckets and BucketSlots
+    */
     private static void printBucketData(Directory directory) {
         Map<Long, Integer> bucketData = directory.getBucketData();
         List<Integer> valuesList = new ArrayList<Integer>(bucketData.values());
@@ -70,6 +95,21 @@ public class Prog21 {
         return;
     }
 
+    /*
+    Method: buildIndex
+    Purpose: This is the method that builds the Directory and, while doing that, it also makes the index
+    file which is the primary product of this java file.
+    Preconditions: We've determined a few bits of metadata, like the number of records in the file, 
+    size per record, and the length of each string field.
+    Postcondition: We have both a directory with information about the database and the lhl.idx file itself.
+    Params:
+        numRecords - a long representing the number of records in the database
+        rafReader - a RandomAccessFile object that reads the bin file.
+        maxLengths - an int[] that contains the max length of each string field
+        recordSsize - an int represent the size in bytes of one record from the database
+    Return:
+        directory - a Directory that contains all the info about its constituent Buckets and BucketSlots 
+    */
     private static Directory buildIndex(long numRecords, RandomAccessFile rafReader, int[] maxLengths, int recordSize) {
         File indexFile = makeFile(OUTPUT_FILE_NAME);
         try {
