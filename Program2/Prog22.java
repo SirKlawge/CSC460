@@ -8,6 +8,7 @@ first: the length of the
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -109,12 +110,28 @@ public class Prog22 {
     private static void printRecord(RandomAccessFile binReader, long addressFound, int[] maxLengths) {
         //Calculate offsets for country record, cave site and species name
         int countryRecordOffset = 4 + maxLengths[1] + maxLengths[2] + maxLengths[3] + maxLengths[4] + maxLengths[5];
-        //TODO: keep getting 
+        int speciesNameOffset = countryRecordOffset + maxLengths[6] + maxLengths[7] + 16;
+        byte[] countryRecordBuffer = new byte[maxLengths[6]];
+        String countryRecordString = "";
+        byte[] caveSiteBuffer = new byte[maxLengths[7]];
+        String caveSiteString = "";
+        byte[] speciesNameBuffer = new byte[maxLengths[10]];
+        String speciesNameString = "";
         try {
-            //
+            //Seek and start reading these fields
+            binReader.seek((addressFound * RECORD_SIZE) + countryRecordOffset);
+            binReader.readFully(countryRecordBuffer);
+            countryRecordString = (new String(countryRecordBuffer, StandardCharsets.UTF_8)).trim();
+            binReader.readFully(caveSiteBuffer);
+            caveSiteString = (new String(caveSiteBuffer, StandardCharsets.UTF_8)).trim();
+            binReader.seek((addressFound * RECORD_SIZE) + speciesNameOffset);
+            binReader.readFully(speciesNameBuffer);
+            speciesNameString = (new String(speciesNameBuffer, StandardCharsets.UTF_8)).trim();
         } catch(IOException e) {
             e.printStackTrace();
         }
+        System.out.println("[" + countryRecordString + "][" + caveSiteString + "][" + speciesNameString + "]");
+        return;
     }
 
     /*
