@@ -1,0 +1,21 @@
+Notes on records:
+
+Total tuples: 
+    1980: 10796
+    1995: 4649
+    2010: 2052
+    2025: 2266
+
+Attributes in order:
+    0 Railroad Code - String
+    1 Incident Number - String (has letters and digits) *Primary key*
+    2 Grade Crossing ID - String (has letters and digits)
+    3 Date - String
+    4 Time - String (maybe timestamp)
+    5 State Name - String
+    6 Highway User - String
+    7 Temperature - Integer
+    8 Visibility -String
+    9 Weather Condition - String
+    10 Number of Locomotive Units - Integer
+    11 Number of Cars - Integer
