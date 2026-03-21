@@ -1,0 +1,1 @@
+select tcolor from mccann.tank where tname = 'lagoon';

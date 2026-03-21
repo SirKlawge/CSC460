@@ -1,0 +1,5 @@
+SpecFi = (species)product(fish)
+snos = select(SpecFi)(sno = s#)
+sharks = select(snos)(sname='shark')
+final = project(sharks)(fcolor)
+display final

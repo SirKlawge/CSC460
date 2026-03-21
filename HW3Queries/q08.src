@@ -1,0 +1,4 @@
+SpecTank = (species)product(tank)
+puddles = select(SpecTank)(tname='puddle')
+final = project(puddles)(sname)
+display final

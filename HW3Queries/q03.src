@@ -1,0 +1,3 @@
+snameProj = project(species)(sname)
+tnameProj = project(tank)(tname)
+display ((snameProj)product(tnameProj))

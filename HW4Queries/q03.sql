@@ -1,0 +1,1 @@
+select distinct sname, tname from mccann.species, mccann.tank;

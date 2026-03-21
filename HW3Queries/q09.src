@@ -1,0 +1,7 @@
+sharks = select(species)(sname='shark')
+SharkFish = join(sharks)(fish)(sno = s#)
+SharkTanks = project(SharkFish)(t#)
+FishWithSharks = join(fish)(SharkTanks)(fish.t# = SharkTanks.t#)
+final = join(FishWithSharks)(species)(sno = s#)
+snames = project(final)(sname)
+display snames

@@ -1,0 +1,8 @@
+Born = select(event)(enote='Born')
+BornFnum = project(Born)(f#)
+Swimming = select(event)(enote='Swimming')
+SwimmingFnum = project(Swimming)(f#)
+JustBorn = (BornFnum)difference(SwimmingFnum)
+FishBS = join(JustBorn)(fish)(fno=f#)
+final = project(FishBS)(fname)
+display final

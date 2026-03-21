@@ -1,0 +1,13 @@
+HerringEater = select(species)(sfood='herring')
+HEFish = join(HerringEater)(fish)(sno=s#)
+alpha = project(HEFish)(s#,t#)
+GreenTank = select(tank)(tcolor='green')
+beta = project(GreenTank)(tno)
+ProjAlpha = project(alpha)(s#)
+CartProd = (ProjAlpha)product(beta)
+diff = (CartProd)difference(alpha)
+ProjDiff = project(diff)(s#)
+quotient = (ProjAlpha)difference(ProjDiff)
+QuoHE = join(quotient)(HerringEater)(s# = sno)
+final = project(QuoHE)(sname)
+display final

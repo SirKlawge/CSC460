@@ -1,0 +1,8 @@
+Born = select(event)(enote='Born')
+BornFnum = project(Born)(f#)
+Swimming = select(event)(enote='Swimming')
+SwimmingFnum = project(Swimming)(f#)
+BornAndSwimming = (BornFnum)intersect(SwimmingFnum)
+FishBS = join(BornAndSwimming)(fish)(fno=f#)
+final = project(FishBS)(fname)
+display final

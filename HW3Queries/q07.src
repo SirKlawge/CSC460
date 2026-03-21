@@ -1,0 +1,6 @@
+snames = project(species)(sname)
+tnames = project(tank)(tname)
+union1 = (snames)union(tnames)
+fnames = project(fish)(fname)
+final = (union1)union(fnames)
+display final

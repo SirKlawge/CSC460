@@ -1,0 +1,2 @@
+redfish = select(fish)(fcolor='red')
+display redfish

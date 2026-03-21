@@ -1,0 +1,4 @@
+SpecFish = join(species)(fish)(sno = s#)
+sharks = select(SpecFish)(sname='shark')
+final = project(sharks)(fcolor)
+display final

@@ -1,0 +1,6 @@
+SpecFish = join(species)(fish)(sno = s#)
+FishShark = select(SpecFish)(sname='shark')
+TankFishShark = join(tank)(FishShark)(tno = t#)
+FishSharkPool = select(TankFishShark)(tname='cesspool')
+final = project(FishSharkPool)(fname)
+display final
