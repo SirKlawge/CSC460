@@ -38,6 +38,8 @@ public class CSVScrubber {
     private static BufferedReader br;
     private static Map<String, Integer> attributeMap;
     private static List<List<String>> tuples;
+    private static String firstLine;
+    private static int[] maxLengths;
     
     public static void main(String[] args) {
         //Open the file
@@ -51,12 +53,12 @@ public class CSVScrubber {
 
         //Ok now some some cleaning
         cleanTuples();
-        for(List<String> tuple: tuples) {
-            for(String value: tuple) {
-                System.out.print(value + ",");
-            }
-            System.out.println();
+        maxLengths = getMaxLengths();
+        for(int i = 0; i < maxLengths.length; i++) {
+            System.out.print(maxLengths[i] + " ");
         }
+        System.out.println();
+        //printCleanedFile();
         //Close the file
         try {br.close();} catch(IOException e) {e.printStackTrace();}
     }
@@ -76,7 +78,8 @@ public class CSVScrubber {
     private static Map<String, Integer> makeAttributeMap() {
         Map<String, Integer> attributeMap = new HashMap<String, Integer>();
         try {
-            String[] attributes = br.readLine().split(",");
+            firstLine = br.readLine();
+            String[] attributes = firstLine.split(",");
             for(int i = 0; i < attributes.length; i++) {
                 attributeMap.put(attributes[i], i);
             }
@@ -111,10 +114,37 @@ public class CSVScrubber {
             List<String> tuple = tuples.get(i);
             for(int j = 0; j < tuple.size(); j++) {
                 String value = tuple.get(j);
-                if(value.equals("")) tuple.set(j, "NULL");
-                tuple.set(j, value.trim());
+                if(value.equals("") || value.isEmpty() || value == null || value.length() == 0)
+                    tuple.set(j, "NULL");
+                else
+                    tuple.set(j, value.trim());
             }
+            tuples.set(i, tuple);
         }
         return;
     }
+
+    private static int[] getMaxLengths() {
+        maxLengths = new int[attributeMap.size()];
+        for(List<String> tuple : tuples) {
+            for(int i = 0; i < tuple.size(); i++) {
+                int valueLength = tuple.get(i).length();
+                if(valueLength > maxLengths[i]) {
+                    maxLengths[i] = valueLength;
+                }
+            }
+        }
+        return maxLengths;
+    }
+
+    private static void printCleanedFile() {
+    System.out.println(firstLine);
+    for(List<String> tuple: tuples) {
+        for(int i = 0; i < tuple.size() - 1; i++) {
+            System.out.print(tuple.get(i) + ",");
+        }
+        System.out.println(tuple.get(tuple.size() - 1));
+    }
+    return;
+}
 }
