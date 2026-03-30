@@ -15,6 +15,7 @@ Instead of sending a query, I need to send insert statements
 (dont forget to turn off autocommit first)
 
 supply the usernaem, password, and 
+Adding one last littel bit
 */
 
 import java.io.*;
