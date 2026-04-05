@@ -66,11 +66,21 @@ public class Loader {
                     7, 10, 11 are integer fields
                     the rest are strings
                     */
-                    if(i == 3) insertString += "TO_DATE('" + tupleArray[i] + "', 'YYYY-MM-DD'), ";
-                    if(i != 3 && i != 7 && i != 10 && i != 11) insertString += "'" + tupleArray[i] + "',";
-                    if(i == 7 || i == 10) insertString += tupleArray[i] + ", ";
+                    if(i == 3) {
+                        if(tupleArray[i].equals("NULL")) insertString += "NULL, ";
+                        else insertString += "TO_DATE('" + tupleArray[i] + "', 'YYYY-MM-DD'), ";
+                    }
+                    if(i != 3 && i != 7 && i != 10 && i != 11) {
+                        if(tupleArray[i].equals("NULL")) insertString += "NULL, ";
+                        else insertString += "'" + tupleArray[i] + "',";
+                    }
+                    if(i == 7 || i == 10) {
+                        if(tupleArray[i].equals("NULL")) insertString += "NULL, ";
+                        else insertString += tupleArray[i] + ", ";
+                    }
                 }
-                insertString += tupleArray[11] + ");";
+                if(tupleArray[11].equals("NULL")) insertString += "NULL);";
+                else insertString += tupleArray[11] + ");";
                 bw.write(insertString);
                 bw.newLine();
             }

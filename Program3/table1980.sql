@@ -11,5 +11,4 @@ create table vabram.RailIncident80 (
     WeatherCond varchar2(6),
     NumLocUnits number(2),
     NumCars number(3),
-    primary key (ino, idate)
 );

@@ -10,6 +10,7 @@ a) easiest, just gotta get the count for the four years
 import java.util.Scanner;
 import java.io.*;
 import java.sql.*;
+import java.util.List;
 
 public class Prog3 {
 
@@ -68,7 +69,7 @@ public class Prog3 {
                 handleSelection1(dbConn);
                 break;
             case 2:
-                System.out.println("Handling selection 2");
+                handleSelection2(dbConn);
                 break;
             case 3:
                 System.out.println("Handling selection 3");
@@ -93,21 +94,76 @@ public class Prog3 {
         select distinct count(*) from vabram.RailIncident95
         select distinct count(*) from vabram.RailIncident10
         select distinct count(*) from vabram.RailIncident25
+    
+    So the ResultSet holds the tuples that result from the query.
+    ResultSetMetaData describe column names, count, types.
+    You have to iterate over the ResultSet
     */
     private static void handleSelection1(Connection dbConn) {
         //Frist, let's get all four table names
         Statement stmt = null;
-        ResultSet answer = null;
+        ResultSet tableNames = null;
         try {
             stmt = dbConn.createStatement();
-            answer = stmt.executeQuery("select table_name from user_tables order by table_name");
-            ResultSetMetaData answerMetadata = answer.getMetaData();
-            System.out.println(answerMetadata);
+            tableNames = stmt.executeQuery("select table_name from user_tables order by table_name");
+            while(tableNames.next()) {
+                //Make the query to actually get the counts from the tables
+                String tableCountQuery = "select count(*) from ";
+                String tableString = tableNames.getString("TABLE_NAME");
+                tableCountQuery += tableString;
+                Statement newStmt = dbConn.createStatement();
+                ResultSet tableCount = newStmt.executeQuery(tableCountQuery);
+                tableCount.next();
+                System.out.println("There were " + tableCount.getInt(1) + " incidents in " + tableString.substring(12));
+                newStmt.close();
+                tableCount.close();
+            }
             stmt.close();
-            answer.close();
+            tableNames.close();
         } catch(SQLException e) {
             System.out.println("Sql exception in handle selection 1");
             System.exit(-1);
+        }
+        return;
+    }
+
+    /*
+    What is the query
+        Must display name and quantity of incidents.
+        select distinct states from year
+        group by state
+        order by num incidents
+    */
+    private static void handleSelection2(Connection dbConn) {
+        //Prompt the user for a year
+        System.out.println("Which year? (Enter 1980, 1995, 2010, or 2025)");
+        int year = input.nextInt();
+        if(year == 1980 || year == 1995 || year == 2010 || year == 2025) {
+            String queryString = "select StateName, count(*) as count from RailIncident" + year + " group by StateName order by count(*) desc";
+            try{
+                Statement stmt = dbConn.createStatement();
+                ResultSet answer = stmt.executeQuery(queryString);
+                ResultSetMetaData colHeaders = answer.getMetaData();
+                //Print the col headers
+                for(int i = 1; i <= colHeaders.getColumnCount(); i++) {
+                    System.out.printf("%-20s", colHeaders.getColumnLabel(i));
+                }
+                System.out.println();
+                int i = 0;
+                while(answer.next() && i < 10) {
+                    System.out.printf("%-20s%-20s", answer.getString("StateName"), answer.getInt("count"));
+                    System.out.println();
+                    i++;
+                }
+                stmt.close();
+                answer.close();
+            } catch(SQLException e) {
+                System.err.println("SQLException in handleSelection 2");
+                System.exit(-1);
+            }
+        } else {
+            System.out.println("Sorry, I have no records for that year");
+            System.exit(0);
         }
         return;
     }
@@ -123,13 +179,13 @@ public class Prog3 {
         try {
             dbConn = DriverManager.getConnection(oracleURL, username, password);
         } catch(SQLException e) {
-            System.err.println("SQL exception");
+            System.err.println("SQL exception in makeConnection");
             System.exit(-1);
         }
         return dbConn;
     }
 
-    private static void closeConnection() {
+    private static void closeConnection(Connection dbConn) {
         try {
             dbConn.close();
         } catch(SQLException e) {

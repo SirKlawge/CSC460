@@ -30,9 +30,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.HashSet;
+import java.io.*;
 
 public class CSVScrubber {
     private static BufferedReader br;
@@ -54,11 +55,7 @@ public class CSVScrubber {
         //Ok now some some cleaning
         cleanTuples();
         maxLengths = getMaxLengths();
-        for(int i = 0; i < maxLengths.length; i++) {
-            System.out.print(maxLengths[i] + " ");
-        }
-        System.out.println();
-        //printCleanedFile();
+        printCleanedFile();
         //Close the file
         try {br.close();} catch(IOException e) {e.printStackTrace();}
     }
@@ -67,7 +64,7 @@ public class CSVScrubber {
     private static BufferedReader openFile(String filename) {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(filename));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(filename), StandardCharsets.UTF_8));
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -138,13 +135,23 @@ public class CSVScrubber {
     }
 
     private static void printCleanedFile() {
-    System.out.println(firstLine);
-    for(List<String> tuple: tuples) {
-        for(int i = 0; i < tuple.size() - 1; i++) {
-            System.out.print(tuple.get(i) + ",");
+    BufferedWriter bw = null;
+    try {
+        bw = new BufferedWriter(new FileWriter("cleanedCSV.txt", StandardCharsets.UTF_8));
+        bw.write(firstLine);
+        bw.newLine();
+        for(List<String> tuple: tuples) {
+            for(int i = 0; i < tuple.size() - 1; i++) {
+                bw.write(tuple.get(i) + ",");
+            }
+            bw.write(tuple.get(tuple.size() - 1));
+            bw.newLine();
         }
-        System.out.println(tuple.get(tuple.size() - 1));
+        bw.close();
+    } catch(IOException e) {
+        e.printStackTrace();
     }
+    
     return;
 }
 }
