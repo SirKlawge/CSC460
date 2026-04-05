@@ -10,16 +10,16 @@ a) easiest, just gotta get the count for the four years
 import java.util.Scanner;
 import java.io.*;
 import java.sql.*;
-import java.util.List;
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class Prog3 {
 
     static Scanner input;
     static final String oracleURL = "jdbc:oracle:thin:@aloe.cs.arizona.edu:1521:oracle";
     static String username, password;
-    List<String> tableNames;
-    Map<String, Integer> firstYearMap, secondYearMap;
+    static Map<String, Integer> firstYearMap, secondYearMap;
     
     public static void main(String[] args) {
         validateCredentials(args);
@@ -172,35 +172,66 @@ public class Prog3 {
 
     private static void handleSelection3(Connection dbConn) {
         //First get the two years
-        System.out.println("Which two years? (1980, 1995, 2010, 2025)");
+        System.out.println("Which two years? Enter first year (1980, 1995, 2010, 2025)");
         int firstYear = input.nextInt();
+        System.out.println("Enter 2nd year: ");
         int secondYear = input.nextInt();
+        if(firstYear != 1980 && firstYear != 1995 && firstYear != 2010 && firstYear != 2025) {
+            System.out.println("Invalid first year");
+            System.exit(0);
+        }
+        if(secondYear != 1980 && secondYear != 1995 && secondYear != 2010 && secondYear != 2025) {
+            System.out.println("Invalid second year");
+            System.exit(0);
+        }
         if(secondYear == firstYear) {
             System.out.println("Doesn't make sense to pick the same year");
             System.exit(0);
-        } else if(secondYear < firstYear) {
+        }
+        if(secondYear < firstYear) {
             int temp = firstYear;
             firstYear = secondYear;
             secondYear = temp;
-        } else {
-            /*
-            Need counts grouped by states.  A map fits this nicely.
-            */
-           String queryString1 = "select StateName, count(*) as count from RailIncident" + firstYear + " group by StateName";
-           String queryString1 = "select StateName, count(*) as count from RailIncident" + secondYear + " group by StateName";
-           firstYearMap = new HashMap<String, Integer>();
-           secondYearMap = new HashMap<String, Integer>();
-           try {
-                Statement stmt = dbConn.createStatement();
-                ResultSet answer = stmt.executeQuery(queryString1);
-                while(answer.next()) {
-                    firstYearMap.put();
-                }
-           } catch(SQLException e) {
-                System.err.println("SQL error in handle section 3");
-                System.exit(-1);
-           }
         }
+        /*
+        Need counts grouped by states.  A map fits this nicely.
+        */
+        String queryString1 = "select StateName, count(*) as count from RailIncident" + firstYear + " group by StateName order by count desc";
+        String queryString2 = "select StateName, count(*) as count from RailIncident" + secondYear + " group by StateName order by count desc";
+        firstYearMap = new LinkedHashMap<String, Integer>();
+        secondYearMap = new LinkedHashMap<String, Integer>();
+        try {
+            Statement stmt = dbConn.createStatement();
+            ResultSet answer = stmt.executeQuery(queryString1);
+            while(answer.next()) {
+                firstYearMap.put(answer.getString("StateName"), answer.getInt("count"));
+            }
+            Statement stmt2 = dbConn.createStatement();
+            ResultSet answer2 = stmt2.executeQuery(queryString2);
+            while(answer2.next()) {
+                secondYearMap.put(answer2.getNString("StateName"), answer2.getInt("count"));
+            }
+            stmt2.close();
+            answer2.close();
+            stmt.close();
+            answer.close();
+        } catch(SQLException e) {
+            System.err.println("SQL error in handle section 3");
+            System.exit(-1);
+        }
+        Map<String, Double> changeMap = new LinkedHashMap<>();
+        for(String state : firstYearMap.keySet()) {
+            if(firstYearMap.get(state) != null && secondYearMap.get(state) != null) {
+                int firstYearCount = firstYearMap.get(state);
+                int secondYearCount = secondYearMap.get(state);
+                double percentChange = ((double)(firstYearCount - secondYearCount) / firstYearCount) * 100;
+                changeMap.put(state, percentChange);
+            }      
+        }
+        //Had to learn streams to figure out sorting this stuff.
+        changeMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5).forEach(
+            e-> System.out.printf("%s decreased by %.2f\n",e.getKey(), e.getValue())
+        );
         return;
     }
 
