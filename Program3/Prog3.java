@@ -1,10 +1,13 @@
 /*
 Author: Ventura Abram
+CSC460
+Program2
+Instructor: Professor McCann
+TAs: Jianwei Shen, Muhammad Bilal
 
-So, In order to perform these queries, we need to rip off some of the code found in JDBC.java.
-
-
-a) easiest, just gotta get the count for the four years
+This program presents the user with four query options for a database that contains 
+information about rail incidents from four years: 1980, 1995, 2010, and 2025.
+It collects a little bit of info from the user and returns an answer.
 */
 
 import java.util.Scanner;
@@ -21,6 +24,12 @@ public class Prog3 {
     static String username, password;
     static Map<String, Integer> firstYearMap, secondYearMap;
     
+    /*
+    Method: main
+    Purpose: this prints the query menu to the user and then handles the queries.
+    Param:
+        args: command line arguments where one can provide both username and password
+    */
     public static void main(String[] args) {
         validateCredentials(args);
         //Print menu
@@ -31,6 +40,14 @@ public class Prog3 {
         handleSelection(querySelection);
     }
 
+    /*
+    Method: validateCredentials
+    Purpose: this method just verifies that the user has provided two command
+    line arguments, the first should represent their username and the 
+    second shoudl represent their password.
+    Param:
+        args: command line arguments where one can provide both username and password
+    */
     private static void validateCredentials(String[] args) {
         if(args.length == 2) {
             username = args[0];
@@ -42,6 +59,11 @@ public class Prog3 {
         return;
     }
 
+    /*
+    Method: printMenu
+    Purpose: this method presents the user with the four queries they can send to the 
+    database.
+    */
     private static void printMenu() {
         System.out.println("You can query anything you want about this database ");
         System.out.println("so long as it's one of the four following queries (enter a, b, c, or d)");
@@ -52,6 +74,13 @@ public class Prog3 {
         return;
     }
 
+    /*
+    Method: getSelection
+    Purpose: this method gets the user's query selection: either 1, 2, 3, or 4.  It does a little bit 
+    of validation.
+    Return:
+        selection: an int representing the user's query selection
+    */
     private static int getSelection() {
         input = new Scanner(System.in);
         int selection = input.nextInt();
@@ -63,6 +92,13 @@ public class Prog3 {
         return selection;
     }
 
+    /*
+    Method: handleSelection
+    Purpose: This method takes the user's query selection and determines which method to call 
+    to handle their query.
+    Param:
+        querySelection - an int representing the user's query selection
+    */
     private static void handleSelection(int querySelection) {
         //Make DB connection here.
         Connection dbConn = makeConnection();
@@ -87,19 +123,11 @@ public class Prog3 {
     }
 
     /*
-    So, you gotta create the query.
-    Then in a try/catch, you gotta make the statement object and the ResultSet (answer)
-    object.
-    What is the query?
-        How many incident reports were filed in each of the four years?
-        select distinct count(*) from vabram.RailIncident80
-        select distinct count(*) from vabram.RailIncident95
-        select distinct count(*) from vabram.RailIncident10
-        select distinct count(*) from vabram.RailIncident25
-    
-    So the ResultSet holds the tuples that result from the query.
-    ResultSetMetaData describe column names, count, types.
-    You have to iterate over the ResultSet
+    Method: handleSelection1
+    Purpose: this method handles the query "How many incident reports were filed in each 
+    of the four years?"
+    Param:
+        dbConn - a Connection object that allows us to communicate with the database
     */
     private static void handleSelection1(Connection dbConn) {
         //Frist, let's get all four table names
@@ -130,11 +158,11 @@ public class Prog3 {
     }
 
     /*
-    What is the query
-        Must display name and quantity of incidents.
-        select distinct states from year
-        group by state
-        order by num incidents
+    method: handleSelection2
+    Purpose: this method handles the query "Given a year, which states are in the top 
+    10 for the most incidents?"
+    Param:
+        dbConn - a Connection object that allows us to communicate with the database
     */
     private static void handleSelection2(Connection dbConn) {
         //Prompt the user for a year
@@ -170,6 +198,13 @@ public class Prog3 {
         return;
     }
 
+    /*
+    method: handleSelection3
+    Purpose: this method handles the query "Between two given years, which states are in the top 5
+    for the most change (decrease) in incidents?"
+    Param:
+        dbConn - a Connection object that allows us to communicate with the database
+    */
     private static void handleSelection3(Connection dbConn) {
         //First get the two years
         System.out.println("Which two years? Enter first year (1980, 1995, 2010, 2025)");
@@ -235,6 +270,13 @@ public class Prog3 {
         return;
     }
 
+    /*
+    Method: handleSelection4
+    Purpose: this method handles the query "Between any two given years, how has Arizona in particular 
+    changed in its count of rail incidents?"
+    Param:
+        dbConn - a Connection object that allows us to communicate with the database
+    */
     private static void handleSelection4(Connection dbConn) {
         //First get the two years
         System.out.println("Which two years? Enter first year (1980, 1995, 2010, 2025)");
@@ -281,6 +323,13 @@ public class Prog3 {
         return;
     }
 
+    /*
+    Method: makeConnection
+    Purpose: this method make the connection object that allows this program to 
+    communicate with the database
+    Return:
+        dbConn - a Connection object that allows us to communicate with the database
+    */
     private static Connection makeConnection() {
         Connection dbConn = null;
         try {
@@ -298,6 +347,12 @@ public class Prog3 {
         return dbConn;
     }
 
+    /*
+    Method: closeConnection
+    Purpose: this method closes the connection to the database
+    Param:
+        dbConn - a Connection object that allows us to communicate with the database
+    */
     private static void closeConnection(Connection dbConn) {
         try {
             dbConn.close();
