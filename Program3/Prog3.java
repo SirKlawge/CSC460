@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.sql.*;
 import java.util.List;
+import java.util.HashMap;
 
 public class Prog3 {
 
@@ -18,6 +19,7 @@ public class Prog3 {
     static final String oracleURL = "jdbc:oracle:thin:@aloe.cs.arizona.edu:1521:oracle";
     static String username, password;
     List<String> tableNames;
+    Map<String, Integer> firstYearMap, secondYearMap;
     
     public static void main(String[] args) {
         validateCredentials(args);
@@ -72,7 +74,7 @@ public class Prog3 {
                 handleSelection2(dbConn);
                 break;
             case 3:
-                System.out.println("Handling selection 3");
+                handleSelection3(dbConn);
                 break;
             case 4:
                 System.out.println("Handling selection 4");
@@ -164,6 +166,40 @@ public class Prog3 {
         } else {
             System.out.println("Sorry, I have no records for that year");
             System.exit(0);
+        }
+        return;
+    }
+
+    private static void handleSelection3(Connection dbConn) {
+        //First get the two years
+        System.out.println("Which two years? (1980, 1995, 2010, 2025)");
+        int firstYear = input.nextInt();
+        int secondYear = input.nextInt();
+        if(secondYear == firstYear) {
+            System.out.println("Doesn't make sense to pick the same year");
+            System.exit(0);
+        } else if(secondYear < firstYear) {
+            int temp = firstYear;
+            firstYear = secondYear;
+            secondYear = temp;
+        } else {
+            /*
+            Need counts grouped by states.  A map fits this nicely.
+            */
+           String queryString1 = "select StateName, count(*) as count from RailIncident" + firstYear + " group by StateName";
+           String queryString1 = "select StateName, count(*) as count from RailIncident" + secondYear + " group by StateName";
+           firstYearMap = new HashMap<String, Integer>();
+           secondYearMap = new HashMap<String, Integer>();
+           try {
+                Statement stmt = dbConn.createStatement();
+                ResultSet answer = stmt.executeQuery(queryString1);
+                while(answer.next()) {
+                    firstYearMap.put();
+                }
+           } catch(SQLException e) {
+                System.err.println("SQL error in handle section 3");
+                System.exit(-1);
+           }
         }
         return;
     }
