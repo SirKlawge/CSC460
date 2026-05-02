@@ -1,3 +1,35 @@
+/*
+Author (so far): Ventura Abram
+
+This is just an idea for the menu: a skeleton.
+I'm not even doing any input validation yet.
+Run it to see if this is also what you guy had in mind.
+I'll post it in discord first, then we can decide if we want to push 
+it github
+
+------------------------------------------------------------------------------------
+Usage:
+The user of this will select from the menu what function they want to perform.
+They'll have to provide information necessary for that function (...for what user?
+for which conversation?  etc.)
+
+It sounds like we're each going to make some static classes that will handle the transactions 
+with the DB that the user is trying to do.
+
+I put "//############################" on a line below.  Below that line are the 
+methods that respond to the user selecting a functionality from a submenu.
+Those are the functionalities that we have to implement
+For now, they're just running print statements that simulate how I think 
+this should work.
+
+Replace those print statements with methods that use the static classes that we're 
+writing, and that should do it.
+------------------------------------------------------------------------------------
+Give me feedback.  Add stuff. Take stuff away.
+
+
+*/
+
 import java.util.Scanner;
 
 public class Prog4 {
@@ -223,6 +255,8 @@ public class Prog4 {
         return;
     }
 
+    //#########################################################################
+    
     private static void handleUserManageSelection(int menuSelection) {
         switch(menuSelection) {
             case 1:
