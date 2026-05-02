@@ -17,8 +17,10 @@ public class Prog4 {
     }
 
     private static void printMainMenu() {
+        //Reset user
+        user = "";
         System.out.println("\n===MAIN MENU===");
-        System.out.println("1 Manage User Accounts");
+        System.out.println("1. Manage User Accounts");
         System.out.println("2. Handle Conversations & Messages");
         System.out.println("3. Workspace Organization");
         System.out.println("4. Persona Management");
@@ -116,6 +118,9 @@ public class Prog4 {
         System.out.println("1. Start New Conversation");
         System.out.println("2. Continue Conversation");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleConvoMenuSelection(menuSelection);
         return;
     }
 
@@ -127,6 +132,9 @@ public class Prog4 {
         System.out.println("1. Make New Workspace");
         System.out.println("2. Edit Workspace");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleWorkspaceOrgSelection(menuSelection);
         return;
     }
 
@@ -142,6 +150,9 @@ public class Prog4 {
         System.out.println("1. Create Persona");
         System.out.println("2. Delete Persona");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handlePersonaManageSelection(menuSelection);
         return;
     }
 
@@ -158,6 +169,9 @@ public class Prog4 {
         System.out.println("1. Add New Prompt");
         System.out.println("2. Edit Propmt");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handlePromptLibSelection(menuSelection);
         return;
     }
 
@@ -168,6 +182,9 @@ public class Prog4 {
         System.out.println("1. Update Subscription Level");
         System.out.println("2. Check Message Limit");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleSubTrackingSelection(menuSelection);
         return;
     }
 
@@ -176,6 +193,9 @@ public class Prog4 {
         System.out.println("1. Generate Invoice");
         System.out.println("2. Mark Invoice as Paid");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleBillingOpSelection(menuSelection);
         return;
     }
 
@@ -185,13 +205,194 @@ public class Prog4 {
         System.out.println("2. Assign Ticket to Agent");
         System.out.println("3. Update Ticket Status");
         System.out.println("0. Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleSupportTicketSelection(menuSelection);
     }
 
     private static void printQueryMenu() {
-        
+        System.out.println("\n===Query Menu===");
+        System.out.println("1. Get All Bookmarked Messsages");
+        System.out.println("2. List of Users Who Haven't Paid Up");
+        System.out.println("3. Get Highest-Rated Persona");
+        System.out.println("4. Custom Query");
+        System.out.println("0 Back to Main Menu");
+        int menuSelection = input.nextInt();
+        input.nextLine();
+        handleQuerySelection(menuSelection);
+        return;
     }
 
     private static void handleUserManageSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                //TODO: Delete print statement and implement later
+                System.out.println("Adding a user");
+                break;
+            case 2:
+                System.out.println("Chaning user tier");
+                break;
+            case 3:
+                System.out.println("Deleting user");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //Handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleConvoMenuSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Starting new convo");
+                break;
+            case 2:
+                System.out.println("Continuing existing convo");
+                break;
+            case 0:
+                printMainMenu();
+            default:
+                //handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleWorkspaceOrgSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Making new workspace");
+                break;
+            case 2: 
+                System.out.println("Editing workspace");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //Handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handlePersonaManageSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Making persona");
+                break;
+            case 2:
+                System.out.println("Deleting persona");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //handle invalid inputs
+                break;
+        }
+       return; 
+    }
+
+    private static void handlePromptLibSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Adding New Prompt");
+                break;
+            case 2:
+                System.out.println("Editing Prompt");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleSubTrackingSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Updating Sub level");
+                break;
+            case 2:
+                System.out.println("Checking message limit");
+                break;
+            case 0:
+                printMainMenu();
+            default:
+                //handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleBillingOpSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Generating invoice");
+                break;
+            case 2:
+                System.out.println("Marking invoice as paid");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleSupportTicketSelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Creating Support Ticket");
+                break;
+            case 2:
+                System.out.println("Assigning Ticket to Agent");
+                break;
+            case 3:
+                System.out.println("Updating Ticket Status");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //handle invalid inputs
+                break;
+        }
+        return;
+    }
+
+    private static void handleQuerySelection(int menuSelection) {
+        switch(menuSelection) {
+            case 1:
+                System.out.println("Gettin' all bookmarks");
+                break;
+            case 2:
+                System.out.println("Gettin' list of non=payers");
+                break;
+            case 3:
+                System.out.println("Getting highest=rated persona");
+                break;
+            case 4:
+                System.out.println("Running custom query");
+                break;
+            case 0:
+                printMainMenu();
+                break;
+            default:
+                //handle invalid inputs
+                break;
+        }
         return;
     }
 }
