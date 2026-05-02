@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Prog4 {
     private static Scanner input = new Scanner(System.in);
+    private static String user;
 
     public static void main(String[] args) {
         printWelcomeMessage();
@@ -28,33 +29,42 @@ public class Prog4 {
         System.out.println("9. Query Menu");
         System.out.println("0. Exit");
         int mainMenuSelection = input.nextInt();
+        input.nextLine();
         handleMainMenuSelection(mainMenuSelection);
     }
 
+    /*Most of these willl require that a user be selected*/
     private static void handleMainMenuSelection(int mainMenuSelection) {
         switch(mainMenuSelection) {
             case 1:
                 printUserAccountSubMenu();
                 break;
             case 2:
+                setUser();
                 pirntConvoSubMenu();
                 break;
             case 3:
+                setUser();
                 printWorkspaceOrgSubMenu();
                 break;
             case 4:
+                setUser();
                 printPersonaManageSubMenu();
                 break;
             case 5:
+                setUser();
                 printPromtLibManageSubMenu();
                 break;
             case 6:
+                setUser();
                 printSubTrackingSubMenu();
                 break;
             case 7:
+                setUser();
                 printBillingOpSubMenu();
                 break;
             case 8:
+                setUser();
                 printSupportTicketSubMenu();
                 break;
             case 9:
@@ -69,10 +79,20 @@ public class Prog4 {
         return;
     }
 
+    private static void setUser() {
+        System.out.print("\nEnter username: ");
+        user = input.nextLine();
+        return;
+    }
+
     /*
     Notes:
         -Change user Tier might be changed to "Update user" if there are more 
         ways that we can update a user
+
+        Change user and delete user are one-off operations on a specific user.
+        Therefore, we can propmt the System Admin for the specific User after 
+        those selections have been made.
     */
     private static void printUserAccountSubMenu() {
         System.out.println("\n===User Account Management===");
@@ -92,7 +112,7 @@ public class Prog4 {
     From there we can do things like add messages and update message feedback
     */
     private static void pirntConvoSubMenu() {
-        System.out.println("\n===Conversations & Messages===");
+        System.out.println("\n===Conversations & Messages=== User: " + user);
         System.out.println("1. Start New Conversation");
         System.out.println("2. Continue Conversation");
         System.out.println("0. Back to Main Menu");
@@ -103,7 +123,7 @@ public class Prog4 {
     Edit Workspace so far just means adding a convo to an existing workspace, I think
     */
     private static void printWorkspaceOrgSubMenu() {
-        System.out.println("\n===Workspace Organization===");
+        System.out.println("\n===Workspace Organization=== User: " + user);
         System.out.println("1. Make New Workspace");
         System.out.println("2. Edit Workspace");
         System.out.println("0. Back to Main Menu");
@@ -118,7 +138,7 @@ public class Prog4 {
     Therefore we should ask 
     */
     private static void printPersonaManageSubMenu() {
-        System.out.println("\n===Persona Management===");
+        System.out.println("\n===Persona Management=== User: " + user);
         System.out.println("1. Create Persona");
         System.out.println("2. Delete Persona");
         System.out.println("0. Back to Main Menu");
@@ -134,17 +154,42 @@ public class Prog4 {
     that data every time they want to make a change to the same User's Prompt Library
     */
     private static void printPromtLibManageSubMenu() {
-        System.out.println("\n===Prompt Library Management===");
-        System.out.println();
+        System.out.println("\n===Prompt Library Management=== User: " + user);
+        System.out.println("1. Add New Prompt");
+        System.out.println("2. Edit Propmt");
+        System.out.println("0. Back to Main Menu");
+        return;
     }
 
-    private static void printSubTrackingSubMenu() {}
+    /*Maybe if we're gonna update the sub level, we display the user's current sub level.
+    That'll involve a query*/
+    private static void printSubTrackingSubMenu() {
+        System.out.println("===Subscription Tracking=== User: " + user);
+        System.out.println("1. Update Subscription Level");
+        System.out.println("2. Check Message Limit");
+        System.out.println("0. Back to Main Menu");
+        return;
+    }
 
-    private static void printBillingOpSubMenu() {}
+    private static void printBillingOpSubMenu() {
+        System.out.println("===Billing Operations=== User: " + user);
+        System.out.println("1. Generate Invoice");
+        System.out.println("2. Mark Invoice as Paid");
+        System.out.println("0. Back to Main Menu");
+        return;
+    }
 
-    private static void printSupportTicketSubMenu() {}
+    private static void printSupportTicketSubMenu() {
+        System.out.println("===Support Ticket Management=== User: " + user);
+        System.out.println("1. Create Support Ticket");
+        System.out.println("2. Assign Ticket to Agent");
+        System.out.println("3. Update Ticket Status");
+        System.out.println("0. Back to Main Menu");
+    }
 
-    private static void printQueryMenu() {}
+    private static void printQueryMenu() {
+        
+    }
 
     private static void handleUserManageSelection(int menuSelection) {
         return;
